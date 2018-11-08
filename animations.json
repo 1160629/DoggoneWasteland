@@ -1,0 +1,50 @@
+{
+    "MC" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 10, 15]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 10, 15], ["set1", 5, 15]]}
+    },
+    "Bat" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 4, 9]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 4, 9], ["set1", 4, 15]]}
+    },
+    "Zombie" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 5, 10]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 5, 10], ["set1", 3, 15]]}
+    },
+    "Brute" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 4, 10]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 4, 10], ["set1", 2, 15]]}
+    },
+    "Mage" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 1, 10]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 1, 10], ["set1", 1, 15]]}
+    },
+    "Tiny" : {
+        "standing" : {"dt": 0.1, "frames": [["set1", 0, 10]]},
+        "walking" : {"dt": 0.1, "frames": [["set1", 0, 10], ["set1", 0, 15]]}
+    },
+    "uibtn_endturn": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 5, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 5, 15], ["set2", 5, 14], ["set2", 5, 13]]}
+    },
+    "uibtn_move": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 4, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 4, 15], ["set2", 4, 14], ["set2", 4, 13]]}
+    },
+    "uibtn_ability": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 3, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 3, 15], ["set2", 3, 14], ["set2", 3, 13]]}
+    },
+    "uibtn_lefthand": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 2, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 2, 15], ["set2", 2, 14], ["set2", 2, 13]]}
+    },
+    "uibtn_righthand": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 1, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 1, 15], ["set2", 1, 14], ["set2", 1, 13]]}
+    },
+    "uibtn_syringe": {
+        "desel" : {"dt": 0.1, "frames": [["set2", 0, 15]]},
+        "sel" : {"dt": 0.1, "frames": [["set2", 0, 15], ["set2", 0, 14], ["set2", 0, 13]]}
+    }
+}

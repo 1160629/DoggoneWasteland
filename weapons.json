@@ -1,0 +1,41 @@
+{
+    "Colt" : {
+        "weapon_class": "Sharpshooter",
+        "handedness": "one",
+        "attack_type": "shot",
+        "projectile_type": "bullet",
+        "projectile_speed": 30,
+        "base_damage": [10, 15],
+        "range": 8,
+        "crit": 0.05
+    },
+    "CompoundBow" : {
+        "weapon_class": "Sharpshooter",
+        "handedness": "two",
+        "attack_type": "shot",
+        "projectile_type": "arrow",
+        "projectile_speed": 20,
+        "base_damage": [20, 25],
+        "range": 11,
+        "crit": 0.1
+    },
+    "DetonatorOnAStick" : {
+        "weapon_class": "Engineer",
+        "handedness": "one",
+        "attack_type": "bomb",
+        "projectile_type": "bomb",
+        "projectile_speed": 10,
+        "base_damage": [15, 20],
+        "range": 8,
+        "crit": 0.05,
+        "blast_radius": 5
+    },
+    "Bat" : {
+        "weapon_class": "Brawler",
+        "handedness": "two",
+        "attack_type": "melee",
+        "base_damage": [25, 35],
+        "range": 1,
+        "crit": 0.18
+    }
+}
