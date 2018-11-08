@@ -24,7 +24,7 @@ class Unit:
         self.anim_state = "standing"
 
         # variables related to movement - make a class to containerize movement stuff?
-        self.next_pos = 0, 0
+        self.next_pos = self.pos
         self.path = None
         self.has_moved = 0
         self.use_points = []
