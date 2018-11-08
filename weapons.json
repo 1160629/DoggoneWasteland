@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "Colt" : {
         "weapon_class": "Sharpshooter",
         "handedness": "one",
@@ -38,4 +39,38 @@
         "range": 1,
         "crit": 0.18
     }
+=======
+	"weapons":{
+		"Colt":{
+			"base_damage":[10,15],
+			"range":8,
+			"crit":0.05,
+			"attack_type":"shot",
+			"projectile_type":"bullet",
+			"projectile_speed":30
+		},
+		"Compound Bow":{
+			"base_damage":[20,25],
+			"range":11,
+			"crit":0.1,
+			"attack_type":"shot",
+			"projectile_type":"arrow",
+			"projectile_speed":20
+		},
+		"Detonator On A Stick":{
+			"base_damage":[15,20],
+			"range":8,
+			"crit":0.05,
+			"blast_radius":5,
+			"attack_type":"bomb",
+			"projectile_type":"bomb"
+		},
+		"Bat":{
+			"base_damage":[25,35],
+			"range":1,
+			"crit":0.18,
+			"attack_type":"melee"
+		}
+	}	
+>>>>>>> 231e38df64831d5204b84526e16d36aa6bea6686
 }

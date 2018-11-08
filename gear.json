@@ -1,0 +1,41 @@
+{
+	"gear":{
+		"Motorcycle Helmet":{
+			"slot":"head",
+			"class":"Sharpshooter",
+		},
+		"Hard-Hat":{
+			"slot":"head",
+			"class":"Engineer",
+		},
+		"Bucket":{
+			"slot":"head",
+			"class":"Brawler",
+		},
+		"Bulletproof Vest":{
+			"slot":"torso",
+			"class":"Sharpshooter",
+		},
+		"Grandma's Sweater":{
+			"slot":"torso",
+			"class":"Engineer",
+		},
+		"Metal Armor":{
+			"slot":"torso",
+			"class":"Brawler",
+		},
+		"Camo Pants":{
+			"slot":"legs",
+			"class":"Sharpshooter",
+		},
+		"Jeans":{
+			"slot":"legs",
+			"class":"Engineer",
+		},
+		"Metal Greaves":{
+			"slot":"legs",
+			"class":"Brawler",
+		}
+	}
+		
+}
