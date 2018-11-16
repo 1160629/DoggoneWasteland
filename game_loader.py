@@ -36,7 +36,7 @@ def setup_display_and_drawables(self):
     self.nwsurf.fill((255,0,0))
 
 
-# load equipment stuff
+# generic function to load json
 
 def load_json(path_to_json):
     with open(path_to_json, "r") as f:
@@ -64,9 +64,7 @@ def load_tileset(img_path, data_path, width, height, scale):
 
     nw, nh = image_width//width, image_height//height
 
-    with open(data_path, "r") as f:
-        d = json.load(f)
-
+    d = load_json(data_path)
     d_ = {k["id"]: True for k in d["tiles"]}
 
     tileset = Tileset()
@@ -96,8 +94,7 @@ def load_tileset(img_path, data_path, width, height, scale):
     return tileset
 
 def load_tilesets(json_filename, scale):
-    with open(json_filename, "r") as f:
-        d = json.load(f)    
+    d = load_json(json_filename)    
 
     tsets = Tilesets()
     for k in d.keys():
@@ -182,8 +179,7 @@ def convert_layers(layers, sources, tilesets):
     return new_layers
 
 def load_layout(path, tilesets):
-    with open(path, "r") as f:
-        d = json.load(f)
+    d = load_json(path)
 
     mapwidth, mapheight = int(d["width"]), int(d["height"])
 
@@ -200,8 +196,7 @@ def load_layout(path, tilesets):
 
 
 def load_animations(json_file_path):
-    with open(json_file_path, "r") as f:
-        d = json.load(f)
+    d = load_json(json_file_path)
 
     animations = AnimationSetInitializer(d)
 
