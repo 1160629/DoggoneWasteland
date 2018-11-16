@@ -12,13 +12,13 @@
 			"slot":"head",
 			"class":"Engineer",
 			"armor":2,
-			"fire_resist":,
+			"fire_resist":4,
 			"int_bonus":1
 		},
 		"Bucket":{
 			"slot":"head",
 			"class":"Brawler",
-			"armor"3:,
+			"armor":3,
 			"health%_bonus":5
 		},
 		"Bulletproof Vest":{
@@ -33,7 +33,7 @@
 			"slot":"torso",
 			"class":"Engineer",
 			"armor":4,
-			"fire_resist":,
+			"fire_resist":8,
 			"int_bonus":2
 		},
 		"Metal Armor":{
@@ -54,7 +54,7 @@
 			"slot":"legs",
 			"class":"Engineer",
 			"armor":3,
-			"fire_resist":,
+			"fire_resist":6,
 			"int_bonus":1
 		},
 		"Metal Greaves":{

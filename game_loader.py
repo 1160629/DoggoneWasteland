@@ -234,7 +234,7 @@ def load(self):
 
 
     weapons = load_json("weapons.json")
-    #gear = load_json("gear.json")
+    gear = load_json("gear.json")
 
     self.units = place_training_room_units(weapons, self.animations)
 
