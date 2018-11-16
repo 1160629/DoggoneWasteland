@@ -38,11 +38,12 @@ def setup_display_and_drawables(self):
 
 # load equipment stuff
 
-def load_weapons(path_to_json):
+def load_json(path_to_json):
     with open(path_to_json, "r") as f:
-        weapons = json.load(f)
+        object = json.load(f)
 
-    return weapons
+    return object
+	
 
 
 # functions for loading tilesets and maps
@@ -232,7 +233,8 @@ def load(self):
     self.cam = Camera(self.w, self.h)        
 
 
-    weapons = load_weapons("weapons.json")
+    weapons = load_json("weapons.json")
+    #gear = load_json("gear.json")
 
     self.units = place_training_room_units(weapons, self.animations)
 
