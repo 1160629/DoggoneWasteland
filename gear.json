@@ -3,38 +3,65 @@
 		"Motorcycle Helmet":{
 			"slot":"head",
 			"class":"Sharpshooter",
+			"armor":2,
+			"poison_res":4,
+			"bleeding_res":4,
+			"dex_bonus":1
 		},
 		"Hard-Hat":{
 			"slot":"head",
 			"class":"Engineer",
+			"armor":2,
+			"fire_resist":,
+			"int_bonus":1
 		},
 		"Bucket":{
 			"slot":"head",
 			"class":"Brawler",
+			"armor"3:,
+			"health%_bonus":5
 		},
 		"Bulletproof Vest":{
 			"slot":"torso",
 			"class":"Sharpshooter",
+			"armor":4,
+			"poison_res":8,
+			"bleeding_res":8,
+			"dex_bonus":2
 		},
 		"Grandma's Sweater":{
 			"slot":"torso",
 			"class":"Engineer",
+			"armor":4,
+			"fire_resist":,
+			"int_bonus":2
 		},
 		"Metal Armor":{
 			"slot":"torso",
 			"class":"Brawler",
+			"armor":5,
+			"health%_bonus":10
 		},
 		"Camo Pants":{
 			"slot":"legs",
 			"class":"Sharpshooter",
+			"armor":3,
+			"poison_res":6,
+			"bleeding_res":6,
+			"dex_bonus":1
 		},
 		"Jeans":{
 			"slot":"legs",
 			"class":"Engineer",
+			"armor":3,
+			"fire_resist":,
+			"int_bonus":1
 		},
 		"Metal Greaves":{
 			"slot":"legs",
 			"class":"Brawler",
+			"armor":4,
+			"health%_bonus":7.5
 		}
 	}
 		
