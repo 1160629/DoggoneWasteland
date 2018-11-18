@@ -30,6 +30,7 @@ if __name__ == "__main__":
 
 
 # todo:
+# fix collisions!
 
 # refactoring:
 # in general: more comments, and some cleanup
