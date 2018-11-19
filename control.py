@@ -83,14 +83,16 @@ class AnimationSetInitializer:
 
 
 class Label:
-    def __init__(self, name, text, font, ypos, dt, color = None):
+    def __init__(self, name, text, ypos, dt = None, color = None):
         self.timer = ActionTimer()
-        self.timer.dt = dt
+        if dt is None:
+            self.timer.dt = 0.5
+        else:
+            self.timer.dt = dt
         self.timer.reset()
 
         self.name = name
         self.text = text
-        self.font = font
         self.ypos = ypos
 
         if color is None:
