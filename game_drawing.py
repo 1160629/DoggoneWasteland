@@ -5,15 +5,15 @@ def draw(self):
     self.swin.fill((0, 0, 0))
 
     # draw floors and decorative layers
-    draw_dungeon_layer(self, "Floors")
-    draw_dungeon_layer(self, "Dirt")
+    draw_dungeon_layer(self, "Floors")#, wmap = self.dungeon.get_room().walkable_map)
+    draw_dungeon_layer(self, "Dirt")#, wmap = self.dungeon.get_room().walkable_map)
 
     # units drawn on top of floors, but beneath walls and other decorative layers
     draw_units(self)
 
     # draw walls, other collidables, and decorative layers
-    draw_dungeon_layer(self, "Walls")
-    draw_dungeon_layer(self, "Skullz")
+    draw_dungeon_layer(self, "Walls")#, wmap = self.dungeon.get_room().walkable_map)
+    draw_dungeon_layer(self, "Skullz")#, wmap = self.dungeon.get_room().walkable_map)
     
     # draw projectiles over tiles & units
     draw_projectiles(self)

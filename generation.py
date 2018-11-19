@@ -7,6 +7,7 @@ from effects import *
 
 from units import MC, Brute, Zombie, Mage
 
+import abilities
 
 # weapon generation
 
@@ -159,21 +160,26 @@ def create_weapon(rarity, quality, weapon):
 
 # unit generation
 
-def place_training_room_units(weapons, animations):
+def place_training_room_units(weapons, labels, animations):
     units = []
 
     # main character - you
-    mc = MC()
+    mc = MC(labels)
     mc.set_pos((15, 15))
     mc.equipment.hand_one = create_weapon("rare", "good", get_new_weapon_instance("Bat", weapons))
     mc.equipment.hand_two = create_weapon("legendary", "good", get_new_weapon_instance("DetonatorOnAStick", weapons))
+
+    abi = abilities.Steady()
+    abi.connected_memory_slot = "ability 1"
+    mc.memory.learn(abi)
+
     units.append(mc)
 
     # other units - also controlled by you, currently
-    units.append(Zombie(pos = (21, 20)))
-    units.append(Brute(pos = (10, 13)))
-    units.append(Brute(pos = (11, 13)))
-    units.append(Mage(pos = (20, 24)))
+    units.append(Zombie(labels, pos = (21, 20)))
+    units.append(Brute(labels, pos = (10, 13)))
+    units.append(Brute(labels, pos = (11, 13)))
+    units.append(Mage(labels, pos = (20, 24)))
 
     # assign animations
     for u in units:
@@ -194,3 +200,15 @@ def load_training_room(dungeon):
 
 def generate_dungeon():
     starting_room = None
+
+    # create rooms & path
+
+    con = conx, cony = 7, 7
+    sx, sy = 3, 6
+
+    gen_rooms = 8
+
+    x, y = sx, sy
+
+    for rn in range(gen_rooms):
+        random_walk()

@@ -68,6 +68,10 @@ class CombatController:
         self.units_in_combat = []
         self.turn = 0
 
+        self.start_of_turn = False
+
+        self.pcu = None
+
     def init_combat(self):
         for nu in self.units_in_combat:
             nu.ap.current_ap = calculate_ap(nu.ap.base_ap, nu.ap.max_ap, nu.stats.intelligence, \
@@ -85,6 +89,11 @@ class CombatController:
 
         elif self.state == "in combat":
             cu = self.get_current_unit()
+            if cu != self.pcu:
+                self.start_of_turn = True
+            else:
+                self.start_of_turn
+            self.pcu = cu
             if cu.end_turn == True:
                 self.turn += 1
                 if self.turn >= len(self.units_in_combat):

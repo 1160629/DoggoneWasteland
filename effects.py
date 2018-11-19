@@ -15,6 +15,9 @@ class StatusEffect:
             self.finished = True
         self.stacks -= 1
 
+    def is_active(self):
+        return True - self.finished
+
 def has_status_effect(target, effect_name):
     for i in target.statuses:
         if i.name == effect_name:
@@ -82,11 +85,16 @@ class Blinded(NonStackingEffect):
         NonStackingEffect.__init__(self)
         self.name = "blinded"
 
+class Steady(NonStackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "steady"
+
 def gen_effect_mod(effect, stacks):
-    class Effect:
+    class Effect(effect):
         def __init__(self):
             effect.__init__(self)
             self.stacks = stacks
-            self.name = effect.name
+            #self.name = effect().name
     
     return Effect

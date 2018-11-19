@@ -58,6 +58,9 @@ class Animation:
 
         self.frame_timer.update()
 
+    def restart(self):
+        self.nframe = 0
+
     def get_frame(self):
         return self.frames[self.nframe]
 

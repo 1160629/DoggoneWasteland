@@ -4,15 +4,55 @@ from abilities import Memory
 from stats import Stats
 from mutations import Mutations
 from combat import AP
-from control import ActionTimer, Animation
+from control import ActionTimer, Animation, Label
 from logic import get_distance, in_range, one_tile_range, corrigated_path
 
+from random import randint
 import math
 
 # Unit class 
 
+def get_selected_ability(ui_slot, memory):
+    for abi in memory.get_abilities():
+        if abi.connected_memory_slot == ui_slot:
+            return abi
+
+    return None
+
+def add_status(statuses, status):
+    # check if the status is currently applied
+    # if its not, apply status
+    # if it is, and the number of stacks left is less than
+    # the number of stacks on the new ability
+    # then remove the old status, and apply the new one
+    o = status()
+    i = 0
+    do_nothing = True
+    for s in statuses:
+        if s.name == o.name:
+            if s.stacks > o.stacks:
+                do_nothing = False
+            indx = i
+            break
+        i += 1
+    else:
+        # status is not currently applied
+        statuses.append(o)
+        return
+
+    # old status has same number of, or more, stacks
+    if do_nothing:
+        return
+
+    # new status has more stacks
+    statuses.pop(indx)
+    statuses.append(o)
+    return
+    
+
 class Unit:
-    def __init__(self, pos = None):
+    def __init__(self, labels, pos = None):
+        self.labels = labels
         #self.in_room = 0
 
         self.pos = 0, 0
@@ -39,10 +79,14 @@ class Unit:
         self.attack_weapon = None
         self.projectile_angle = 0
 
+        # variables related to casting
+        self.selected_ability = None
+
         # control timers
         self.timers = {}
         self.timers["move_timer"] = ActionTimer("move_timer", 0.15)
         self.timers["attack_timer"] = ActionTimer("move_timer", 0.75)
+        self.timers["casting_timer"] = ActionTimer("casting_timer", 1)
 
         # size of unit
         self.area = 1
@@ -54,7 +98,8 @@ class Unit:
         self.stats = Stats()
         self.ap = AP()
 
-        self.health = 35
+        self.damage_taken = 0
+        self.base_health = 35
         self.max_health = 35
 
         self.statuses = []
@@ -89,6 +134,8 @@ class Unit:
 
     def init_stats(self):
         self.stats.strength = 0
+        self.stats.intelligence = 0
+        self.stats.dexterity = 0
 
     def init_equipment(self):
         pass
@@ -108,18 +155,34 @@ class Unit:
         self.path = None
         self.state = "idle"
 
+
     def get_move_speed(self):
         self.stats.base_move_speed, self.stats.strength, self.statuses, self.mutations
         return self.stats.base_move_speed + self.stats.strength//2
 
+    def get_health(self):
+        return self.base_health + self.stats.strength * 2
+
+    def get_dodge(self, damagee):
+        dex_based_dodge_chance = (self.stats.dexterity * 5) / (2 * 100) # 5% for every 2 pts
+        dodge_chance = (damagee.mutations.get_dodge_chance() + dex_based_dodge_chance)
+        return dodge_chance
 
     def get_damage(self):
-        return self.attack_weapon.get_damage()
+        return self.attack_weapon.get_damage(self.stats, self.statuses)
 
     def damage(self, damagee):
-        damagee.health -= self.get_damage()
-        if damagee.health <= 0:
-            damagee.state = "dying"
+        if randint(0, 100) <= damagee.get_dodge(damagee) * 100:
+            lab = Label("Dodge", damagee.pos[1])
+            return
+        else:
+            dmg = self.get_damage()
+            damagee.damage_taken += dmg
+            lab = Label("Damage {0}".format(dmg), damagee.pos[1])
+            if damagee.get_health() - damagee.damage_taken <= 0:
+                damagee.state = "dying"
+        
+        self.labels.append(lab)
 
 
     def launch_bomb(self, at_mouse):
@@ -157,6 +220,15 @@ class Unit:
         self.ap.use_point()
         self.ap.use_point()
 
+    def start_casting(self):
+        self.animations["casting"].restart()
+        sabi = self.casting_ability
+        if sabi.name == "Steady":
+            sabi.use()
+            self.ap.use_point()
+            self.timers["casting_timer"].dt = 1
+            self.timers["casting_timer"].reset()
+            
 
     def update_general(self, mpos, mpress, at_mouse, ui):
         if self.state == "dying":
@@ -204,6 +276,17 @@ class Unit:
                         if in_range(at_mouse["mapped"], self.pos, one_tile_range):
                             self.swing(at_mouse)
 
+            ui_selected = ui.get_selected()
+
+            if mpress[0] == 1 and ui_selected != None and "ability" in ui_selected:
+                selected_ability = get_selected_ability(ui_selected, self.memory)
+                if selected_ability != None and selected_ability.name == "Steady":
+                    if self.ap.get_ap() >= selected_ability.ap_cost and \
+                    at_mouse["unit"] == self and selected_ability.get_cooldown() == 0:
+                        self.state = "casting"
+                        self.casting_ability = selected_ability
+                        self.start_casting()
+
         if self.state == "dead":
             self.end_turn = True
             return
@@ -221,7 +304,7 @@ class Unit:
         elif self.state == "moving":
             skip = False
             self.anim_state = "walking"
-            if self.timers["move_timer"].ticked:
+            if self.timers["move_timer"].ticked: 
                 if len(self.path) == 0:
                     self.pos = self.next_pos
                     self.anim_pos = self.pos
@@ -261,7 +344,14 @@ class Unit:
                 self.anim_pos = AX, AY
         
         elif self.state == "casting":
-            pass
+            self.anim_state = "casting"
+            if not self.timers["casting_timer"].ticked:
+                if self.casting_ability.name == "Steady":
+                    pass
+            else:
+                self.state = "idle"
+                if self.casting_ability.ability_type == "buff - self":
+                    add_status(self.statuses, self.casting_ability.applies)
             
         elif self.state == "attacking":
             if not self.timers["attack_timer"].ticked:
@@ -313,6 +403,11 @@ class Unit:
             self.update_turn(mpos, mpress, at_mouse, ui)
         self.update_general(mpos, mpress, at_mouse, ui)
 
+    def start_turn(self):
+        for s in self.statuses:
+            s.tick()
+
+        self.memory.lower_cds()
 
     def current_animation(self):
         return self.animations[self.anim_state]

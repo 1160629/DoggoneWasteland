@@ -1,7 +1,8 @@
 {
     "MC" : {
         "standing" : {"dt": 0.1, "frames": [["set1", 10, 15]]},
-        "walking" : {"dt": 0.1, "frames": [["set1", 10, 15], ["set1", 5, 15]]}
+        "walking" : {"dt": 0.1, "frames": [["set1", 10, 15], ["set1", 5, 15]]},
+        "casting": {"dt": 0.1, "frames" : [["set1", 10, 15], ["set1", 11, 15]]}
     },
     "Bat" : {
         "standing" : {"dt": 0.1, "frames": [["set1", 4, 9]]},

@@ -28,9 +28,8 @@ if __name__ == "__main__":
     # execution entry point for Python
     start()
 
-
-# todo:
-# fix collisions!
+# check if cooldowns are working?
+# save remaining refactoring for later, get some abilities working!
 
 # refactoring:
 # in general: more comments, and some cleanup

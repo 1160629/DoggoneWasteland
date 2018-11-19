@@ -14,7 +14,23 @@ def update(self):
     self.cam.update(mpos)
     self.cc.update()
 
+    remove_me = []
+    indx = 0
+    for l in self.labels:
+        l.update()
+        if l.timer.ticked:
+            remove_me.append(indx)
+        indx += 1
+
+    for r in reversed(remove_me):
+        l.pop(r)
+
     units_turn = self.cc.get_current_unit()
+    if self.cc.start_of_turn == True:
+        units_turn.start_turn()
+    else:
+        pass
+
     for u in self.units:
         if u == units_turn:
             yourturn = True

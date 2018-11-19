@@ -36,14 +36,18 @@ def setup_display_and_drawables(self):
     self.nwsurf.fill((255,0,0))
 
 
-# generic function to load json
+# generic functions to load and store json
 
 def load_json(path_to_json):
     with open(path_to_json, "r") as f:
-        object = json.load(f)
+        o = json.load(f)
 
-    return object
+    return o
 	
+
+def store_json(path_to_json, o):
+    with open(path_to_json, "w+") as f:
+        json.dump(o, f)
 
 
 # functions for loading tilesets and maps
@@ -80,10 +84,10 @@ def load_tileset(img_path, data_path, width, height, scale):
             new.set_colorkey(image.get_colorkey())
             
             tid = tile_y * (nw) + tile_x # flat indexing
-            if str(tid) not in d_:
-                walkable = True
-            else:
+            if tid in d_:
                 walkable = False
+            else:
+                walkable = True
 
             tile = Tile()
             tile.image = new
@@ -194,6 +198,24 @@ def load_layout(path, tilesets):
 
 # load animations
 
+def tiledanimformat2ouranimformat(json_file_path):
+    save_to = "animations_converted.json"
+    d = load_json(json_file_path)
+
+    new_d = {}
+
+    # need UltimateTileset.json's animations to have
+    # both set-type (i.e. character), and anim-type
+    # (i.e. character-walking, character-standing)
+    # this would make conversion easier.
+
+    for k, e in d.items():
+        new_ele = {}
+        new_d[k] = new_ele
+
+    store_json(new_d, save_to)
+
+#tiledanimformat2ouranimformat("/tilesets/UltimateTileset.json")
 
 def load_animations(json_file_path):
     d = load_json(json_file_path)
@@ -225,13 +247,16 @@ def load(self):
 
     self.ui = UI(self)
 
-    self.cam = Camera(self.w, self.h)        
+    self.cam = Camera(self.w, self.h)    
 
+    self.font = pygame.font.Font(22, None)
 
     weapons = load_json("weapons.json")
     gear = load_json("gear.json")
 
-    self.units = place_training_room_units(weapons, self.animations)
+    self.labels = []
+
+    self.units = place_training_room_units(weapons, self.labels, self.animations)
 
 
     self.cc = CombatController()

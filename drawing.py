@@ -1,6 +1,6 @@
 import pygame
 from itertools import product
-
+from logic import Rect
 
 # functions for drawing
 
@@ -40,7 +40,7 @@ def draw_units(g_obj):
 
         g_obj.swin.blit(uimg, (rx+aox, ry+aoy))
 
-def draw_dungeon_layer(g_obj, name):
+def draw_dungeon_layer(g_obj, name, wmap = None):
     dung = g_obj.dungeon
     room = dung.get_room()
     layer = room.layout.get_layer(name)
@@ -55,7 +55,10 @@ def draw_dungeon_layer(g_obj, name):
     mw, mh = room.layout.w, room.layout.h
 
     buffer = max((2*tw, 2*th))
-    screen_rect = pygame.Rect(-buffer, -buffer, sw+buffer*2, sh+buffer*2)
+    screen_rect = Rect(-buffer, -buffer, sw+buffer*2, sh+buffer*2)
+
+    #somesurf_red = g_obj.nwsurf
+    #somesurf_green = g_obj.wsurf
 
     for tx, ty, n in product(range(mw), range(mh), room.layout.layers.keys()):
         if n != name: # draw only specified layer
@@ -65,8 +68,17 @@ def draw_dungeon_layer(g_obj, name):
             continue
         tile = room.tilesets.get_tile(*tile_index)
         x, y = tx * tw + ox, ty * th + oy
+        cr = Rect(x, y, tw, th)
+        if not screen_rect.colliderect(cr):
+            continue
         g_obj.swin.blit(tile.image, (x, y))
-
+        #if wmap != None:
+        #    if 0 <= tx < len(wmap) and 0 <= ty < len(wmap[0]):
+        #        walkable = wmap[tx][ty]
+        #        if walkable:
+        #            g_obj.swin.blit(somesurf_green, (x, y))
+        #        else:
+        #            g_obj.swin.blit(somesurf_red, (x, y))
 
 def f_flat(f):
     rtw = 16
@@ -98,6 +110,22 @@ def draw_projectiles(g_obj):
         img = pygame.transform.rotate(img, 90-cu.projectile_angle)
 
         g_obj.swin.blit(img, (x*g_obj.scale*16+ox, y*g_obj.scale*16+oy))
+
+
+def draw_labels(g_obj):
+    labs = g_obj.labels
+
+    font = g_obj.font
+
+    ox, oy = g_obj.cam.get()
+
+    w = g_obj.w
+
+    for l in labs:
+        x, y = l.xpos * w + ox, l.ypos + oy
+
+        img = font.render(l.text, 1, l.color)
+        g_obj.swin.blit(img, (x, y))
 
 
 def get_tile_img(g_obj, tileset, tilenr):
@@ -161,9 +189,11 @@ def draw_combat_ui(g_obj):
     for i in range(0, uiinfo_w*ta, uiinfo_w):
         g_obj.swin.blit(ap_green, (apx+i, apy))
 
-    hp = cu.health
-    mhp = cu.max_health
-
+    
+    mhp = cu.get_health()
+    dmg = cu.damage_taken
+    hp = mhp - dmg
+    
     h_repr = 5
 
     hpx = g_obj.w - x_spot - 16
