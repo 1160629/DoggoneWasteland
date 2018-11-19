@@ -18,11 +18,16 @@ def draw(self):
     # draw projectiles over tiles & units
     draw_projectiles(self)
 
+    #draw labels over projectiles
+    draw_labels(self)
+
     # draw ui over everything thus far
     draw_combat_ui(self)
 
     # and menus over everything
     draw_menus(self)
+
+
     
     # put on display surface, and update
     self.win.blit(self.swin, (0, 0))
