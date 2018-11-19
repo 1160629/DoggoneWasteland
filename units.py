@@ -173,12 +173,12 @@ class Unit:
 
     def damage(self, damagee):
         if randint(0, 100) <= damagee.get_dodge(damagee) * 100:
-            lab = Label("Dodge", damagee.pos[1])
+            lab = Label("", "Dodge", damagee.pos[1])
             return
         else:
             dmg = self.get_damage()
             damagee.damage_taken += dmg
-            lab = Label("Damage {0}".format(dmg), damagee.pos[1])
+            lab = Label("", "Damage {0}".format(dmg), damagee.pos[1])
             if damagee.get_health() - damagee.damage_taken <= 0:
                 damagee.state = "dying"
         

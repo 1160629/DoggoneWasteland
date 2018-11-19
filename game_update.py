@@ -23,7 +23,7 @@ def update(self):
         indx += 1
 
     for r in reversed(remove_me):
-        l.pop(r)
+        self.labels.pop(r)
 
     units_turn = self.cc.get_current_unit()
     if self.cc.start_of_turn == True:

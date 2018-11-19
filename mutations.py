@@ -6,3 +6,6 @@ class Mutation:
 class Mutations:
     def get(self):
         return []
+
+    def get_dodge_chance(self):
+        return 0

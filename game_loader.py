@@ -249,7 +249,7 @@ def load(self):
 
     self.cam = Camera(self.w, self.h)    
 
-    self.font = pygame.font.Font(22, None)
+    self.font = pygame.font.Font(None, 36)
 
     weapons = load_json("weapons.json")
     gear = load_json("gear.json")

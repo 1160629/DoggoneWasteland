@@ -119,10 +119,12 @@ def draw_labels(g_obj):
 
     ox, oy = g_obj.cam.get()
 
+    th = 32
+
     w = g_obj.w
 
     for l in labs:
-        x, y = l.xpos * w + ox, l.ypos + oy
+        x, y = l.xpos * w + ox, l.ypos * th + oy
 
         img = font.render(l.text, 1, l.color)
         g_obj.swin.blit(img, (x, y))
