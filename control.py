@@ -108,5 +108,5 @@ class Label:
 
     def update(self):
         self.timer.update()
-        self.xpos = self.timer.get_progress()
+        self.xpos = 0.5*(self.timer.get_progress()**0.4)
         self.alpha = 1-self.timer.get_progress()
