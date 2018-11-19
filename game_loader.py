@@ -35,6 +35,9 @@ def setup_display_and_drawables(self):
     self.wsurf.fill((0,255,0))
     self.nwsurf.fill((255,0,0))
 
+    tsx, tsy = 150, 50
+    self.tsurf = pygame.Surface((tsx, tsy))
+    self.tsurf.fill((255, 255, 255))
 
 # generic functions to load and store json
 
@@ -223,7 +226,6 @@ def load_animations(json_file_path):
     animations = AnimationSetInitializer(d)
 
     return animations
-
 
 # game load function
 
