@@ -7,6 +7,2874 @@
  "spacing":0,
  "tilecount":1600,
  "tileheight":16,
+ "tileproperties":
+    {
+     "1":
+        {
+         "Collidable":true
+        },
+     "10":
+        {
+         "Collidable":true
+        },
+     "1008":
+        {
+         "Animation":"Dies",
+         "Object":"Small Treemonster",
+         "Triggerable":true
+        },
+     "1015":
+        {
+         "Animation":"Dies",
+         "Object":"Green Blob",
+         "Triggerable":true
+        },
+     "1024":
+        {
+         "Animation":"Dies",
+         "Object":"Small Green Troll",
+         "Triggerable":true
+        },
+     "1031":
+        {
+         "Animation":"Dies",
+         "Object":"Turquoise Guy",
+         "Triggerable":true
+        },
+     "1040":
+        {
+         "Animation":"Dies",
+         "Object":"Small Red Devil",
+         "Triggerable":true
+        },
+     "1047":
+        {
+         "Animation":"Dies",
+         "Object":"Hooded Guy",
+         "Triggerable":true
+        },
+     "1056":
+        {
+         "Animation":"Dies",
+         "Object":"White Guy",
+         "Triggerable":true
+        },
+     "1063":
+        {
+         "Animation":"Dies",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "1072":
+        {
+         "Animation":"Dies",
+         "Object":"Brown Blob",
+         "Triggerable":true
+        },
+     "1079":
+        {
+         "Animation":"Dies",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "1088":
+        {
+         "Animation":"Dies",
+         "Object":"Medium Treemonster",
+         "Triggerable":true
+        },
+     "11":
+        {
+         "Collidable":true
+        },
+     "1104":
+        {
+         "Animation":"Dies",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "1120":
+        {
+         "Animation":"Dies",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "1136":
+        {
+         "Animation":"Dies",
+         "Object":"Medium Green Troll2",
+         "Triggerable":true
+        },
+     "1168":
+        {
+         "Animation":"Dies2",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "1169":
+        {
+         "Animation":"Dies22",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "1184":
+        {
+         "Animation":"Dies1",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "1185":
+        {
+         "Animation":"Dies11",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "12":
+        {
+         "Collidable":true
+        },
+     "13":
+        {
+         "Collidable":true
+        },
+     "14":
+        {
+         "Collidable":true
+        },
+     "146":
+        {
+         "Triggerable":true
+        },
+     "15":
+        {
+         "Collidable":true
+        },
+     "16":
+        {
+         "Collidable":true
+        },
+     "17":
+        {
+         "Animation":"Open2",
+         "Collidable":true,
+         "Object":"Door",
+         "Triggerable":true
+        },
+     "18":
+        {
+         "Animation":"Open22",
+         "Collidable":true,
+         "Object":"Door",
+         "Triggerable":true
+        },
+     "19":
+        {
+         "Collidable":true
+        },
+     "2":
+        {
+         "Collidable":true
+        },
+     "202":
+        {
+         "Triggerable":true
+        },
+     "203":
+        {
+         "Triggerable":true
+        },
+     "204":
+        {
+         "Triggerable":true
+        },
+     "205":
+        {
+         "Triggerable":true
+        },
+     "206":
+        {
+         "Triggerable":true
+        },
+     "207":
+        {
+         "Triggerable":true
+        },
+     "210":
+        {
+         "Animation":"Torch1",
+         "Object":"Torch Flame1",
+         "Triggerable":true
+        },
+     "211":
+        {
+         "Animation":"Torch2",
+         "Object":"Torch Flame2",
+         "Triggerable":true
+        },
+     "212":
+        {
+         "Animation":"Torch3",
+         "Object":"Torch Flame3",
+         "Triggerable":true
+        },
+     "213":
+        {
+         "Animation":"Torch4",
+         "Object":"Torch Flame4",
+         "Triggerable":true
+        },
+     "214":
+        {
+         "Animation":"Torch5",
+         "Object":"Torch Flame5",
+         "Triggerable":true
+        },
+     "215":
+        {
+         "Animation":"Torch6",
+         "Object":"Torch Flame6",
+         "Triggerable":true
+        },
+     "222":
+        {
+         "Animation":"Turning",
+         "Object":"Coins",
+         "Triggerable":true
+        },
+     "223":
+        {
+         "Triggerable":true
+        },
+     "226":
+        {
+         "Animation":"Torch1",
+         "Collidable":true,
+         "Object":"Torch Base1",
+         "Triggerable":true
+        },
+     "227":
+        {
+         "Animation":"Torch2",
+         "Collidable":true,
+         "Object":"Torch Base2",
+         "Triggerable":true
+        },
+     "228":
+        {
+         "Animation":"Torch3",
+         "Collidable":true,
+         "Object":"Torch Base3",
+         "Triggerable":true
+        },
+     "229":
+        {
+         "Animation":"Torch4",
+         "Collidable":true,
+         "Object":"Torch Base4",
+         "Triggerable":true
+        },
+     "230":
+        {
+         "Animation":"Torch5",
+         "Collidable":true,
+         "Object":"Torch Base5",
+         "Triggerable":true
+        },
+     "231":
+        {
+         "Animation":"Torch6",
+         "Collidable":true,
+         "Object":"Torch Base6",
+         "Triggerable":true
+        },
+     "232":
+        {
+         "Collidable":true
+        },
+     "233":
+        {
+         "Collidable":true
+        },
+     "234":
+        {
+         "Collidable":true
+        },
+     "240":
+        {
+         "Animation":"Open Empty",
+         "Collidable":true,
+         "Object":"Chest1",
+         "Triggerable":true
+        },
+     "241":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "242":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "244":
+        {
+         "Animation":"Open Empty",
+         "Collidable":true,
+         "Object":"Chest2",
+         "Triggerable":true
+        },
+     "245":
+        {
+         "Animation":"Open Empty",
+         "Collidable":true,
+         "Object":"Chest3",
+         "Triggerable":true
+        },
+     "25":
+        {
+         "Collidable":true
+        },
+     "256":
+        {
+         "Animation":"Open Gold",
+         "Collidable":true,
+         "Object":"Chest1",
+         "Triggerable":true
+        },
+     "257":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "258":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "26":
+        {
+         "Collidable":true
+        },
+     "260":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "261":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "263":
+        {
+         "Collidable":true
+        },
+     "264":
+        {
+         "Collidable":true
+        },
+     "265":
+        {
+         "Collidable":true
+        },
+     "266":
+        {
+         "Triggerable":true
+        },
+     "267":
+        {
+         "Triggerable":true
+        },
+     "268":
+        {
+         "Animation":"Empty",
+         "Object":"Syringe Red",
+         "Triggerable":true
+        },
+     "269":
+        {
+         "Animation":"Empty",
+         "Object":"Syringe Blue",
+         "Triggerable":true
+        },
+     "27":
+        {
+         "Collidable":true
+        },
+     "270":
+        {
+         "Animation":"Empty",
+         "Object":"Syringe Green",
+         "Triggerable":true
+        },
+     "271":
+        {
+         "Animation":"Empty",
+         "Object":"Syringe Yellow",
+         "Triggerable":true
+        },
+     "272":
+        {
+         "Animation":"Open Teeth",
+         "Collidable":true,
+         "Object":"Chest1",
+         "Triggerable":true
+        },
+     "273":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "274":
+        {
+         "Collidable":true,
+         "Triggerable":true
+        },
+     "276":
+        {
+         "Animation":"Open Gold",
+         "Collidable":true,
+         "Object":"Chest2",
+         "Triggerable":true
+        },
+     "277":
+        {
+         "Animation":"Open Gold",
+         "Collidable":true,
+         "Object":"Chest3",
+         "Triggerable":true
+        },
+     "279":
+        {
+         "Collidable":true
+        },
+     "28":
+        {
+         "Collidable":true
+        },
+     "280":
+        {
+         "Collidable":true
+        },
+     "281":
+        {
+         "Collidable":true
+        },
+     "282":
+        {
+         "Triggerable":true
+        },
+     "283":
+        {
+         "Triggerable":true
+        },
+     "29":
+        {
+         "Collidable":true
+        },
+     "30":
+        {
+         "Collidable":true
+        },
+     "32":
+        {
+         "Collidable":true
+        },
+     "33":
+        {
+         "Animation":"Open1",
+         "Collidable":true,
+         "Object":"Door",
+         "Triggerable":true
+        },
+     "34":
+        {
+         "Animation":"Open11",
+         "Collidable":true,
+         "Object":"Door",
+         "Triggerable":true
+        },
+     "35":
+        {
+         "Collidable":true
+        },
+     "42":
+        {
+         "Collidable":true
+        },
+     "43":
+        {
+         "Collidable":true
+        },
+     "432":
+        {
+         "Animation":"Walking",
+         "Object":"Small Tree Monster",
+         "Triggerable":true
+        },
+     "433":
+        {
+         "Animation":"Idle",
+         "Object":"Small Treemonster",
+         "Triggerable":true
+        },
+     "434":
+        {
+         "Animation":"Attack",
+         "Object":"Small Treemonster",
+         "Triggerable":true
+        },
+     "44":
+        {
+         "Collidable":true
+        },
+     "448":
+        {
+         "Animation":"Walking",
+         "Object":"Small Green Troll",
+         "Triggerable":true
+        },
+     "449":
+        {
+         "Animation":"Idle",
+         "Object":"Small Green Troll",
+         "Triggerable":true
+        },
+     "45":
+        {
+         "Collidable":true
+        },
+     "450":
+        {
+         "Animation":"Attack",
+         "Object":"Small Green Troll",
+         "Triggerable":true
+        },
+     "464":
+        {
+         "Animation":"Walking",
+         "Object":"Small Red Devil",
+         "Triggerable":true
+        },
+     "465":
+        {
+         "Animation":"Idle",
+         "Object":"Small Red Devil",
+         "Triggerable":true
+        },
+     "466":
+        {
+         "Animation":"Attack",
+         "Object":"Small Red Devil",
+         "Triggerable":true
+        },
+     "48":
+        {
+         "Collidable":true
+        },
+     "480":
+        {
+         "Animation":"Walking",
+         "Object":"White Guy",
+         "Triggerable":true
+        },
+     "481":
+        {
+         "Animation":"Idle",
+         "Object":"White Guy",
+         "Triggerable":true
+        },
+     "482":
+        {
+         "Animation":"Attack",
+         "Object":"White Guy",
+         "Triggerable":true
+        },
+     "496":
+        {
+         "Animation":"Walking",
+         "Object":"Brown Blob",
+         "Triggerable":true
+        },
+     "497":
+        {
+         "Animation":"Idle",
+         "Object":"Brown Blob",
+         "Triggerable":true
+        },
+     "498":
+        {
+         "Animation":"Attack",
+         "Object":"Brown Blob",
+         "Triggerable":true
+        },
+     "50":
+        {
+         "Collidable":true
+        },
+     "500":
+        {
+         "Animation":"Walking",
+         "Object":"Green Blob",
+         "Triggerable":true
+        },
+     "501":
+        {
+         "Animation":"Idle",
+         "Object":"Green Blob",
+         "Triggerable":true
+        },
+     "502":
+        {
+         "Animation":"Attack",
+         "Object":"Green Blob",
+         "Triggerable":true
+        },
+     "51":
+        {
+         "Collidable":true
+        },
+     "512":
+        {
+         "Animation":"Walking",
+         "Object":"Medium Treemonster ",
+         "Triggerable":true
+        },
+     "513":
+        {
+         "Animation":"Idle",
+         "Object":"Medium Treemonster",
+         "Triggerable":true
+        },
+     "516":
+        {
+         "Animation":"Walking",
+         "Object":"Turquoise Guy",
+         "Triggerable":true
+        },
+     "517":
+        {
+         "Animation":"Idle",
+         "Object":"Turquoise Guy",
+         "Triggerable":true
+        },
+     "528":
+        {
+         "Animation":"Walking2",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "530":
+        {
+         "Animation":"Attack2",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "539":
+        {
+         "Animation":"Walking2",
+         "Object":"Hooded Guy",
+         "Triggerable":true
+        },
+     "544":
+        {
+         "Animation":"Walking1",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "545":
+        {
+         "Animation":"Idle",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "546":
+        {
+         "Animation":"Attack1",
+         "Object":"Skull Mask Troll",
+         "Triggerable":true
+        },
+     "555":
+        {
+         "Animation":"Walking1",
+         "Object":"Hooded Guy",
+         "Triggerable":true
+        },
+     "557":
+        {
+         "Animation":"Idle",
+         "Object":"Hooded Guy",
+         "Triggerable":true
+        },
+     "558":
+        {
+         "Animation":"Attack",
+         "Object":"Hooded Guy",
+         "Triggerable":true
+        },
+     "56":
+        {
+         "Collidable":true
+        },
+     "560":
+        {
+         "Animation":"Walking2",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "562":
+        {
+         "Animation":"Attack2",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "569":
+        {
+         "Animation":"Walking2",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "57":
+        {
+         "Collidable":true
+        },
+     "571":
+        {
+         "Animation":"Attack2",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "576":
+        {
+         "Animation":"Walking1",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "577":
+        {
+         "Animation":"Idle",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "578":
+        {
+         "Animation":"Attack1",
+         "Object":"Medium Green Troll",
+         "Triggerable":true
+        },
+     "58":
+        {
+         "Collidable":true
+        },
+     "585":
+        {
+         "Animation":"Walking1",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "586":
+        {
+         "Animation":"Idle",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "587":
+        {
+         "Animation":"Attack1",
+         "Object":"Skelleton Guy",
+         "Triggerable":true
+        },
+     "59":
+        {
+         "Collidable":true
+        },
+     "592":
+        {
+         "Animation":"Walking2",
+         "Object":"Medium Green Troll2",
+         "Triggerable":true
+        },
+     "60":
+        {
+         "Collidable":true
+        },
+     "600":
+        {
+         "Animation":"Walking2",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "601":
+        {
+         "Animation":"Idle2",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "602":
+        {
+         "Animation":"Attack2",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "608":
+        {
+         "Animation":"Walking1",
+         "Object":"Medium Green Troll2",
+         "Triggerable":true
+        },
+     "609":
+        {
+         "Animation":"Idle",
+         "Object":"Medium Green Troll2",
+         "Triggerable":true
+        },
+     "61":
+        {
+         "Collidable":true
+        },
+     "610":
+        {
+         "Animation":"Attack",
+         "Object":"Medium Green Troll2",
+         "Triggerable":true
+        },
+     "616":
+        {
+         "Animation":"Walking1",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "617":
+        {
+         "Animation":"Idle1",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "618":
+        {
+         "Animation":"Attack1",
+         "Object":"Medium Red Devil",
+         "Triggerable":true
+        },
+     "62":
+        {
+         "Collidable":true
+        },
+     "624":
+        {
+         "Animation":"Walking3",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "625":
+        {
+         "Animation":"Walking33",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "63":
+        {
+         "Collidable":true
+        },
+     "64":
+        {
+         "Collidable":true
+        },
+     "640":
+        {
+         "Animation":"Walking2",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "641":
+        {
+         "Animation":"Walking22",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "642":
+        {
+         "Animation":"Idle(1) 2",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "643":
+        {
+         "Animation":"Idle(1) 22",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "644":
+        {
+         "Animation":"Idle(2) 2",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "645":
+        {
+         "Animation":"Idle(2) 22",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "65":
+        {
+         "Collidable":true
+        },
+     "656":
+        {
+         "Animation":"Walking1",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "657":
+        {
+         "Animation":"Walking11",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "658":
+        {
+         "Animation":"Idle(1) 1",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "659":
+        {
+         "Animation":"Idle(1) 11",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "66":
+        {
+         "Collidable":true
+        },
+     "660":
+        {
+         "Animation":"Idle(2) 1",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "661":
+        {
+         "Animation":"Idle(2) 11",
+         "Object":"Tree Giant",
+         "Triggerable":true
+        },
+     "67":
+        {
+         "Collidable":true
+        },
+     "688":
+        {
+         "Animation":"Walking2",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "689":
+        {
+         "Animation":"Walking22",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "690":
+        {
+         "Animation":"Idle(1) 2",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "691":
+        {
+         "Animation":"Idle(1) 22",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "694":
+        {
+         "Animation":"",
+         "Object":"",
+         "Triggerable":true
+        },
+     "695":
+        {
+         "Animation":"Idle(2) 22",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "698":
+        {
+         "Animation":"Attack2",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "699":
+        {
+         "Animation":"Attack22",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "704":
+        {
+         "Animation":"",
+         "Object":"",
+         "Triggerable":true
+        },
+     "705":
+        {
+         "Animation":"Walking11",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "706":
+        {
+         "Animation":"",
+         "Object":"",
+         "Triggerable":true
+        },
+     "707":
+        {
+         "Animation":"Idle(1) 11",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "710":
+        {
+         "Animation":"",
+         "Object":"",
+         "Triggerable":true
+        },
+     "711":
+        {
+         "Animation":"Idle(2) 11",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "714":
+        {
+         "Animation":"Attack1",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "715":
+        {
+         "Animation":"Attack11",
+         "Object":"Troll Giant",
+         "Triggerable":true
+        },
+     "720":
+        {
+         "Animation":"Walking3",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "721":
+        {
+         "Animation":"Walking33",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "736":
+        {
+         "Animation":"Walking2",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "737":
+        {
+         "Animation":"Walking22",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "738":
+        {
+         "Animation":"",
+         "Object":"",
+         "Triggerable":true
+        },
+     "739":
+        {
+         "Animation":"Idle(1) 22",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "740":
+        {
+         "Animation":"Attack2",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "741":
+        {
+         "Animation":"Attack22",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "742":
+        {
+         "Animation":"Idle(2) 2",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "743":
+        {
+         "Animation":"Idle(2) 22",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "752":
+        {
+         "Animation":"Walking1",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "753":
+        {
+         "Animation":"Walking11",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "754":
+        {
+         "Animation":"Idle(1) 1",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "755":
+        {
+         "Animation":"Idle(1) 11",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "756":
+        {
+         "Animation":"Attack1",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "757":
+        {
+         "Animation":"Attack11",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "758":
+        {
+         "Animation":"Idle(2) 1",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "759":
+        {
+         "Animation":"Idle(2) 11",
+         "Object":"Red Giant",
+         "Triggerable":true
+        },
+     "76":
+        {
+         "Collidable":true
+        },
+     "768":
+        {
+         "Animation":"Walking2",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "769":
+        {
+         "Animation":"Idle2",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "77":
+        {
+         "Collidable":true
+        },
+     "770":
+        {
+         "Animation":"Attack2",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "78":
+        {
+         "Collidable":true
+        },
+     "784":
+        {
+         "Animation":"Walking1",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "785":
+        {
+         "Animation":"Idle1",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "786":
+        {
+         "Animation":"Attack1",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "79":
+        {
+         "Collidable":true
+        },
+     "795":
+        {
+         "Animation":"Dies",
+         "Object":"Stella",
+         "Triggerable":true
+        },
+     "80":
+        {
+         "Collidable":true
+        },
+     "800":
+        {
+         "Animation":"Walking2",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "801":
+        {
+         "Animation":"Idle2",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "802":
+        {
+         "Animation":"Attack2",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "81":
+        {
+         "Collidable":true
+        },
+     "811":
+        {
+         "Animation":"Dies2",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "816":
+        {
+         "Animation":"Walking1",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "817":
+        {
+         "Animation":"Idle1",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "818":
+        {
+         "Animation":"Attack1",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "82":
+        {
+         "Collidable":true
+        },
+     "827":
+        {
+         "Animation":"Dies1",
+         "Object":"Jon Vegg",
+         "Triggerable":true
+        },
+     "83":
+        {
+         "Collidable":true
+        },
+     "832":
+        {
+         "Animation":"Walking2",
+         "Object":"Knight",
+         "Triggerable":true
+        },
+     "833":
+        {
+         "Animation":"Idle2",
+         "Object":"Knight",
+         "Triggerable":true
+        },
+     "848":
+        {
+         "Animation":"Walking1",
+         "Object":"Knight",
+         "Triggerable":true
+        },
+     "849":
+        {
+         "Animation":"Idle1",
+         "Object":"Knight",
+         "Triggerable":true
+        },
+     "85":
+        {
+         "Animation":"Spikes",
+         "Object":"Floor Spikes",
+         "Triggerable":true
+        },
+     "86":
+        {
+         "Triggerable":true
+        },
+     "864":
+        {
+         "Animation":"Walking2",
+         "Object":"Female Wizard",
+         "Triggerable":true
+        },
+     "865":
+        {
+         "Animation":"Idle2",
+         "Object":"Female Wizard",
+         "Triggerable":true
+        },
+     "87":
+        {
+         "Triggerable":true
+        },
+     "88":
+        {
+         "Triggerable":true
+        },
+     "880":
+        {
+         "Animation":"Walking1",
+         "Object":"Female Wizard",
+         "Triggerable":true
+        },
+     "881":
+        {
+         "Animation":"Idle1",
+         "Object":"Female Wizard",
+         "Triggerable":true
+        },
+     "89":
+        {
+         "Triggerable":true
+        },
+     "896":
+        {
+         "Animation":"Walking2",
+         "Object":"Male Wizard",
+         "Triggerable":true
+        },
+     "897":
+        {
+         "Animation":"Idle2",
+         "Object":"Male Wizard",
+         "Triggerable":true
+        },
+     "9":
+        {
+         "Collidable":true
+        },
+     "912":
+        {
+         "Animation":"Walking1",
+         "Object":"Male Wizard",
+         "Triggerable":true
+        },
+     "913":
+        {
+         "Animation":"Idle1",
+         "Object":"Male Wizard",
+         "Triggerable":true
+        },
+     "92":
+        {
+         "Collidable":true
+        },
+     "93":
+        {
+         "Collidable":true
+        },
+     "94":
+        {
+         "Collidable":true
+        },
+     "944":
+        {
+         "Animation":"Idle1",
+         "Object":"Chase",
+         "Triggerable":true
+        },
+     "946":
+        {
+         "Animation":"Turning Head",
+         "Object":"Chase",
+         "Triggerable":true
+        },
+     "947":
+        {
+         "Animation":"Turning Head and Standing Up",
+         "Object":"Chase",
+         "Triggerable":true
+        },
+     "948":
+        {
+         "Animation":"Standing Up",
+         "Object":"Chase",
+         "Triggerable":true
+        },
+     "95":
+        {
+         "Collidable":true
+        },
+     "976":
+        {
+         "Animation":"Walking",
+         "Object":"Chase",
+         "Triggerable":true
+        },
+     "977":
+        {
+         "Animation":"Running",
+         "Object":"Chase",
+         "Triggerable":true
+        }
+    },
+ "tilepropertytypes":
+    {
+     "1":
+        {
+         "Collidable":"bool"
+        },
+     "10":
+        {
+         "Collidable":"bool"
+        },
+     "1008":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1015":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1024":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1031":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1040":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1047":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1056":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1063":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1072":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1079":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1088":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "11":
+        {
+         "Collidable":"bool"
+        },
+     "1104":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1120":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1136":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1168":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1169":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1184":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "1185":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "12":
+        {
+         "Collidable":"bool"
+        },
+     "13":
+        {
+         "Collidable":"bool"
+        },
+     "14":
+        {
+         "Collidable":"bool"
+        },
+     "146":
+        {
+         "Triggerable":"bool"
+        },
+     "15":
+        {
+         "Collidable":"bool"
+        },
+     "16":
+        {
+         "Collidable":"bool"
+        },
+     "17":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "18":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "19":
+        {
+         "Collidable":"bool"
+        },
+     "2":
+        {
+         "Collidable":"bool"
+        },
+     "202":
+        {
+         "Triggerable":"bool"
+        },
+     "203":
+        {
+         "Triggerable":"bool"
+        },
+     "204":
+        {
+         "Triggerable":"bool"
+        },
+     "205":
+        {
+         "Triggerable":"bool"
+        },
+     "206":
+        {
+         "Triggerable":"bool"
+        },
+     "207":
+        {
+         "Triggerable":"bool"
+        },
+     "210":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "211":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "212":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "213":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "214":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "215":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "222":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "223":
+        {
+         "Triggerable":"bool"
+        },
+     "226":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "227":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "228":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "229":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "230":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "231":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "232":
+        {
+         "Collidable":"bool"
+        },
+     "233":
+        {
+         "Collidable":"bool"
+        },
+     "234":
+        {
+         "Collidable":"bool"
+        },
+     "240":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "241":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "242":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "244":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "245":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "25":
+        {
+         "Collidable":"bool"
+        },
+     "256":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "257":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "258":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "26":
+        {
+         "Collidable":"bool"
+        },
+     "260":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "261":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "263":
+        {
+         "Collidable":"bool"
+        },
+     "264":
+        {
+         "Collidable":"bool"
+        },
+     "265":
+        {
+         "Collidable":"bool"
+        },
+     "266":
+        {
+         "Triggerable":"bool"
+        },
+     "267":
+        {
+         "Triggerable":"bool"
+        },
+     "268":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "269":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "27":
+        {
+         "Collidable":"bool"
+        },
+     "270":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "271":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "272":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "273":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "274":
+        {
+         "Collidable":"bool",
+         "Triggerable":"bool"
+        },
+     "276":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "277":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "279":
+        {
+         "Collidable":"bool"
+        },
+     "28":
+        {
+         "Collidable":"bool"
+        },
+     "280":
+        {
+         "Collidable":"bool"
+        },
+     "281":
+        {
+         "Collidable":"bool"
+        },
+     "282":
+        {
+         "Triggerable":"bool"
+        },
+     "283":
+        {
+         "Triggerable":"bool"
+        },
+     "29":
+        {
+         "Collidable":"bool"
+        },
+     "30":
+        {
+         "Collidable":"bool"
+        },
+     "32":
+        {
+         "Collidable":"bool"
+        },
+     "33":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "34":
+        {
+         "Animation":"string",
+         "Collidable":"bool",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "35":
+        {
+         "Collidable":"bool"
+        },
+     "42":
+        {
+         "Collidable":"bool"
+        },
+     "43":
+        {
+         "Collidable":"bool"
+        },
+     "432":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "433":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "434":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "44":
+        {
+         "Collidable":"bool"
+        },
+     "448":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "449":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "45":
+        {
+         "Collidable":"bool"
+        },
+     "450":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "464":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "465":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "466":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "48":
+        {
+         "Collidable":"bool"
+        },
+     "480":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "481":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "482":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "496":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "497":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "498":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "50":
+        {
+         "Collidable":"bool"
+        },
+     "500":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "501":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "502":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "51":
+        {
+         "Collidable":"bool"
+        },
+     "512":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "513":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "516":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "517":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "528":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "530":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "539":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "544":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "545":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "546":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "555":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "557":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "558":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "56":
+        {
+         "Collidable":"bool"
+        },
+     "560":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "562":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "569":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "57":
+        {
+         "Collidable":"bool"
+        },
+     "571":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "576":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "577":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "578":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "58":
+        {
+         "Collidable":"bool"
+        },
+     "585":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "586":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "587":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "59":
+        {
+         "Collidable":"bool"
+        },
+     "592":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "60":
+        {
+         "Collidable":"bool"
+        },
+     "600":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "601":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "602":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "608":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "609":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "61":
+        {
+         "Collidable":"bool"
+        },
+     "610":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "616":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "617":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "618":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "62":
+        {
+         "Collidable":"bool"
+        },
+     "624":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "625":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "63":
+        {
+         "Collidable":"bool"
+        },
+     "64":
+        {
+         "Collidable":"bool"
+        },
+     "640":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "641":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "642":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "643":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "644":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "645":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "65":
+        {
+         "Collidable":"bool"
+        },
+     "656":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "657":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "658":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "659":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "66":
+        {
+         "Collidable":"bool"
+        },
+     "660":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "661":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "67":
+        {
+         "Collidable":"bool"
+        },
+     "688":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "689":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "690":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "691":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "694":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "695":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "698":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "699":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "704":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "705":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "706":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "707":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "710":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "711":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "714":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "715":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "720":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "721":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "736":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "737":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "738":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "739":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "740":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "741":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "742":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "743":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "752":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "753":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "754":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "755":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "756":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "757":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "758":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "759":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "76":
+        {
+         "Collidable":"bool"
+        },
+     "768":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "769":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "77":
+        {
+         "Collidable":"bool"
+        },
+     "770":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "78":
+        {
+         "Collidable":"bool"
+        },
+     "784":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "785":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "786":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "79":
+        {
+         "Collidable":"bool"
+        },
+     "795":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "80":
+        {
+         "Collidable":"bool"
+        },
+     "800":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "801":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "802":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "81":
+        {
+         "Collidable":"bool"
+        },
+     "811":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "816":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "817":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "818":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "82":
+        {
+         "Collidable":"bool"
+        },
+     "827":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "83":
+        {
+         "Collidable":"bool"
+        },
+     "832":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "833":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "848":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "849":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "85":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "86":
+        {
+         "Triggerable":"bool"
+        },
+     "864":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "865":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "87":
+        {
+         "Triggerable":"bool"
+        },
+     "88":
+        {
+         "Triggerable":"bool"
+        },
+     "880":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "881":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "89":
+        {
+         "Triggerable":"bool"
+        },
+     "896":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "897":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "9":
+        {
+         "Collidable":"bool"
+        },
+     "912":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "913":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "92":
+        {
+         "Collidable":"bool"
+        },
+     "93":
+        {
+         "Collidable":"bool"
+        },
+     "94":
+        {
+         "Collidable":"bool"
+        },
+     "944":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "946":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "947":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "948":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "95":
+        {
+         "Collidable":"bool"
+        },
+     "976":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        },
+     "977":
+        {
+         "Animation":"string",
+         "Object":"string",
+         "Triggerable":"bool"
+        }
+    },
  "tiles":
     {
      "10":
@@ -53,7 +2921,7 @@
                  "duration":170,
                  "tileid":954
                 }],
-         "type":"Small Treemonster Dies"
+         "type":"Enemy"
         },
      "1015":
         {
@@ -82,7 +2950,7 @@
                  "duration":170,
                  "tileid":954
                 }],
-         "type":"Green Blob Dies"
+         "type":"Enemy"
         },
      "1024":
         {
@@ -107,7 +2975,7 @@
                  "duration":170,
                  "tileid":954
                 }],
-         "type":"Small Green Troll Dies"
+         "type":"Enemy"
         },
      "1031":
         {
@@ -136,7 +3004,7 @@
                  "duration":180,
                  "tileid":957
                 }],
-         "type":"Turquoise Guy Dies"
+         "type":"Enemy"
         },
      "1040":
         {
@@ -165,7 +3033,7 @@
                  "duration":160,
                  "tileid":1045
                 }],
-         "type":"Small Red Devil Dies"
+         "type":"Enemy"
         },
      "1047":
         {
@@ -198,7 +3066,7 @@
                  "duration":150,
                  "tileid":1053
                 }],
-         "type":"Hooded Guy Dies"
+         "type":"Enemy"
         },
      "1056":
         {
@@ -219,7 +3087,7 @@
                  "duration":160,
                  "tileid":956
                 }],
-         "type":"White Guy Dies"
+         "type":"Enemy"
         },
      "1063":
         {
@@ -248,7 +3116,7 @@
                  "duration":170,
                  "tileid":956
                 }],
-         "type":"Skelleton Guy Dies"
+         "type":"Enemy"
         },
      "1072":
         {
@@ -277,7 +3145,7 @@
                  "duration":170,
                  "tileid":954
                 }],
-         "type":"Brown Blob Dies"
+         "type":"Enemy"
         },
      "1079":
         {
@@ -306,7 +3174,7 @@
                  "duration":180,
                  "tileid":954
                 }],
-         "type":"Medium Red Devil Dies"
+         "type":"Enemy"
         },
      "1088":
         {
@@ -327,7 +3195,7 @@
                  "duration":200,
                  "tileid":954
                 }],
-         "type":"Medium Treemonster Dies"
+         "type":"Enemy"
         },
      "11":
         {
@@ -385,7 +3253,7 @@
                  "duration":180,
                  "tileid":957
                 }],
-         "type":"Skull Mask Troll Dies"
+         "type":"Enemy"
         },
      "1120":
         {
@@ -414,7 +3282,7 @@
                  "duration":180,
                  "tileid":954
                 }],
-         "type":"Medium Green Troll Dies"
+         "type":"Enemy"
         },
      "1136":
         {
@@ -447,7 +3315,7 @@
                  "duration":150,
                  "tileid":953
                 }],
-         "type":"Medium Green Troll2 Dies"
+         "type":"Enemy"
         },
      "1168":
         {
@@ -479,7 +3347,8 @@
                 {
                  "duration":200,
                  "tileid":1180
-                }]
+                }],
+         "type":"Enemy"
         },
      "1169":
         {
@@ -511,7 +3380,8 @@
                 {
                  "duration":200,
                  "tileid":1181
-                }]
+                }],
+         "type":"Enemy"
         },
      "1184":
         {
@@ -543,7 +3413,8 @@
                 {
                  "duration":200,
                  "tileid":1196
-                }]
+                }],
+         "type":"Enemy"
         },
      "1185":
         {
@@ -575,7 +3446,8 @@
                 {
                  "duration":200,
                  "tileid":953
-                }]
+                }],
+         "type":"Enemy"
         },
      "15":
         {
@@ -613,7 +3485,7 @@
                  "duration":600,
                  "tileid":20
                 }],
-         "type":"Door Opening2"
+         "type":"Item"
         },
      "172":
         {
@@ -651,7 +3523,7 @@
                  "duration":600,
                  "tileid":21
                 }],
-         "type":"Door Opening22"
+         "type":"Item"
         },
      "210":
         {
@@ -676,7 +3548,7 @@
                  "duration":300,
                  "tileid":217
                 }],
-         "type":"Torch Flame1"
+         "type":"Item"
         },
      "211":
         {
@@ -697,7 +3569,7 @@
                  "duration":200,
                  "tileid":214
                 }],
-         "type":"Torch Flame2"
+         "type":"Item"
         },
      "212":
         {
@@ -734,7 +3606,7 @@
                  "duration":200,
                  "tileid":218
                 }],
-         "type":"Torch Flame3"
+         "type":"Item"
         },
      "213":
         {
@@ -755,7 +3627,7 @@
                  "duration":200,
                  "tileid":218
                 }],
-         "type":"Torch Flame4"
+         "type":"Item"
         },
      "214":
         {
@@ -776,7 +3648,7 @@
                  "duration":200,
                  "tileid":215
                 }],
-         "type":"Torch Flame5"
+         "type":"Item"
         },
      "215":
         {
@@ -797,7 +3669,7 @@
                  "duration":200,
                  "tileid":218
                 }],
-         "type":"Torch Flame6"
+         "type":"Item"
         },
      "222":
         {
@@ -810,7 +3682,7 @@
                  "duration":350,
                  "tileid":223
                 }],
-         "type":"Coin Turning"
+         "type":"Item"
         },
      "226":
         {
@@ -835,7 +3707,7 @@
                  "duration":300,
                  "tileid":233
                 }],
-         "type":"Torch Base1"
+         "type":"Item"
         },
      "227":
         {
@@ -856,7 +3728,7 @@
                  "duration":200,
                  "tileid":230
                 }],
-         "type":"Torch Base2"
+         "type":"Item"
         },
      "228":
         {
@@ -893,7 +3765,7 @@
                  "duration":200,
                  "tileid":234
                 }],
-         "type":"Torch Base3"
+         "type":"Item"
         },
      "229":
         {
@@ -914,7 +3786,7 @@
                  "duration":200,
                  "tileid":234
                 }],
-         "type":"Torch Base4"
+         "type":"Item"
         },
      "230":
         {
@@ -935,7 +3807,7 @@
                  "duration":200,
                  "tileid":231
                 }],
-         "type":"Torch Base5"
+         "type":"Item"
         },
      "231":
         {
@@ -956,7 +3828,7 @@
                  "duration":200,
                  "tileid":234
                 }],
-         "type":"Torch Base6"
+         "type":"Item"
         },
      "240":
         {
@@ -973,7 +3845,7 @@
                  "duration":250,
                  "tileid":242
                 }],
-         "type":"Chest1 Open Empty"
+         "type":"Item"
         },
      "244":
         {
@@ -986,7 +3858,7 @@
                  "duration":600,
                  "tileid":260
                 }],
-         "type":"Chest2 Open Empty"
+         "type":"Item"
         },
      "245":
         {
@@ -999,7 +3871,7 @@
                  "duration":600,
                  "tileid":261
                 }],
-         "type":"Chest3 Open Empty"
+         "type":"Item"
         },
      "256":
         {
@@ -1016,7 +3888,7 @@
                  "duration":250,
                  "tileid":258
                 }],
-         "type":"Chest1 Open Gold"
+         "type":"Item"
         },
      "268":
         {
@@ -1037,7 +3909,7 @@
                  "duration":300,
                  "tileid":207
                 }],
-         "type":"Red Syringe Emptied"
+         "type":"Item"
         },
      "269":
         {
@@ -1058,7 +3930,7 @@
                  "duration":300,
                  "tileid":207
                 }],
-         "type":"Blue Syringe Emptied"
+         "type":"Item"
         },
      "270":
         {
@@ -1079,7 +3951,7 @@
                  "duration":300,
                  "tileid":207
                 }],
-         "type":"Green Syringe Emptied"
+         "type":"Item"
         },
      "271":
         {
@@ -1100,7 +3972,7 @@
                  "duration":300,
                  "tileid":207
                 }],
-         "type":"Yellow Syringe Emptied"
+         "type":"Item"
         },
      "272":
         {
@@ -1133,7 +4005,7 @@
                  "duration":120,
                  "tileid":274
                 }],
-         "type":"Chest1 Open Teeth"
+         "type":"Item"
         },
      "276":
         {
@@ -1146,7 +4018,7 @@
                  "duration":600,
                  "tileid":276
                 }],
-         "type":"Chest2 Open Gold"
+         "type":"Item"
         },
      "277":
         {
@@ -1159,7 +4031,7 @@
                  "duration":600,
                  "tileid":277
                 }],
-         "type":"Chest3 Open Gold"
+         "type":"Item"
         },
      "33":
         {
@@ -1172,7 +4044,7 @@
                  "duration":600,
                  "tileid":36
                 }],
-         "type":"Door Opening1"
+         "type":"Item"
         },
      "34":
         {
@@ -1185,7 +4057,7 @@
                  "duration":600,
                  "tileid":37
                 }],
-         "type":"Door Opening11"
+         "type":"Item"
         },
      "432":
         {
@@ -1222,7 +4094,7 @@
                  "duration":120,
                  "tileid":439
                 }],
-         "type":"Small Treemonster Walking"
+         "type":"Enemy"
         },
      "433":
         {
@@ -1235,7 +4107,7 @@
                  "duration":200,
                  "tileid":434
                 }],
-         "type":"Small Treemonster Idle"
+         "type":"Enemy"
         },
      "434":
         {
@@ -1248,7 +4120,7 @@
                  "duration":150,
                  "tileid":437
                 }],
-         "type":"Small Treemonster Attack"
+         "type":"Enemy"
         },
      "448":
         {
@@ -1285,7 +4157,7 @@
                  "duration":120,
                  "tileid":455
                 }],
-         "type":"Small Green Troll Walking"
+         "type":"Enemy"
         },
      "449":
         {
@@ -1298,7 +4170,7 @@
                  "duration":350,
                  "tileid":449
                 }],
-         "type":"Small Green Troll Idle"
+         "type":"Enemy"
         },
      "450":
         {
@@ -1315,7 +4187,7 @@
                  "duration":120,
                  "tileid":453
                 }],
-         "type":"Small Green Troll Attack"
+         "type":"Enemy"
         },
      "464":
         {
@@ -1352,7 +4224,7 @@
                  "duration":130,
                  "tileid":471
                 }],
-         "type":"Small Red Devil Walking"
+         "type":"Enemy"
         },
      "465":
         {
@@ -1373,7 +4245,7 @@
                  "duration":200,
                  "tileid":464
                 }],
-         "type":"Small Red Devil Idle"
+         "type":"Enemy"
         },
      "466":
         {
@@ -1386,7 +4258,7 @@
                  "duration":150,
                  "tileid":469
                 }],
-         "type":"Small Red Devil Attack"
+         "type":"Enemy"
         },
      "480":
         {
@@ -1423,7 +4295,7 @@
                  "duration":100,
                  "tileid":487
                 }],
-         "type":"White Guy Walking"
+         "type":"Enemy"
         },
      "481":
         {
@@ -1436,7 +4308,7 @@
                  "duration":250,
                  "tileid":482
                 }],
-         "type":"White Guy Idle"
+         "type":"Enemy"
         },
      "482":
         {
@@ -1453,7 +4325,7 @@
                  "duration":100,
                  "tileid":485
                 }],
-         "type":"White Guy Attack"
+         "type":"Enemy"
         },
      "496":
         {
@@ -1474,7 +4346,7 @@
                  "duration":120,
                  "tileid":499
                 }],
-         "type":"Brown Blob Walking"
+         "type":"Enemy"
         },
      "497":
         {
@@ -1487,7 +4359,7 @@
                  "duration":250,
                  "tileid":497
                 }],
-         "type":"Brown Blob Idle"
+         "type":"Enemy"
         },
      "498":
         {
@@ -1512,7 +4384,7 @@
                  "duration":100,
                  "tileid":498
                 }],
-         "type":"Brown Blob Attack"
+         "type":"Enemy"
         },
      "500":
         {
@@ -1533,7 +4405,7 @@
                  "duration":120,
                  "tileid":503
                 }],
-         "type":"Green Blob Walking"
+         "type":"Enemy"
         },
      "501":
         {
@@ -1546,7 +4418,7 @@
                  "duration":250,
                  "tileid":501
                 }],
-         "type":"Green Blob Idle"
+         "type":"Enemy"
         },
      "502":
         {
@@ -1571,7 +4443,7 @@
                  "duration":100,
                  "tileid":502
                 }],
-         "type":"Green Blob Attack"
+         "type":"Enemy"
         },
      "512":
         {
@@ -1592,7 +4464,7 @@
                  "duration":150,
                  "tileid":515
                 }],
-         "type":"Medium Treemonster Walking"
+         "type":"Enemy"
         },
      "513":
         {
@@ -1605,7 +4477,7 @@
                  "duration":400,
                  "tileid":512
                 }],
-         "type":"Medium Treemonster Idle"
+         "type":"Enemy"
         },
      "516":
         {
@@ -1626,7 +4498,7 @@
                  "duration":150,
                  "tileid":519
                 }],
-         "type":"Turquoise Guy Walking"
+         "type":"Enemy"
         },
      "517":
         {
@@ -1639,7 +4511,7 @@
                  "duration":300,
                  "tileid":518
                 }],
-         "type":"Turquoise Guy Idle"
+         "type":"Enemy"
         },
      "528":
         {
@@ -1676,7 +4548,7 @@
                  "duration":110,
                  "tileid":535
                 }],
-         "type":"Skull Mask Troll Walking2"
+         "type":"Enemy"
         },
      "530":
         {
@@ -1693,7 +4565,7 @@
                  "duration":100,
                  "tileid":532
                 }],
-         "type":"Skull Mask Troll Attack2"
+         "type":"Enemy"
         },
      "539":
         {
@@ -1714,7 +4586,7 @@
                  "duration":100,
                  "tileid":542
                 }],
-         "type":"Hooded Guy Walking2"
+         "type":"Enemy"
         },
      "544":
         {
@@ -1751,7 +4623,7 @@
                  "duration":110,
                  "tileid":551
                 }],
-         "type":"Skull Mask Troll Walking1"
+         "type":"Enemy"
         },
      "545":
         {
@@ -1772,7 +4644,7 @@
                  "duration":200,
                  "tileid":545
                 }],
-         "type":"Skull Mask Troll Idle"
+         "type":"Enemy"
         },
      "546":
         {
@@ -1789,7 +4661,7 @@
                  "duration":100,
                  "tileid":549
                 }],
-         "type":"Skull Mask Troll Attack1"
+         "type":"Enemy"
         },
      "555":
         {
@@ -1810,7 +4682,7 @@
                  "duration":100,
                  "tileid":558
                 }],
-         "type":"Hooded Guy Walking1"
+         "type":"Enemy"
         },
      "556":
         {
@@ -1827,7 +4699,7 @@
                  "duration":300,
                  "tileid":557
                 }],
-         "type":"Hooded Guy Idle"
+         "type":"Enemy"
         },
      "558":
         {
@@ -1844,7 +4716,7 @@
                  "duration":100,
                  "tileid":559
                 }],
-         "type":"Hooded Guy Attack"
+         "type":"Enemy"
         },
      "560":
         {
@@ -1881,7 +4753,7 @@
                  "duration":120,
                  "tileid":567
                 }],
-         "type":"Medium Green Troll Walking2"
+         "type":"Enemy"
         },
      "562":
         {
@@ -1902,7 +4774,7 @@
                  "duration":90,
                  "tileid":565
                 }],
-         "type":"Medium Green Troll Attack2"
+         "type":"Enemy"
         },
      "569":
         {
@@ -1935,7 +4807,7 @@
                  "duration":100,
                  "tileid":575
                 }],
-         "type":"Skelleton Guy Walking2"
+         "type":"Enemy"
         },
      "571":
         {
@@ -1952,7 +4824,7 @@
                  "duration":100,
                  "tileid":574
                 }],
-         "type":"Skelleton Guy Attack2"
+         "type":"Enemy"
         },
      "576":
         {
@@ -1989,7 +4861,7 @@
                  "duration":120,
                  "tileid":583
                 }],
-         "type":"Medium Green Troll Walking1"
+         "type":"Enemy"
         },
      "577":
         {
@@ -2010,7 +4882,7 @@
                  "duration":200,
                  "tileid":578
                 }],
-         "type":"Medium Green Troll Idle"
+         "type":"Enemy"
         },
      "578":
         {
@@ -2031,7 +4903,7 @@
                  "duration":90,
                  "tileid":581
                 }],
-         "type":"Medium Green Troll Attack1"
+         "type":"Enemy"
         },
      "585":
         {
@@ -2064,7 +4936,7 @@
                  "duration":100,
                  "tileid":591
                 }],
-         "type":"Skelleton Guy Walking1"
+         "type":"Enemy"
         },
      "586":
         {
@@ -2081,7 +4953,7 @@
                  "duration":150,
                  "tileid":588
                 }],
-         "type":"Skelleton Guy Idle"
+         "type":"Enemy"
         },
      "587":
         {
@@ -2098,7 +4970,7 @@
                  "duration":100,
                  "tileid":590
                 }],
-         "type":"Skelleton Guy Attack1"
+         "type":"Enemy"
         },
      "592":
         {
@@ -2135,7 +5007,7 @@
                  "duration":100,
                  "tileid":599
                 }],
-         "type":"Medium Green Troll2 Walking2"
+         "type":"Enemy"
         },
      "600":
         {
@@ -2172,7 +5044,7 @@
                  "duration":100,
                  "tileid":607
                 }],
-         "type":"Medium Red Devil Walking2"
+         "type":"Enemy"
         },
      "601":
         {
@@ -2193,7 +5065,7 @@
                  "duration":170,
                  "tileid":601
                 }],
-         "type":"Medium Red Devil Idle2"
+         "type":"Enemy"
         },
      "602":
         {
@@ -2210,7 +5082,7 @@
                  "duration":100,
                  "tileid":605
                 }],
-         "type":"Medium Red Devil Attack2"
+         "type":"Enemy"
         },
      "608":
         {
@@ -2247,7 +5119,7 @@
                  "duration":100,
                  "tileid":615
                 }],
-         "type":"Medium Green Troll2 Walking1"
+         "type":"Enemy"
         },
      "609":
         {
@@ -2260,7 +5132,7 @@
                  "duration":200,
                  "tileid":610
                 }],
-         "type":"Medium Green Troll2 Idle"
+         "type":"Enemy"
         },
      "610":
         {
@@ -2277,7 +5149,7 @@
                  "duration":100,
                  "tileid":614
                 }],
-         "type":"Medium Green Troll2 Attack"
+         "type":"Enemy"
         },
      "616":
         {
@@ -2314,7 +5186,7 @@
                  "duration":100,
                  "tileid":623
                 }],
-         "type":"Medium Red Devil Walking1"
+         "type":"Enemy"
         },
      "617":
         {
@@ -2335,7 +5207,7 @@
                  "duration":170,
                  "tileid":618
                 }],
-         "type":"Medium Red Devil Idle1"
+         "type":"Enemy"
         },
      "618":
         {
@@ -2352,7 +5224,7 @@
                  "duration":100,
                  "tileid":621
                 }],
-         "type":"Medium Red Devil Attack1"
+         "type":"Enemy"
         },
      "624":
         {
@@ -2389,7 +5261,7 @@
                  "duration":110,
                  "tileid":638
                 }],
-         "type":"Tree Giant Walking3"
+         "type":"Enemy"
         },
      "625":
         {
@@ -2426,7 +5298,7 @@
                  "duration":110,
                  "tileid":639
                 }],
-         "type":"Tree Giant Walking33"
+         "type":"Enemy"
         },
      "640":
         {
@@ -2463,7 +5335,7 @@
                  "duration":110,
                  "tileid":654
                 }],
-         "type":"Tree Giant Walking2"
+         "type":"Enemy"
         },
      "641":
         {
@@ -2500,7 +5372,7 @@
                  "duration":110,
                  "tileid":655
                 }],
-         "type":"Tree Giant Walking22"
+         "type":"Enemy"
         },
      "642":
         {
@@ -2517,7 +5389,7 @@
                  "duration":200,
                  "tileid":646
                 }],
-         "type":"Tree Giant Idle(1) 2"
+         "type":"Enemy"
         },
      "643":
         {
@@ -2534,7 +5406,7 @@
                  "duration":200,
                  "tileid":647
                 }],
-         "type":"Tree Giant Idle(1) 22"
+         "type":"Enemy"
         },
      "644":
         {
@@ -2555,7 +5427,7 @@
                  "duration":300,
                  "tileid":642
                 }],
-         "type":"Tree Giant Idle(2) 2"
+         "type":"Enemy"
         },
      "645":
         {
@@ -2576,7 +5448,7 @@
                  "duration":300,
                  "tileid":643
                 }],
-         "type":"Tree Giant Idle(2) 22"
+         "type":"Enemy"
         },
      "656":
         {
@@ -2613,7 +5485,7 @@
                  "duration":110,
                  "tileid":670
                 }],
-         "type":"Tree Giant Walking1"
+         "type":"Enemy"
         },
      "657":
         {
@@ -2650,7 +5522,7 @@
                  "duration":110,
                  "tileid":671
                 }],
-         "type":"Tree Giant Walking11"
+         "type":"Enemy"
         },
      "658":
         {
@@ -2667,7 +5539,7 @@
                  "duration":200,
                  "tileid":662
                 }],
-         "type":"Tree Giant Idle(1) 1"
+         "type":"Enemy"
         },
      "659":
         {
@@ -2684,7 +5556,7 @@
                  "duration":200,
                  "tileid":663
                 }],
-         "type":"Tree Giant Idle(1) 11"
+         "type":"Enemy"
         },
      "660":
         {
@@ -2705,7 +5577,7 @@
                  "duration":300,
                  "tileid":658
                 }],
-         "type":"Tree Giant Idle(2) 1"
+         "type":"Enemy"
         },
      "661":
         {
@@ -2726,7 +5598,7 @@
                  "duration":300,
                  "tileid":659
                 }],
-         "type":"Tree Giant Idle(2) 11"
+         "type":"Enemy"
         },
      "688":
         {
@@ -2763,7 +5635,7 @@
                  "duration":100,
                  "tileid":702
                 }],
-         "type":"Troll Giant Walking2"
+         "type":"Enemy"
         },
      "689":
         {
@@ -2800,7 +5672,7 @@
                  "duration":100,
                  "tileid":703
                 }],
-         "type":"Troll Giant Walking22"
+         "type":"Enemy"
         },
      "690":
         {
@@ -2813,7 +5685,7 @@
                  "duration":200,
                  "tileid":694
                 }],
-         "type":"Troll Giant Idle(1) 2"
+         "type":"Enemy"
         },
      "691":
         {
@@ -2826,7 +5698,7 @@
                  "duration":200,
                  "tileid":695
                 }],
-         "type":"Troll Giant Idle(1) 22"
+         "type":"Enemy"
         },
      "694":
         {
@@ -2852,7 +5724,7 @@
                  "duration":400,
                  "tileid":697
                 }],
-         "type":"Troll Giant Idle(2) 22"
+         "type":"Enemy"
         },
      "698":
         {
@@ -2869,7 +5741,7 @@
                  "duration":100,
                  "tileid":702
                 }],
-         "type":"Troll Giant Attack2"
+         "type":"Enemy"
         },
      "699":
         {
@@ -2886,7 +5758,7 @@
                  "duration":100,
                  "tileid":703
                 }],
-         "type":"Troll Giant Attack22"
+         "type":"Enemy"
         },
      "704":
         {
@@ -2960,7 +5832,7 @@
                  "duration":100,
                  "tileid":719
                 }],
-         "type":"Troll Giant Walking11"
+         "type":"Enemy"
         },
      "706":
         {
@@ -2986,7 +5858,7 @@
                  "duration":200,
                  "tileid":711
                 }],
-         "type":"Troll Giant Idle(1) 11"
+         "type":"Enemy"
         },
      "710":
         {
@@ -3012,7 +5884,7 @@
                  "duration":400,
                  "tileid":713
                 }],
-         "type":"Troll Giant Idle(2) 11"
+         "type":"Enemy"
         },
      "714":
         {
@@ -3029,7 +5901,7 @@
                  "duration":100,
                  "tileid":718
                 }],
-         "type":"Troll Giant Attack1"
+         "type":"Enemy"
         },
      "715":
         {
@@ -3046,7 +5918,7 @@
                  "duration":100,
                  "tileid":719
                 }],
-         "type":"Troll Giant Attack11"
+         "type":"Enemy"
         },
      "720":
         {
@@ -3083,7 +5955,7 @@
                  "duration":100,
                  "tileid":734
                 }],
-         "type":"Red Giant Walking3"
+         "type":"Enemy"
         },
      "721":
         {
@@ -3120,7 +5992,7 @@
                  "duration":100,
                  "tileid":735
                 }],
-         "type":"Red Giant Walking33"
+         "type":"Enemy"
         },
      "736":
         {
@@ -3157,7 +6029,7 @@
                  "duration":100,
                  "tileid":750
                 }],
-         "type":"Red Giant Walking2"
+         "type":"Enemy"
         },
      "737":
         {
@@ -3194,7 +6066,7 @@
                  "duration":100,
                  "tileid":751
                 }],
-         "type":"Red Giant Walking22"
+         "type":"Enemy"
         },
      "738":
         {
@@ -3220,7 +6092,7 @@
                  "duration":350,
                  "tileid":743
                 }],
-         "type":"Red Giant Idle(1) 22"
+         "type":"Enemy"
         },
      "740":
         {
@@ -3237,7 +6109,7 @@
                  "duration":100,
                  "tileid":750
                 }],
-         "type":"Red Giant Attack2"
+         "type":"Enemy"
         },
      "741":
         {
@@ -3254,7 +6126,7 @@
                  "duration":100,
                  "tileid":751
                 }],
-         "type":"Red Giant Attack22"
+         "type":"Enemy"
         },
      "742":
         {
@@ -3267,7 +6139,7 @@
                  "duration":400,
                  "tileid":750
                 }],
-         "type":"Red Giant Idle(2) 2"
+         "type":"Enemy"
         },
      "743":
         {
@@ -3280,7 +6152,7 @@
                  "duration":400,
                  "tileid":751
                 }],
-         "type":"Red Giant Idle(2) 22"
+         "type":"Enemy"
         },
      "752":
         {
@@ -3317,7 +6189,7 @@
                  "duration":100,
                  "tileid":766
                 }],
-         "type":"Red Giant Walking1"
+         "type":"Enemy"
         },
      "753":
         {
@@ -3354,7 +6226,7 @@
                  "duration":100,
                  "tileid":767
                 }],
-         "type":"Red Giant Walking11"
+         "type":"Enemy"
         },
      "754":
         {
@@ -3367,7 +6239,7 @@
                  "duration":350,
                  "tileid":758
                 }],
-         "type":"Red Giant Idle(1) 1"
+         "type":"Enemy"
         },
      "755":
         {
@@ -3380,7 +6252,7 @@
                  "duration":350,
                  "tileid":759
                 }],
-         "type":"Red Giant Idle(1) 11"
+         "type":"Enemy"
         },
      "756":
         {
@@ -3397,7 +6269,7 @@
                  "duration":100,
                  "tileid":766
                 }],
-         "type":"Red Giant Attack1"
+         "type":"Enemy"
         },
      "757":
         {
@@ -3414,7 +6286,7 @@
                  "duration":100,
                  "tileid":767
                 }],
-         "type":"Red Giant Attack11"
+         "type":"Enemy"
         },
      "758":
         {
@@ -3427,7 +6299,7 @@
                  "duration":400,
                  "tileid":766
                 }],
-         "type":"Red Giant Idle(2) 1"
+         "type":"Enemy"
         },
      "759":
         {
@@ -3440,7 +6312,7 @@
                  "duration":400,
                  "tileid":767
                 }],
-         "type":"Red Giant Idle(2) 11"
+         "type":"Enemy"
         },
      "768":
         {
@@ -3473,7 +6345,7 @@
                  "duration":100,
                  "tileid":774
                 }],
-         "type":"Stella Walking2"
+         "type":"Character"
         },
      "769":
         {
@@ -3486,7 +6358,7 @@
                  "duration":200,
                  "tileid":774
                 }],
-         "type":"Stella Idle2"
+         "type":"Character"
         },
      "770":
         {
@@ -3507,7 +6379,7 @@
                  "duration":100,
                  "tileid":772
                 }],
-         "type":"Stella Attack2"
+         "type":"Character"
         },
      "784":
         {
@@ -3540,7 +6412,7 @@
                  "duration":100,
                  "tileid":791
                 }],
-         "type":"Stella Walking1"
+         "type":"Character"
         },
      "785":
         {
@@ -3553,7 +6425,7 @@
                  "duration":200,
                  "tileid":790
                 }],
-         "type":"Stella Idle1"
+         "type":"Character"
         },
      "786":
         {
@@ -3574,7 +6446,7 @@
                  "duration":100,
                  "tileid":790
                 }],
-         "type":"Stella Attack1"
+         "type":"Character"
         },
      "795":
         {
@@ -3603,7 +6475,7 @@
                  "duration":150,
                  "tileid":942
                 }],
-         "type":"Stella Dies"
+         "type":"Character"
         },
      "800":
         {
@@ -3640,7 +6512,7 @@
                  "duration":130,
                  "tileid":807
                 }],
-         "type":"Malcolm Walking2"
+         "type":"Character"
         },
      "801":
         {
@@ -3653,7 +6525,7 @@
                  "duration":250,
                  "tileid":800
                 }],
-         "type":"Malcolm Idle2"
+         "type":"Character"
         },
      "802":
         {
@@ -3666,7 +6538,7 @@
                  "duration":120,
                  "tileid":808
                 }],
-         "type":"Malcolm Attack2"
+         "type":"Charcater"
         },
      "811":
         {
@@ -3695,7 +6567,7 @@
                  "duration":150,
                  "tileid":813
                 }],
-         "type":"Malcolm Dies2"
+         "type":"Character"
         },
      "816":
         {
@@ -3732,7 +6604,7 @@
                  "duration":130,
                  "tileid":823
                 }],
-         "type":"Malcolm Walking1"
+         "type":"Character"
         },
      "817":
         {
@@ -3745,7 +6617,7 @@
                  "duration":250,
                  "tileid":816
                 }],
-         "type":"Malcolm Idle1"
+         "type":"Character"
         },
      "818":
         {
@@ -3758,7 +6630,7 @@
                  "duration":120,
                  "tileid":824
                 }],
-         "type":"Malcolm Attack1"
+         "type":"Character"
         },
      "827":
         {
@@ -3787,7 +6659,7 @@
                  "duration":150,
                  "tileid":942
                 }],
-         "type":"Malcolm Dies1"
+         "type":"Character"
         },
      "832":
         {
@@ -3828,7 +6700,7 @@
                  "duration":100,
                  "tileid":840
                 }],
-         "type":"Knight Walking2"
+         "type":"Enemy"
         },
      "833":
         {
@@ -3841,7 +6713,7 @@
                  "duration":350,
                  "tileid":834
                 }],
-         "type":"Knight Idle2"
+         "type":"Enemy"
         },
      "848":
         {
@@ -3882,7 +6754,7 @@
                  "duration":100,
                  "tileid":856
                 }],
-         "type":"Knight Walking1"
+         "type":"Enemy"
         },
      "849":
         {
@@ -3895,7 +6767,7 @@
                  "duration":350,
                  "tileid":850
                 }],
-         "type":"Knight Idle1"
+         "type":"Enemy"
         },
      "85":
         {
@@ -3924,7 +6796,7 @@
                  "duration":80,
                  "tileid":86
                 }],
-         "type":"Floor Spikes"
+         "type":"Item"
         },
      "864":
         {
@@ -3961,7 +6833,7 @@
                  "duration":130,
                  "tileid":871
                 }],
-         "type":"Female Wizard Walking2"
+         "type":"Character"
         },
      "865":
         {
@@ -3974,7 +6846,7 @@
                  "duration":170,
                  "tileid":867
                 }],
-         "type":"Female Wizard Idle2"
+         "type":"Character"
         },
      "880":
         {
@@ -4011,7 +6883,7 @@
                  "duration":130,
                  "tileid":887
                 }],
-         "type":"Female Wizard Walking1"
+         "type":"Character"
         },
      "881":
         {
@@ -4024,7 +6896,7 @@
                  "duration":170,
                  "tileid":883
                 }],
-         "type":"Female Wizard Idle1"
+         "type":"Character"
         },
      "896":
         {
@@ -4061,7 +6933,7 @@
                  "duration":130,
                  "tileid":903
                 }],
-         "type":"Male Wizard Walking2"
+         "type":"Character"
         },
      "897":
         {
@@ -4078,7 +6950,7 @@
                  "duration":180,
                  "tileid":898
                 }],
-         "type":"Male Wizard Idle2"
+         "type":"Character"
         },
      "9":
         {
@@ -4135,7 +7007,7 @@
                  "duration":130,
                  "tileid":919
                 }],
-         "type":"Male Wizard Walking1"
+         "type":"Character"
         },
      "913":
         {
@@ -4152,7 +7024,7 @@
                  "duration":180,
                  "tileid":914
                 }],
-         "type":"Male Wizard Idle1"
+         "type":"Character"
         },
      "944":
         {
@@ -4165,7 +7037,7 @@
                  "duration":300,
                  "tileid":945
                 }],
-         "type":"Chase Idle1"
+         "type":"Character"
         },
      "946":
         {
@@ -4182,7 +7054,7 @@
                  "duration":170,
                  "tileid":947
                 }],
-         "type":"Chase Turning Head"
+         "type":"Character"
         },
      "947":
         {
@@ -4215,7 +7087,7 @@
                  "duration":120,
                  "tileid":951
                 }],
-         "type":"Chase Turning Head and Standing Up"
+         "type":"Character"
         },
      "948":
         {
@@ -4236,7 +7108,7 @@
                  "duration":200,
                  "tileid":951
                 }],
-         "type":"Chase Standing Up"
+         "type":"Character"
         },
      "976":
         {
@@ -4257,7 +7129,7 @@
                  "duration":150,
                  "tileid":979
                 }],
-         "type":"Chase Walking"
+         "type":"Character"
         },
      "977":
         {
@@ -4278,7 +7150,7 @@
                  "duration":150,
                  "tileid":979
                 }],
-         "type":"Chase Running"
+         "type":"Character"
         }
     },
  "tilewidth":16,
