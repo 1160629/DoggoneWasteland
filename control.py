@@ -3,7 +3,7 @@ from time import clock
 
 # Used in Animation, and used with states to time actions
 class ActionTimer:
-    def __init__(self, name = None, dt = None):
+    def __init__(self, name=None, dt=None):
         self.name = ""
         if name != None:
             self.name = name
@@ -26,7 +26,7 @@ class ActionTimer:
             return
 
         if clock() - self.clock > self.dt:
-            self.ticked = True 
+            self.ticked = True
 
     def reset(self):
         # reset timer
@@ -61,8 +61,9 @@ class Animation:
     def get_frame(self):
         return self.frames[self.nframe]
 
+
 class AnimationSetInitializer:
-    def __init__(self, d = None):
+    def __init__(self, d=None):
         self.animations = {}
         if d != None:
             self.animations = d
@@ -79,3 +80,28 @@ class AnimationSetInitializer:
             d[k] = anim
 
         return d
+
+
+class Label:
+    def __init__(self, name, text, font, ypos, dt, color = None):
+        self.timer = ActionTimer()
+        self.timer.dt = dt
+        self.timer.reset()
+
+        self.name = name
+        self.text = text
+        self.font = font
+        self.ypos = ypos
+
+        if color is None:
+            self.color = (255, 255, 255)
+        else:
+            self.color = color
+
+        self.xpos = 0
+        self.alpha = 1
+
+    def update(self):
+        self.timer.update()
+        self.xpos = self.timer.get_progress()
+        self.alpha = 1-self.timer.get_progress()
