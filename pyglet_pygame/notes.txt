@@ -1,0 +1,32 @@
+pygame usage:
+
+pygame.font.Font
+pygame.font.render
+pygame.Surface().set_colorkey
+pygame.Surface().fill
+
+done:
+pygame.Rect
+pygame.mouse.get_pos
+pygame.mouse.get_pressed
+pygame.display.set_mode
+pygame.display.set_caption
+pygame.Surface().blit
+pygame.transform.rotate
+pygame.transform.scale
+pygame.image.load
+pygame.display.update
+pygame.event.get - quit event? some event translation?
+pygame.time.Clock - properly implement .tick(fps)
+pygame.quit
+pygame.Surface().set_alpha
+
+misc:
+fix filtering for scaling and rotating
+fix rotation logic
+
+big woop - make sure nothing renders "outside" the window region. 
+easiest fix: change blit function to do some rect stuff
+better fix: dunno?
+first off: just discard anything that is not completely rendered on-screen
+nah! you appear to be able to blit off-screen. WOOPERS.
