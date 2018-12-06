@@ -1,0 +1,36 @@
+{
+    "hallway_up_farm": "json/layout_mods/Farmhouse_hallway_up.json",
+    "hallway_down_farm": "json/layout_mods/Farmhouse_hallway_down.json",
+    "hallway_left_farm": "json/layout_mods/Farmhouse_hallway_left.json",
+    "hallway_right_farm": "json/layout_mods/Farmhouse_hallway_right.json",
+
+    "empty_room1_farm": "json/layout_mods/Farmhouse_empty_room1.json",
+
+    "shop1_farm": "json/layout_mods/Farmhouse_shop.json",
+    "shop2_farm": "json/layout_mods/Farmhouse_shop2.json",
+    "shop3_farm": "json/layout_mods/Farmhouse_shop3.json",
+    "shop4_farm": "json/layout_mods/Farmhouse_shop4.json",
+    "shop5_farm": "json/layout_mods/Farmhouse_shop5.json",
+    "shop6_farm": "json/layout_mods/Farmhouse_shop6.json",
+    "rest2_farm": "json/layout_mods/Farmhouse_rest2.json",
+    "rest3_farm": "json/layout_mods/Farmhouse_rest3.json",
+    "rest4_farm": "json/layout_mods/Farmhouse_rest4.json",
+    "rest5_farm": "json/layout_mods/Farmhouse_rest5.json",
+    "rest6_farm": "json/layout_mods/Farmhouse_rest6.json",
+    "loot1_farm": "json/layout_mods/Farmhouse_loot.json",
+    "loot2_farm": "json/layout_mods/Farmhouse_loot2.json",
+    "loot3_farm": "json/layout_mods/Farmhouse_loot3.json",
+    "loot4_farm": "json/layout_mods/Farmhouse_loot4.json",
+    "loot5_farm": "json/layout_mods/Farmhouse_loot5.json",
+    "loot6_farm": "json/layout_mods/Farmhouse_loot6.json",
+    "loot7_farm": "json/layout_mods/Farmhouse_loot7.json",
+
+    "door_closed_down_farm": "json/doors/Farmhouse_door_closed_down.json",
+    "door_open_down_farm": "json/doors/Farmhouse_door_open_down.json",
+    "door_closed_up_farm": "json/doors/Farmhouse_door_closed_up.json",
+    "door_open_up_farm": "json/doors/Farmhouse_door_open_up.json",
+    "door_closed_left_farm": "json/doors/Farmhouse_door_closed_left.json",
+    "door_open_left_farm": "json/doors/Farmhouse_door_open_left.json",
+    "door_closed_right_farm": "json/doors/Farmhouse_door_closed_right.json",
+    "door_open_right_farm": "json/doors/Farmhouse_door_open_right.json"
+}

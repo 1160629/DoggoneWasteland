@@ -54,25 +54,25 @@ def add_status_effect(target, effect):
 class NonStackingEffect(StatusEffect):
     def __init__(self):
         StatusEffect.__init__(self)
+        self.is_stacking = False
 
-    def apply(self, target):
-        # so in here i first to a check to see if the status effect is currently applied
-        # in the case of a "non stacking effect" you only want to apply it if the new
-        # effect has more stacks than the currently applied one
-        # hence i return if that is not the case
-        if has_status_effect(target, self.name) and \
-                get_relevant_status_effect(target, self.name).stacks >= self.stacks:
-            return
 
-        # otherwise i apply it
-        remove_status_effect(target, self.name)
-        add_status_effect(target, self)
+class StackingEffect(StatusEffect):
+    def __init__(self):
+        StatusEffect.__init__(self)
+        self.is_stacking = True
 
 
 class Burning(NonStackingEffect):
     def __init__(self):
         NonStackingEffect.__init__(self)
         self.name = "burning"
+
+
+class Bleeding(NonStackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "bleeding"
 
 
 class Knocked(NonStackingEffect):
@@ -97,6 +97,31 @@ class Steady(NonStackingEffect):
     def __init__(self):
         NonStackingEffect.__init__(self)
         self.name = "steady"
+
+
+class Ready(NonStackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "steady"
+
+
+class Go(NonStackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "steady"
+
+
+class Poisoned(StackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "poisoned"
+        self.damage = 5
+
+
+class Irradiated(NonStackingEffect):
+    def __init__(self):
+        NonStackingEffect.__init__(self)
+        self.name = "irradiated"
 
 
 def gen_effect_mod(effect, stacks):

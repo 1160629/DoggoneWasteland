@@ -25,7 +25,19 @@ class Camera:
         self.border_right = Rect((w - cw, 0), (cw, h))
         self.border_top = Rect((0, 0), (w, ch))
 
-    def update(self, mpos):
+        self.never_centered = True
+
+    def update(self, mpos, mpress, centerpos, ui):
+        if ui.at_mouse["ui mouseover"] == True or \
+                ui.ui1.lock:
+            return
+
+        if mpress[2] == 1 or self.never_centered:
+            self.never_centered = False
+            self.x, self.y = centerpos
+            return
+        elif mpress[0] == 0:
+            return
         mx, my = mpos
 
         b = (self.border_left, self.border_bot, self.border_right, self.border_top)
@@ -54,6 +66,8 @@ class Camera:
 
 class UIInteractiveElement:
     def __init__(self):
+        self.name = None
+
         self.assigned_item = None
 
         self.box = None
@@ -63,10 +77,11 @@ class UIInteractiveElement:
         self.anim = 0
 
         self.selected = False
+        self.already_over = False
 
         self.draw_x, self.draw_y = 0, 0
 
-    def update(self, mpos, mpress, at_mouse):
+    def update(self, mpos, mpress, at_mouse, can, le):
         self.select_timer.update()
 
         for a in self.animations.values():
@@ -79,11 +94,16 @@ class UIInteractiveElement:
         mouseover = False
         curr_select = False
         if self.box.collidepoint((x, y)):
+            if mpress[0] == 0:
+                self.already_over = True
             mouseover = True
-            if self.select_timer.ticked and mpress[0] == 1:
+            if self.select_timer.ticked and mpress[0] == 1 and self.already_over and (can or le):
                 curr_select = True
                 self.selected = True - self.selected
                 self.select_timer.reset()
+                self.already_over = False
+        else:
+            self.already_over = False
 
         if self.selected:
             self.anim = self.animations["sel"]
@@ -105,17 +125,41 @@ class UIInteractive:
 
         self.ui_elements = {}
 
+        self.lock_elements = []
+        self.lock = False
+
     def update(self, mpos, mpress, at_mouse):
         mouseover = []
+
+        can = not self.lock
         for k in self.ui_elements.keys():
             e = self.ui_elements[k]
-            mover, select = e.update(mpos, mpress, at_mouse)
+            le = k == self.selected_element
+            mover, select = e.update(mpos, mpress, at_mouse, can, le)
             mouseover.append(mover)
-            if select:
+            if self.lock:
+                if k == self.selected_element:
+                    if not e.selected:
+                        self.lock = False
+                        self.selected_element = None
+                else:
+                    e.selected = False
+            elif select:
                 self.selected_element = k
-                for i in [n for n in list(self.ui_elements.values()) if n != e]:
-                    i.selected = False
+                if e in self.lock_elements:
+                    self.lock = True
+
+        for k in self.ui_elements.keys():
+            e = self.ui_elements[k]
+            if k != self.selected_element:
+                e.selected = False
+
+        for k in self.ui_elements.keys():
+            e = self.ui_elements[k]
+            if e.selected:
                 break
+        else:
+            self.selected_element = None
 
         if any(mouseover):
             return True
@@ -154,29 +198,48 @@ def create_ui_interactive(self, g_obj):
 
         creation_commands.append(gen_command)
 
+    other_creation_commands = [
+        ["spacing"],
+        ["spacing"],
+        ["spacing"],
+        ["uielement", "skill tree", "uibtn_skilltree"],
+        ["spacing"],
+        ["spacing"],
+        ["spacing"],
+        ["uielement", "in game menu", "uibtn_ingamemenu"]
+    ]
+
+    creation_commands += other_creation_commands
+
     # now initialize it
 
     ui_start_x, ui_start_y = 0, g_obj.h - 0
     ui_x = ui_start_x
     ui_y = ui_start_y
 
-    ui_w, ui_h = 16 * g_obj.scaling, 16 * g_obj.scaling  # scaled tile size
+    ui_w, ui_h = 16 * g_obj.scale, 16 * g_obj.scale  # scaled tile size
 
     ui_b = 0  # border
-    ui_s = 8  # spacing value
+    ui_s = 16  # spacing value
 
     for command in creation_commands:
         if command[0] == "uielement":
             name, animation_name = command[1:]
             ele = UIInteractiveElement()
             ele.box = Rect(ui_x, ui_y, ui_w, ui_h)
+            # print(ui_x, ui_y, ui_w, ui_h)
             ele.animations = g_obj.animations.new_animation_set_instance(animation_name)
+            ele.name = name
             self.ui_elements[name] = ele
             ui_x += ui_w
         elif command[0] == "spacing":
             ui_x += ui_s
 
         ui_x += ui_b
+
+    skilltree_element = self.ui_elements["skill tree"]
+    menu_element = self.ui_elements["in game menu"]
+    self.lock_elements = [skilltree_element, menu_element]
 
 
 class UIInformational:
@@ -266,7 +329,7 @@ class Menu:
     def update(self, mpos, mpress, ui):
         self.timer.update()
 
-        if mpress[0] == 0 or not ui.get_selected("in game menu"):
+        if mpress[0] == 0 or not ui.get_selected()=="in game menu":
             return
 
         for mi in self.menu_items:
@@ -294,22 +357,39 @@ def map_mpos(g_obj, mpos):
 
     g_obj.scale = bs
 
-    inside = False
-    if ((0 <= mx < mw) and (0 <= my < mh)):
-        inside = True
-
-    return (mx, my), inside
+    return (mx, my)
 
 
-def get_tiles_at_and_walkable(g_obj, mpos_mapped):
-    nx, ny = mpos_mapped
+def get_tiles_at_and_walkable(g_obj, at_mouse):
+    nx, ny = at_mouse["mapped"]
 
-    room = g_obj.dungeon.get_room()
-    tile_walkable = room.walkable_map[nx][ny]
+    # this is the room you're in
+    # room = g_obj.dungeon.get_room()
+    # this is the room your mouse is pointing at
+    room = at_mouse["room"]
+    if room == None:
+        return [], False
+    rw, rh = g_obj.rw, g_obj.rh
+    gx, gy = room.grid_pos
+    rx = nx - gx * rw
+    ry = ny - gy * rh
+
+    tile_walkable = room.walkable_map[rx][ry]
     layout = room.layout
-    tile_indexes = [layout.get_tile_index(k, nx, ny) for k in layout.layers.keys()]
+    tile_indexes = [layout.get_tile_index(k, rx, ry) for k in layout.layers.keys()]
 
     return tile_indexes, tile_walkable
+
+
+def get_room_at_mouse(g_obj, mpos_mapped):
+    rooms = g_obj.dungeon.get_rooms()
+    rw, rh = g_obj.rw, g_obj.rh
+    for r in rooms:
+        gx, gy = r.grid_pos
+        rr = Rect(gx * rw, gy * rh, rw, rh)
+        if rr.collidepoint(mpos_mapped):
+            return r
+    return None
 
 
 def get_mouse_hover(g_obj, mpos):
@@ -317,8 +397,10 @@ def get_mouse_hover(g_obj, mpos):
 
     # map the mouse position to a tile
     # and see if it's inside the room
-    mpos_mapped, inside = map_mpos(g_obj, mpos)
+    mpos_mapped = map_mpos(g_obj, mpos)
     at_mouse["mapped"] = mpos_mapped
+
+    at_mouse["room"] = get_room_at_mouse(g_obj, mpos_mapped)
 
     # get unit at the tile
     at_mouse["unit"] = None
@@ -339,11 +421,7 @@ def get_mouse_hover(g_obj, mpos):
 
     # get the tile index, from each layer
     # and whether it is walkable or not
-    if inside:
-        tiles, walkable = get_tiles_at_and_walkable(g_obj, mpos_mapped)
-    else:
-        tiles = []
-        walkable = False
+    tiles, walkable = get_tiles_at_and_walkable(g_obj, at_mouse)
 
     # if there is a unit occupying the tile
     # then it is not walkable

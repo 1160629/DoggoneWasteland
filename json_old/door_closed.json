@@ -1,0 +1,31 @@
+{ "height":2,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[24, 25, 40, 41],
+         "height":2,
+         "id":2,
+         "name":"Door",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":2,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.2.1",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"16x16_Dungeon_Itchio_Walls_WastelandColors.tsx"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":1.2,
+ "width":2
+}

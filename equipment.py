@@ -26,7 +26,7 @@ class Weapon:
 
         self.last_attack_crit = False  # for if we ever want to show whether an attack was a critical hit or not
 
-    def get_damage(self, stats, statuses):
+    def get_damage(self, stats, statuses, must_crit=0):
         dex_based_damage_bonus = dex_based_crit_bonus = 0
         int_based_damage_bonus = int_based_crit_bonus = 0
         str_based_damage_bonus = 0
@@ -48,7 +48,7 @@ class Weapon:
 
         dmg = randint(*self.base_damage) + dex_based_damage_bonus + int_based_damage_bonus + str_based_damage_bonus
         dmg *= self.quality_multiplier
-        if randint(0, 100) <= actual_crit * 100:
+        if (randint(0, 100) <= actual_crit * 100) or must_crit:
             dmg *= 2
             self.last_attack_crit = True
         else:
@@ -102,6 +102,10 @@ class Equipment:
         self.hand_one = None
         self.hand_two = None
         self.hand_three = None
+
+        self.hand_one_cd = False
+        self.hand_two_cd = False
+        self.hand_three_cd = False
 
         self.head = None
         self.torso = None

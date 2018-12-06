@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="4" height="4" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="1">
+ <tileset firstgid="1" source="../../folder of things/16x16_Dungeon_Itchio_Walls_WastelandColors.tsx"/>
+ <tileset firstgid="257" source="../../folder of things/16x16_Dungeon_Itchio_Std_WastelandColors.tsx"/>
+ <layer id="16" name="Floors" width="4" height="4">
+  <data encoding="csv">
+354,0,0,354,
+353,0,0,353,
+354,354,354,354,
+353,353,354,353
+</data>
+ </layer>
+ <layer id="17" name="Walls" width="4" height="4">
+  <data encoding="csv">
+0,36,37,0,
+0,52,53,0,
+0,4,5,0,
+0,20,21,0
+</data>
+ </layer>
+</map>

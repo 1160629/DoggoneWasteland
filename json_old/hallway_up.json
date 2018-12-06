@@ -1,0 +1,47 @@
+{ "height":5,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[353, 353, 353, 353, 0, 354, 354, 0, 0, 353, 354, 0, 0, 353, 354, 0, 353, 354, 353, 354],
+         "height":5,
+         "id":12,
+         "name":"Floors",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":4,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[5, 0, 0, 4, 21, 0, 0, 20, 37, 0, 0, 36, 53, 0, 0, 52, 0, 0, 0, 0],
+         "height":5,
+         "id":13,
+         "name":"Walls",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":4,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":14,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.2.1",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"16x16_Dungeon_Itchio_Walls_WastelandColors.tsx"
+        }, 
+        {
+         "firstgid":257,
+         "source":"16x16_Dungeon_Itchio_Std_WastelandColors.tsx"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":1.2,
+ "width":4
+}
