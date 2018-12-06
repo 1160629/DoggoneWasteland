@@ -330,7 +330,7 @@ def load_game_module(use_pygame_replacement):
         import pygame
         import_statement = "import pygame"
     else:
-        # import pyglet_pygame as pygame
+        import pyglet_pygame as pygame
         import_statement = "import pyglet_pygame as pygame"
 
     using_module = "dungeon.py", "prerendering.py", "drawing.py", "game_update.py", "audio.py"

@@ -335,13 +335,15 @@ class Unit:
 
     def heal(self, ht, hb):
         if ht == "percentage":
-            self.damage_taken -= self.get_health() * hb
+            heal = self.get_health() * hb
+            self.damage_taken -= heal
         elif ht == "value":
-            self.damage_taken -= hb
+            heal = hb
+            self.damage_taken -= heal
         if self.damage_taken < 0:
             self.damage_taken = 0
 
-        self.labels.add_label("" + str(int(hb)), self.pos[0], self.pos[1], color="green")
+        self.labels.add_label("" + str(int(heal)), self.pos[0], self.pos[1], color="green")
 
     def launch_bomb(self, at_mouse):
         self.state = "attacking"

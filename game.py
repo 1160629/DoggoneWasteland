@@ -72,20 +72,6 @@ if __name__ == "__main__":
 # also deal with making sure the correct weapons are applied
 # / equipped when casting certain abilities (also check for basic attacks)
 
-# ignore for now
-# time rating: 2 hours
-# in game menu
-# - when you start the game, just drop the player into the training map
-# if the player wants to load, then they can load from a set of 5 saves
-# if they want to start a new run, they just keep playing
-# so there is only an in game menu, openable by pressing a little UI item;
-# Resume (Onwards)
-# Save - figure out everything that needs to be stored, store it as json
-# Load - then load it from json
-# Settings - also a json file, specifying certain in game things
-# examples: resolution, render lighting pass or not, music volume, sound volume
-# Quit (Some other time)
-
 # time rating: 5 hours
 # implement farm house (with tutorial)
 # what's done: sandra's levels imported
@@ -117,7 +103,7 @@ if __name__ == "__main__":
 # everywhere
 
 # time rating: 0.5 hours
-# UI tooltips - for weapons, abilities, syringes.
+# UI tooltips - for weapons, equipped abilities, syringes.
 # both on the ground, and when equipped.
 
 # time rating: 2.5 hours
@@ -129,13 +115,6 @@ if __name__ == "__main__":
 # ignore for now
 # time rating: 2.5 hours
 # mutations!
-
-# time rating: 0.5 hours
-# show cooldowns
-
-# ignore for now
-# time rating: 0.5 hours
-# show status effects
 
 
 # if you get here, youve got real far. :-)
