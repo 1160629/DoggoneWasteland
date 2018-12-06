@@ -2,10 +2,12 @@ import pygame
 from itertools import product
 from logic import Rect
 
+
 # functions for drawing
 
 def update_display():
     pygame.display.update()
+
 
 def draw_units(g_obj):
     dung = g_obj.dungeon
@@ -17,10 +19,9 @@ def draw_units(g_obj):
 
     for u in g_obj.units:
         img = g_obj.tilesets.get_tile(*u.current_animation().get_frame()).image
-        
-        x, y = u.anim_pos
-        rx, ry = ox+x*tw, oy+y*th
 
+        x, y = u.anim_pos
+        rx, ry = ox + x * tw, oy + y * th
 
         # direction that unit is facing
         if -1 != u.direction:
@@ -38,9 +39,10 @@ def draw_units(g_obj):
         if u.state == "attacking" and u.attack_weapon.attack_type == "melee":
             aox, aoy = u.projectile_pos
 
-        g_obj.swin.blit(uimg, (rx+aox, ry+aoy))
+        g_obj.swin.blit(uimg, (rx + aox, ry + aoy))
 
-def draw_dungeon_layer(g_obj, name, wmap = None):
+
+def draw_dungeon_layer(g_obj, name, wmap=None):
     dung = g_obj.dungeon
     room = dung.get_room()
     layer = room.layout.get_layer(name)
@@ -54,17 +56,17 @@ def draw_dungeon_layer(g_obj, name, wmap = None):
 
     mw, mh = room.layout.w, room.layout.h
 
-    buffer = max((2*tw, 2*th))
-    screen_rect = Rect(-buffer, -buffer, sw+buffer*2, sh+buffer*2)
+    buffer = max((2 * tw, 2 * th))
+    screen_rect = Rect(-buffer, -buffer, sw + buffer * 2, sh + buffer * 2)
 
-    #somesurf_red = g_obj.nwsurf
-    #somesurf_green = g_obj.wsurf
+    # somesurf_red = g_obj.nwsurf
+    # somesurf_green = g_obj.wsurf
 
     for tx, ty, n in product(range(mw), range(mh), room.layout.layers.keys()):
-        if n != name: # draw only specified layer
+        if n != name:  # draw only specified layer
             continue
         tile_index = room.layout.get_tile_index(n, tx, ty)
-        if tile_index == None: # transparent tile
+        if tile_index == None:  # transparent tile
             continue
         tile = room.tilesets.get_tile(*tile_index)
         x, y = tx * tw + ox, ty * th + oy
@@ -72,7 +74,7 @@ def draw_dungeon_layer(g_obj, name, wmap = None):
         if not screen_rect.colliderect(cr):
             continue
         g_obj.swin.blit(tile.image, (x, y))
-        #if wmap != None:
+        # if wmap != None:
         #    if 0 <= tx < len(wmap) and 0 <= ty < len(wmap[0]):
         #        walkable = wmap[tx][ty]
         #        if walkable:
@@ -80,10 +82,12 @@ def draw_dungeon_layer(g_obj, name, wmap = None):
         #        else:
         #            g_obj.swin.blit(somesurf_red, (x, y))
 
+
 def f_flat(f):
     rtw = 16
-    ind = f%rtw, f//rtw
+    ind = f % rtw, f // rtw
     return ind
+
 
 def draw_projectiles(g_obj):
     cu = g_obj.cc.get_current_unit()
@@ -91,25 +95,25 @@ def draw_projectiles(g_obj):
         return
 
     proj_tset = "set1"
-    bomb_frame = f_flat(47+16) # + 16*4-1, + 16*4-2
+    bomb_frame = f_flat(47 + 16)  # + 16*4-1, + 16*4-2
     arrow_frame = f_flat(166)
-    bullet_frame = f_flat(166+16*3)
+    bullet_frame = f_flat(166 + 16 * 3)
 
     ox, oy = g_obj.cam.get()
     x, y = cu.projectile_pos
     if cu.attack_weapon.attack_type == "bomb":
         img = get_tile_img(g_obj, proj_tset, bomb_frame)
-        g_obj.swin.blit(img, (x*g_obj.scaling*16+ox, y*g_obj.scaling*16+oy))
-        
+        g_obj.swin.blit(img, (x * g_obj.scaling * 16 + ox, y * g_obj.scaling * 16 + oy))
+
     elif cu.attack_weapon.attack_type == "shot":
         if cu.attack_weapon.projectile_type == "arrow":
             img = get_tile_img(g_obj, 1, arrow_frame)
         elif cu.attack_weapon.projectile_type == "bullet":
             img = get_tile_img(g_obj, 1, bullet_frame)
-        
-        img = pygame.transform.rotate(img, 90-cu.projectile_angle)
 
-        g_obj.swin.blit(img, (x*g_obj.scale*16+ox, y*g_obj.scale*16+oy))
+        img = pygame.transform.rotate(img, 90 - cu.projectile_angle)
+
+        g_obj.swin.blit(img, (x * g_obj.scale * 16 + ox, y * g_obj.scale * 16 + oy))
 
 
 def draw_labels(g_obj):
@@ -135,11 +139,12 @@ def get_tile_img(g_obj, tileset, tilenr):
     tile_img = tile.image
     return tile_img
 
+
 def draw_combat_ui(g_obj):
     # draw informational ui
 
-    turns_w = int(g_obj.w/2) - int(16*g_obj.scaling * 4.5)
-    turns_h = 16*g_obj.scale
+    turns_w = int(g_obj.w / 2) - int(16 * g_obj.scaling * 4.5)
+    turns_h = 16 * g_obj.scale
 
     px, py = turns_w, turns_h
 
@@ -160,54 +165,52 @@ def draw_combat_ui(g_obj):
         f = unit.animations["standing"].get_frame()
         img = g_obj.tilesets.get_tile(*f).image
 
-        px += 16*g_obj.scaling
+        px += 16 * g_obj.scaling
         g_obj.swin.blit(img, (px, py))
 
         if i == draw_turns:
             break
-        
 
     cu = g_obj.cc.get_current_unit()
     if g_obj.ui.at_mouse["unit"] != None:
-        cu = g_obj.ui.at_mouse["unit"] 
+        cu = g_obj.ui.at_mouse["unit"]
     ca = int(cu.ap.current_ap)
     ta = cu.ap.get_ap()
-    #if ta % 1 > 0:
-        #ta = (round(ta + 0.5))
+    # if ta % 1 > 0:
+    # ta = (round(ta + 0.5))
     ta = int(ta)
-    
+
     ap_green = get_tile_img(g_obj, "set1", f_flat(216))
     ap_yellow = get_tile_img(g_obj, "set1", f_flat(218))
 
-    x_spot = 128 * 5 + 16*g_obj.scaling
+    x_spot = 128 * 5 + 16 * g_obj.scaling
 
     uiinfo_w = 16
 
     apx = x_spot
-    apy = 16*g_obj.scaling + 64
+    apy = 16 * g_obj.scaling + 64
 
-    for i in range(0, uiinfo_w*ca, uiinfo_w):
-        g_obj.swin.blit(ap_yellow, (apx+i, apy))
-    for i in range(0, uiinfo_w*ta, uiinfo_w):
-        g_obj.swin.blit(ap_green, (apx+i, apy))
+    for i in range(0, uiinfo_w * ca, uiinfo_w):
+        g_obj.swin.blit(ap_yellow, (apx + i, apy))
+    for i in range(0, uiinfo_w * ta, uiinfo_w):
+        g_obj.swin.blit(ap_green, (apx + i, apy))
 
-    
     mhp = cu.get_health()
     dmg = cu.damage_taken
     hp = mhp - dmg
-    
+
     h_repr = 5
 
     hpx = g_obj.w - x_spot - 16
-    hpy = 16*g_obj.scaling + 64
+    hpy = 16 * g_obj.scaling + 64
 
     hp_red = get_tile_img(g_obj, "set1", f_flat(215))
     hp_yellow = ap_yellow
 
-    for i in range(0, uiinfo_w*h_repr, uiinfo_w):
-        g_obj.swin.blit(hp_yellow, (hpx-i, hpy))
-    for i in range(0, uiinfo_w*int((h_repr*hp)/mhp), uiinfo_w):
-        g_obj.swin.blit(hp_red, (hpx-i, hpy))
+    for i in range(0, uiinfo_w * h_repr, uiinfo_w):
+        g_obj.swin.blit(hp_yellow, (hpx - i, hpy))
+    for i in range(0, uiinfo_w * int((h_repr * hp) / mhp), uiinfo_w):
+        g_obj.swin.blit(hp_red, (hpx - i, hpy))
 
     midx = (apx + hpx) // 2
     img = g_obj.tilesets.get_tile(*cu.animations["standing"].frames[0]).image
@@ -221,12 +224,35 @@ def draw_combat_ui(g_obj):
         pos = ele.box.topleft
         f = ele.get_frame()
         img = g_obj.tilesets.get_tile(*f).image
-        draw_x = int(g_obj.cam.cw/2) + 64
-        draw_y = - int(g_obj.cam.ch/2) - 128 - 32 + 8*g_obj.scaling
+        draw_x = int(g_obj.cam.cw / 2) + 64
+        draw_y = - int(g_obj.cam.ch / 2) - 128 - 32 + 8 * g_obj.scaling
         ele.draw_x = draw_x
         ele.draw_y = draw_y
-        
+
         g_obj.swin.blit(img, (pos[0] + draw_x, pos[1] + draw_y))
 
-def draw_menus(self):
+
+def draw_menus(g_obj):
+    # pause menu
+    rect_width = 800
+    rect_height = 600
+    pause_rect = Rect(0, 0, rect_width, rect_height)
+    pause_rect.center = (g_obj.w / 2, g_obj.h / 2)
+
+    if g_obj.ui.get_selected("in game menu"):
+        # draw background
+        pygame.draw.rect(g_obj.swin, pygame.Color(100, 100, 100, 255), pause_rect)
+        # draw buttons
+        button_height = rect_height / 4
+        for b in g_obj.menu.menu_items:
+            b_rect = Rect(0, 0, 600, 100)
+            b_rect.center = (g_obj.w / 2, g_obj.h / 2 + button_height)
+            pygame.draw.rect(g_obj.swin, pygame.Color(40, 40, 40, 255), b_rect)
+            b.rect = b_rect
+            # text here
+            font = g_obj.font
+            img = font.render(b.text, 1, pygame.Color(255, 255, 255, 255))
+            g_obj.swin.blit(img,
+                            (g_obj.w / 2 - img.get_width() / 2, (g_obj.h / 2 + button_height) - img.get_height() / 2))
+            button_height -= 150
     pass

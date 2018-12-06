@@ -86,7 +86,7 @@ class AnimationSetInitializer:
 
 
 class Label:
-    def __init__(self, name, text, ypos, dt = None, color = None):
+    def __init__(self, name, text, ypos, dt=None, color=None):
         self.timer = ActionTimer()
         if dt is None:
             self.timer.dt = 0.5
@@ -108,5 +108,5 @@ class Label:
 
     def update(self):
         self.timer.update()
-        self.xpos = 0.5*(self.timer.get_progress()**0.4)
-        self.alpha = 1-self.timer.get_progress()
+        self.xpos = 0.5 * (self.timer.get_progress() ** 0.4)
+        self.alpha = 1 - self.timer.get_progress()

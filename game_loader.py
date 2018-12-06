@@ -14,6 +14,8 @@ from control import Animation, AnimationSetInitializer
 
 from tiles import *
 
+from ui import Menu
+
 
 def setup_display_and_drawables(self):
     # set resolution
@@ -26,18 +28,19 @@ def setup_display_and_drawables(self):
 
     # drawing surface
     self.swin = pygame.Surface((self.w, self.h))
-    
+
     # other surfaces
-    self.wsurf = pygame.Surface((16*self.scaling, 16*self.scaling))
+    self.wsurf = pygame.Surface((16 * self.scaling, 16 * self.scaling))
     self.wsurf.set_alpha(200)
-    self.nwsurf = pygame.Surface((16*self.scaling, 16*self.scaling))
+    self.nwsurf = pygame.Surface((16 * self.scaling, 16 * self.scaling))
     self.nwsurf.set_alpha(200)
-    self.wsurf.fill((0,255,0))
-    self.nwsurf.fill((255,0,0))
+    self.wsurf.fill((0, 255, 0))
+    self.nwsurf.fill((255, 0, 0))
 
     tsx, tsy = 150, 50
     self.tsurf = pygame.Surface((tsx, tsy))
     self.tsurf.fill((255, 255, 255))
+
 
 # generic functions to load and store json
 
@@ -46,7 +49,7 @@ def load_json(path_to_json):
         o = json.load(f)
 
     return o
-	
+
 
 def store_json(path_to_json, o):
     with open(path_to_json, "w+") as f:
@@ -62,6 +65,7 @@ def load_tsx(filename):
     d = (xmltodict.parse(xml))
     return d
 
+
 def load_tileset(img_path, data_path, width, height, scale):
     # from https://stackoverflow.com/questions/16280608/pygame-how-to-tile-subsurfaces-on-an-image
     # - edited
@@ -69,7 +73,7 @@ def load_tileset(img_path, data_path, width, height, scale):
     image = pygame.image.load(img_path).convert_alpha()
     image_width, image_height = image.get_size()
 
-    nw, nh = image_width//width, image_height//height
+    nw, nh = image_width // width, image_height // height
 
     d = load_json(data_path)
     d_ = {k["id"]: True for k in d["tiles"]}
@@ -82,11 +86,11 @@ def load_tileset(img_path, data_path, width, height, scale):
         line = []
         tileset.tiles.append(line)
         for tile_y in range(0, nh):
-            rect = (tile_x*width, tile_y*height, width, height)
-            new = pygame.transform.scale(image.subsurface(rect), (width*scale, height*scale))
+            rect = (tile_x * width, tile_y * height, width, height)
+            new = pygame.transform.scale(image.subsurface(rect), (width * scale, height * scale))
             new.set_colorkey(image.get_colorkey())
-            
-            tid = tile_y * (nw) + tile_x # flat indexing
+
+            tid = tile_y * (nw) + tile_x  # flat indexing
             if tid in d_:
                 walkable = False
             else:
@@ -95,13 +99,14 @@ def load_tileset(img_path, data_path, width, height, scale):
             tile = Tile()
             tile.image = new
             tile.walkable = walkable
-            
+
             tileset.tiles[tile_x].append(tile)
 
     return tileset
 
+
 def load_tilesets(json_filename, scale):
-    d = load_json(json_filename)    
+    d = load_json(json_filename)
 
     tsets = Tilesets()
     for k in d.keys():
@@ -112,15 +117,15 @@ def load_tilesets(json_filename, scale):
         tw, th = int(j["tileset"]["@tilewidth"]), int(j["tileset"]["@tileheight"])
 
         img_path = j["tileset"]["image"]["@source"]
-        data_path = ".".join(img_path.split(".")[:-1])+".json"
+        data_path = ".".join(img_path.split(".")[:-1]) + ".json"
 
         tset = Tileset()
         tset = load_tileset(img_path, data_path, tw, th, scale)
         tset.source = fpath
-        
+
         tsets.tilesets[k] = tset
 
-    tsets.tw, tsets.th = tw*scale, th*scale
+    tsets.tw, tsets.th = tw * scale, th * scale
 
     return tsets
 
@@ -133,9 +138,9 @@ def convert_tile_index(flat, sources, tsets):
     source_fgid = None
 
     i = 0
-    while i+1 < len(sources):
+    while i + 1 < len(sources):
         ele = sources[i]
-        ele_next = sources[i+1]
+        ele_next = sources[i + 1]
         if ele["firstgid"] <= flat < ele_next["firstgid"]:
             which_source = ele
             break
@@ -152,7 +157,7 @@ def convert_tile_index(flat, sources, tsets):
         raise Exception("Could not map tile")
 
     source_fgid = which_source["firstgid"]
-    flat_corr = flat - source_fgid #+ 1
+    flat_corr = flat - source_fgid  # + 1
     tset = tsets.tilesets[which_tileset]
     nw, nh = tset.nw, tset.nh
     x = flat_corr % nw
@@ -160,6 +165,7 @@ def convert_tile_index(flat, sources, tsets):
     mat_tile = [which_tileset, x, y]
 
     return mat_tile
+
 
 def convert_layer_indexes_and_tile_indexes(layer, lw, lh, sources, tilesets):
     data = layer["data"]
@@ -174,16 +180,18 @@ def convert_layer_indexes_and_tile_indexes(layer, lw, lh, sources, tilesets):
 
     return mat_data
 
+
 def convert_layers(layers, sources, tilesets):
     new_layers = {}
     for l in layers:
         lw, lh = l["width"], l["height"]
         l["data"] = convert_layer_indexes_and_tile_indexes(l, lw, lh, sources, tilesets)
-        
+
         layer_name = l["name"]
-        new_layers[layer_name] = l 
+        new_layers[layer_name] = l
 
     return new_layers
+
 
 def load_layout(path, tilesets):
     d = load_json(path)
@@ -191,7 +199,7 @@ def load_layout(path, tilesets):
     mapwidth, mapheight = int(d["width"]), int(d["height"])
 
     layers = convert_layers(d["layers"], d["tilesets"], tilesets)
-    
+
     layout = Layout()
     layout.w, layout.h = mapwidth, mapheight
     layout.layers = layers
@@ -218,7 +226,8 @@ def tiledanimformat2ouranimformat(json_file_path):
 
     store_json(new_d, save_to)
 
-#tiledanimformat2ouranimformat("/tilesets/UltimateTileset.json")
+
+# tiledanimformat2ouranimformat("/tilesets/UltimateTileset.json")
 
 def load_animations(json_file_path):
     d = load_json(json_file_path)
@@ -227,11 +236,12 @@ def load_animations(json_file_path):
 
     return animations
 
+
 # game load function
 
 def load(self):
     pygame.init()
-    
+
     setup_display_and_drawables(self)
 
     self.scale = 2
@@ -247,9 +257,10 @@ def load(self):
     self.dungeon.rooms.append(room)
     self.dungeon.in_room = 0
 
+    self.menu = Menu(self)
     self.ui = UI(self)
 
-    self.cam = Camera(self.w, self.h)    
+    self.cam = Camera(self.w, self.h)
 
     self.font = pygame.font.Font(None, 36)
 
@@ -260,10 +271,8 @@ def load(self):
 
     self.units = place_training_room_units(weapons, self.labels, self.animations)
 
-
     self.cc = CombatController()
     self.cc.units_in_combat = self.units
-
 
     self.clock = pygame.time.Clock()
     self.fps = 144

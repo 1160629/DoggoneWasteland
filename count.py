@@ -8,11 +8,13 @@ def get_dir_modules(d):
     modules = list(f.split(".")[0] for f in glob("*.py"))
     return modules
 
+
 def file_lines(fpath):
     with open(fpath, "r") as f:
         contents = f.readlines()
 
     return len(contents)
+
 
 def search_modules(l):
     lines = 0
@@ -22,10 +24,12 @@ def search_modules(l):
 
     return lines
 
+
 def search_folder(folder):
     modules = get_dir_modules(folder)
     lines = search_modules(modules)
     print(lines)
+
 
 if __name__ == "__main__":
     search_folder(".")

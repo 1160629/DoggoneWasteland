@@ -1,4 +1,6 @@
 import effects
+
+
 # abilities
 
 class Cooldown:
@@ -13,6 +15,7 @@ class Cooldown:
         if self.cooldown != 0:
             self.cooldown -= 1
 
+
 class Ability:
     def __init__(self):
         self.name = None
@@ -20,7 +23,7 @@ class Ability:
         self.cooldown = Cooldown(0)
         self.ap_cost = None
 
-        self.ability_type = None # attack - melee, attack - ranged, buff - self, debuff - other
+        self.ability_type = None  # attack - melee, attack - ranged, buff - self, debuff - other
 
         self.applies = None
 
@@ -29,6 +32,7 @@ class Ability:
 
     def get_cooldown(self):
         return self.cooldown.cooldown
+
 
 class BasicAttack(Ability):
     def __init__(self):
@@ -40,35 +44,43 @@ class BasicAttack(Ability):
     def apply_effects(self, weapon):
         pass
 
+
 # Sharpshooter
 
 class Tornado(Ability):
     def __init__(self):
         Ability.__init__(self)
 
+
 class FirstAidKit(Ability):
     def __init__(self):
         Ability.__init__(self)
+
 
 class RipEmANewOne(Ability):
     def __init__(self):
         Ability.__init__(self)
 
+
 class DanceOff(Ability):
     def __init__(self):
         Ability.__init__(self)
+
 
 class Kneecapper(Ability):
     def __init__(self):
         Ability.__init__(self)
 
+
 class TryToLeave(Ability):
     def __init__(self):
         Ability.__init__(self)
 
+
 class LeadAmmo(Ability):
     def __init__(self):
         Ability.__init__(self)
+
 
 # implement ^ - next on the menu: Kneecapper
 # maybe after this, implement dungeon gen, including remapping of room tiles
@@ -86,6 +98,7 @@ class Steady(Ability):
         self.ap_cost = 1
         self.ability_type = "buff - self"
         self.applies = effects.gen_effect_mod(effects.Steady, 3)
+
 
 # All abilities for any unit will be contained within a Memory object
 

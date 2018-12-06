@@ -33,10 +33,10 @@ def create_room_walkable_map(room):
             tile_index = layout.get_tile_index(k, x, y)
             if tile_index == None:
                 continue
-            
+
             tile = room.tilesets.get_tile(*tile_index)
             walkable.append(tile.walkable)
-        #print(walkable)
+        # print(walkable)
         walkable_map[x][y] = all(walkable)
 
     return walkable_map

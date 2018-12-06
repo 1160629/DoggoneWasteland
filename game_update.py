@@ -1,6 +1,8 @@
 import pygame
 from ui import *
 from logic import *
+import events
+
 
 def update(self):
     # get input
@@ -9,7 +11,8 @@ def update(self):
 
     # update stuff
     self.ui.update(mpos, mpress, self)
-    #print(self.ui.at_mouse["walkable"])
+    self.menu.update(mpos, mpress, self.ui)
+    # print(self.ui.at_mouse["walkable"])
 
     self.cam.update(mpos)
     self.cc.update()
@@ -57,7 +60,11 @@ def update(self):
 
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
+            # save logic
             pygame.quit()
             self.quit = True
+        if e.type == events.NEWGAMEEVENT:
+            # start new game
+            pass
 
     self.clock.tick(self.fps)

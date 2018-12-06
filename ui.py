@@ -1,6 +1,8 @@
-
 from logic import Rect, in_range
 from control import ActionTimer, Animation
+import pygame
+from events import NEWGAMEEVENT
+
 
 # User interface
 
@@ -19,8 +21,8 @@ class Camera:
         self.cw, self.ch = cw, ch
 
         self.border_left = Rect((0, 0), (cw, h))
-        self.border_bot = Rect((0, h-ch), (w, ch))
-        self.border_right = Rect((w-cw, 0), (cw, h))
+        self.border_bot = Rect((0, h - ch), (w, ch))
+        self.border_right = Rect((w - cw, 0), (cw, h))
         self.border_top = Rect((0, 0), (w, ch))
 
     def update(self, mpos):
@@ -35,18 +37,17 @@ class Camera:
             if v == (-1, 0):
                 D = (((self.cw - mx) / self.cw) * 3) ** 2.5
             elif v == (1, 0):
-                D = ((1-((self.w - mx)) / self.cw) * 3) ** 2.5
+                D = ((1 - ((self.w - mx)) / self.cw) * 3) ** 2.5
             elif v == (0, -1):
                 D = ((((self.ch - my)) / self.ch) * 3) ** 2.5
             elif v == (0, 1):
-                D = ((1-(self.h - my) / self.ch) * 3) ** 2.5
+                D = ((1 - (self.h - my) / self.ch) * 3) ** 2.5
             else:
                 D = 1
             self.x, self.y = self.x + -1 * v[0] * self.update_step * D, self.y + -1 * v[1] * self.update_step * D
 
     def get(self):
         return int(self.x), int(self.y)
-
 
 
 # Basic combat interace
@@ -57,7 +58,7 @@ class UIInteractiveElement:
 
         self.box = None
         self.select_timer = ActionTimer("Click", 0.2)
-        
+
         self.animations = {}
         self.anim = 0
 
@@ -70,10 +71,10 @@ class UIInteractiveElement:
 
         for a in self.animations.values():
             a.update()
-        
+
         x, y = mpos
-        
-        x, y = x-self.draw_x, y-self.draw_y
+
+        x, y = x - self.draw_x, y - self.draw_y
 
         mouseover = False
         curr_select = False
@@ -97,12 +98,13 @@ class UIInteractiveElement:
     def get_frame(self):
         return self.anim.get_frame()
 
+
 class UIInteractive:
     def __init__(self, g_obj):
         self.selected_element = None
 
         self.ui_elements = {}
-    
+
     def update(self, mpos, mpress, at_mouse):
         mouseover = []
         for k in self.ui_elements.keys():
@@ -119,8 +121,8 @@ class UIInteractive:
             return True
         return False
 
-def create_ui_interactive(self, g_obj):
 
+def create_ui_interactive(self, g_obj):
     # set commands for creating UI
 
     creation_commands = [
@@ -135,7 +137,7 @@ def create_ui_interactive(self, g_obj):
     ]
 
     for i in range(5):
-        command_name = "ability {0}".format(str(i+1))
+        command_name = "ability {0}".format(str(i + 1))
         animation_name = "uibtn_ability"
 
         gen_command = ["uielement", command_name, animation_name]
@@ -145,24 +147,23 @@ def create_ui_interactive(self, g_obj):
     creation_commands.append(["spacing"])
 
     for i in range(5):
-        command_name = "syringe {0}".format(str(i+1))
+        command_name = "syringe {0}".format(str(i + 1))
         animation_name = "uibtn_syringe"
 
         gen_command = ["uielement", command_name, animation_name]
 
         creation_commands.append(gen_command)
 
-
     # now initialize it
 
-    ui_start_x, ui_start_y = 0, g_obj.h - 0 
+    ui_start_x, ui_start_y = 0, g_obj.h - 0
     ui_x = ui_start_x
     ui_y = ui_start_y
 
-    ui_w, ui_h = 16*g_obj.scaling, 16*g_obj.scaling # scaled tile size
+    ui_w, ui_h = 16 * g_obj.scaling, 16 * g_obj.scaling  # scaled tile size
 
-    ui_b = 0 # border
-    ui_s = 8 # spacing value
+    ui_b = 0  # border
+    ui_s = 8  # spacing value
 
     for command in creation_commands:
         if command[0] == "uielement":
@@ -184,6 +185,7 @@ class UIInformational:
 
     def update(self, mpos, mpress, at_mouse):
         pass
+
 
 class UI:
     def __init__(self, g_obj):
@@ -216,6 +218,65 @@ class UI:
             i.selected = False
 
 
+class PauseButton:
+
+    def __init__(self, text):
+        self.text = text
+        self.rect = None
+
+    def on_mouse_click(self):
+        pass
+
+
+class NewGameButton(PauseButton):
+    def __init__(self):
+        text = "New Game"
+        PauseButton.__init__(self, text)
+
+    def on_mouse_click(self):
+        pygame.event.post(pygame.event.Event(NEWGAMEEVENT))
+
+
+class ContinueButton(PauseButton):
+    def __init__(self):
+        text = "Continue"
+        PauseButton.__init__(self, text)
+
+
+class ExitButton(PauseButton):
+    def __init__(self):
+        text = "Exit"
+        PauseButton.__init__(self, text)
+
+    def on_mouse_click(self):
+        pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+
+class Menu:
+    def __init__(self, g_obj):
+        self.menu_items = []
+        # instantiate buttons
+        self.menu_items.append(NewGameButton())
+        self.menu_items.append(ContinueButton())
+        self.menu_items.append(ExitButton())
+        self.menu_items.reverse()
+
+        self.timer = ActionTimer("", 0.25)
+
+    def update(self, mpos, mpress, ui):
+        self.timer.update()
+
+        if mpress[0] == 0 or not ui.get_selected("in game menu"):
+            return
+
+        for mi in self.menu_items:
+            if mi.rect == None:
+                continue
+            if mi.rect.collidepoint(mpos) and self.timer.ticked:
+                mi.on_mouse_click()
+                self.timer.reset()
+
+
 # mouse cursor logic
 
 def map_mpos(g_obj, mpos):
@@ -228,8 +289,8 @@ def map_mpos(g_obj, mpos):
 
     bs, g_obj.scale = g_obj.scale, 1
 
-    mx = ((mpos[0]//g_obj.scale-ox)//(tw))
-    my = ((mpos[1]//g_obj.scale-oy)//(th))
+    mx = ((mpos[0] // g_obj.scale - ox) // (tw))
+    my = ((mpos[1] // g_obj.scale - oy) // (th))
 
     g_obj.scale = bs
 
@@ -238,6 +299,7 @@ def map_mpos(g_obj, mpos):
         inside = True
 
     return (mx, my), inside
+
 
 def get_tiles_at_and_walkable(g_obj, mpos_mapped):
     nx, ny = mpos_mapped
@@ -272,7 +334,7 @@ def get_mouse_hover(g_obj, mpos):
         for u in g_obj.units:
             if in_range(u.pos, mpos_mapped, rad):
                 units[-1].append(u)
-    
+
     at_mouse["units"] = units
 
     # get the tile index, from each layer
@@ -292,3 +354,8 @@ def get_mouse_hover(g_obj, mpos):
     at_mouse["walkable"] = walkable
 
     return at_mouse
+
+
+def create_buttons(g_obj):
+    # add buttons
+    g_obj.pause_buttons

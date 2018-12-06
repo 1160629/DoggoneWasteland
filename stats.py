@@ -1,4 +1,3 @@
-
 class Stats:
     def __init__(self):
         self.intelligence = 0

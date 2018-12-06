@@ -1,8 +1,8 @@
-
 class Tile:
     def __init__(self):
         self.image = None
         self.walkable = None
+
 
 class Tileset:
     def __init__(self):
@@ -13,6 +13,7 @@ class Tileset:
         self.tiles = []
         self.walkable = []
 
+
 class Tilesets:
     def __init__(self):
         self.tw, self.th = None, None
@@ -20,7 +21,7 @@ class Tilesets:
 
     def get_tile(self, tset, x, y):
         return self.tilesets[tset].tiles[x][y]
-        
+
 
 class Layout:
     def __init__(self):
@@ -33,9 +34,8 @@ class Layout:
     def get_tile_index(self, name, x, y):
         return self.get_layer(name)["data"][x][y]
 
-
     def change_layer_status(self, names, to):
-        
+
         for n in names:
             i = 0
             for l in self.layers:
@@ -48,5 +48,3 @@ class Layout:
 
     def enable_layers(self, names):
         self.change_layer_status(names, True)
-
-

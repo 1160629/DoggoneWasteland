@@ -1,12 +1,11 @@
-
 class AP:
     def __init__(self):
-        self.turn_ap = None # the AP remaining per turn
+        self.turn_ap = None  # the AP remaining per turn
 
-        self.current_ap = 0 # the AP recovered per turn
+        self.current_ap = 0  # the AP recovered per turn
 
-        self.base_ap = 5 # base AP of any unit
-        self.max_ap = 10 # AP cap of all units
+        self.base_ap = 5  # base AP of any unit
+        self.max_ap = 10  # AP cap of all units
 
         self.fractional_point = 0
 
@@ -75,8 +74,8 @@ class CombatController:
     def init_combat(self):
         for nu in self.units_in_combat:
             nu.ap.current_ap = calculate_ap(nu.ap.base_ap, nu.ap.max_ap, nu.stats.intelligence, \
-            nu.equipment.get_wielded_weapons(), \
-            nu.equipment.get_worn_gear(), nu.mutations.get())
+                                            nu.equipment.get_wielded_weapons(), \
+                                            nu.equipment.get_worn_gear(), nu.mutations.get())
             nu.ap.new_turn()
 
     def get_current_unit(self):
@@ -98,11 +97,9 @@ class CombatController:
                 self.turn += 1
                 if self.turn >= len(self.units_in_combat):
                     self.turn = 0
-                
+
                 cu.finish_turn()
 
                 nu = self.get_current_unit()
                 nu.end_turn = False
                 nu.ap.new_turn()
-
-

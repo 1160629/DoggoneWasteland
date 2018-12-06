@@ -1,4 +1,3 @@
-
 from equipment import Equipment, get_weapon_range
 from abilities import Memory
 from stats import Stats
@@ -10,7 +9,8 @@ from logic import get_distance, in_range, one_tile_range, corrigated_path
 from random import randint
 import math
 
-# Unit class 
+
+# Unit class
 
 def get_selected_ability(ui_slot, memory):
     for abi in memory.get_abilities():
@@ -18,6 +18,7 @@ def get_selected_ability(ui_slot, memory):
             return abi
 
     return None
+
 
 def add_status(statuses, status):
     # check if the status is currently applied
@@ -48,12 +49,12 @@ def add_status(statuses, status):
     statuses.pop(indx)
     statuses.append(o)
     return
-    
+
 
 class Unit:
-    def __init__(self, labels, pos = None):
+    def __init__(self, labels, pos=None):
         self.labels = labels
-        #self.in_room = 0
+        # self.in_room = 0
 
         self.pos = 0, 0
         if pos != None:
@@ -143,7 +144,6 @@ class Unit:
     def init_anything_else(self):
         pass
 
-
     def set_pos(self, pos):
         self.pos = pos
         self.anim_pos = pos
@@ -155,16 +155,15 @@ class Unit:
         self.path = None
         self.state = "idle"
 
-
     def get_move_speed(self):
         self.stats.base_move_speed, self.stats.strength, self.statuses, self.mutations
-        return self.stats.base_move_speed + self.stats.strength//2
+        return self.stats.base_move_speed + self.stats.strength // 2
 
     def get_health(self):
         return self.base_health + self.stats.strength * 2
 
     def get_dodge(self, damagee):
-        dex_based_dodge_chance = (self.stats.dexterity * 5) / (2 * 100) # 5% for every 2 pts
+        dex_based_dodge_chance = (self.stats.dexterity * 5) / (2 * 100)  # 5% for every 2 pts
         dodge_chance = (damagee.mutations.get_dodge_chance() + dex_based_dodge_chance)
         return dodge_chance
 
@@ -181,16 +180,15 @@ class Unit:
             lab = Label("", "Damage {0}".format(dmg), damagee.pos[1])
             if damagee.get_health() - damagee.damage_taken <= 0:
                 damagee.state = "dying"
-        
-        self.labels.append(lab)
 
+        self.labels.append(lab)
 
     def launch_bomb(self, at_mouse):
         self.state = "attacking"
-        self.attacking = at_mouse["units"][self.attack_weapon.blast_radius-2]
+        self.attacking = at_mouse["units"][self.attack_weapon.blast_radius - 2]
         projectile_speed_per_unit = self.attack_weapon.projectile_speed
         self.attack_to = at_mouse["mapped"]
-        
+
         projectile_distance = get_distance(self.pos, self.attack_to) / projectile_speed_per_unit
         self.timers["attack_timer"].dt = projectile_distance
         self.timers["attack_timer"].reset()
@@ -203,7 +201,7 @@ class Unit:
 
         projectile_speed_per_unit = self.attack_weapon.projectile_speed
         self.attack_to = at_mouse["mapped"]
-        
+
         projectile_distance = get_distance(self.pos, self.attack_to) / projectile_speed_per_unit
         self.timers["attack_timer"].dt = projectile_distance
         self.timers["attack_timer"].reset()
@@ -228,7 +226,6 @@ class Unit:
             self.ap.use_point()
             self.timers["casting_timer"].dt = 1
             self.timers["casting_timer"].reset()
-            
 
     def update_general(self, mpos, mpress, at_mouse, ui):
         if self.state == "dying":
@@ -244,7 +241,6 @@ class Unit:
         for a in self.animations.values():
             a.update()
 
-
     def update_turn(self, mpos, mpress, at_mouse, ui):
         if ui.get_selected() == "right hand":
             self.attack_weapon = self.equipment.hand_one
@@ -259,20 +255,20 @@ class Unit:
                 if mpress[0] == 1:
                     self.get_path = True
                     self.destination = at_mouse["mapped"]
-        
+
             # basic attack
             if self.attack_weapon != None and self.ap.get_ap() >= 2:
                 if mpress[0] == 1:
                     if self.attack_weapon.attack_type == "bomb" and (at_mouse["walkable"] == True or \
-                    at_mouse["unit"] != None):
+                                                                     at_mouse["unit"] != None):
                         if in_range(at_mouse["mapped"], self.pos, get_weapon_range(self.attack_weapon)):
                             self.launch_bomb(at_mouse)
                     elif self.attack_weapon.attack_type == "shot" and at_mouse["unit"] != None and \
-                    at_mouse["unit"].state not in ("dead", "dying"):
+                            at_mouse["unit"].state not in ("dead", "dying"):
                         if in_range(at_mouse["mapped"], self.pos, get_weapon_range(self.attack_weapon)):
                             self.fire_shot(at_mouse)
                     elif self.attack_weapon.attack_type == "melee" and at_mouse["unit"] != None and \
-                    at_mouse["unit"].state not in ("dead", "dying"):
+                            at_mouse["unit"].state not in ("dead", "dying"):
                         if in_range(at_mouse["mapped"], self.pos, one_tile_range):
                             self.swing(at_mouse)
 
@@ -282,7 +278,7 @@ class Unit:
                 selected_ability = get_selected_ability(ui_selected, self.memory)
                 if selected_ability != None and selected_ability.name == "Steady":
                     if self.ap.get_ap() >= selected_ability.ap_cost and \
-                    at_mouse["unit"] == self and selected_ability.get_cooldown() == 0:
+                            at_mouse["unit"] == self and selected_ability.get_cooldown() == 0:
                         self.state = "casting"
                         self.casting_ability = selected_ability
                         self.start_casting()
@@ -304,18 +300,18 @@ class Unit:
         elif self.state == "moving":
             skip = False
             self.anim_state = "walking"
-            if self.timers["move_timer"].ticked: 
+            if self.timers["move_timer"].ticked:
                 if len(self.path) == 0:
                     self.pos = self.next_pos
                     self.anim_pos = self.pos
                     self.state = "idle"
                     self.path = None
                 else:
-                    
+
                     if not self.first_move:
                         X, Y = self.pos
                         NX, NY = self.next_pos
-                        VX, VY = (NX-X), (NY-Y)
+                        VX, VY = (NX - X), (NY - Y)
 
                         if VX < 0:
                             self.direction = -1
@@ -326,7 +322,7 @@ class Unit:
                         self.path, self.use_points = corrigated_path(self)
 
                     self.first_move = False
-                    
+
                     if not skip:
                         self.pos = self.next_pos
                         self.next_pos = self.path.pop(0)
@@ -334,15 +330,15 @@ class Unit:
                         if use_point != 0:
                             self.ap.use_fractional_point(use_point)
                         self.timers["move_timer"].reset()
-            
+
             if not skip:
                 i = self.timers["move_timer"].get_progress()
                 X, Y = self.pos
                 NX, NY = self.next_pos
-                VX, VY = (NX-X), (NY-Y)
+                VX, VY = (NX - X), (NY - Y)
                 AX, AY = i * VX + X, i * VY + Y
                 self.anim_pos = AX, AY
-        
+
         elif self.state == "casting":
             self.anim_state = "casting"
             if not self.timers["casting_timer"].ticked:
@@ -352,40 +348,40 @@ class Unit:
                 self.state = "idle"
                 if self.casting_ability.ability_type == "buff - self":
                     add_status(self.statuses, self.casting_ability.applies)
-            
+
         elif self.state == "attacking":
             if not self.timers["attack_timer"].ticked:
                 if self.attack_weapon.attack_type == "bomb":
                     i = self.timers["attack_timer"].get_progress()
                     df_pheight = 3
-                    pheight = math.sin(i*math.pi) * df_pheight
+                    pheight = math.sin(i * math.pi) * df_pheight
                     X, Y = self.pos
                     NX, NY = self.attack_to
-                    VX, VY = (NX-X), (NY-Y)
+                    VX, VY = (NX - X), (NY - Y)
                     AX, AY = i * VX + X, i * VY + Y
                     self.projectile_pos = AX, AY - pheight
                 elif self.attack_weapon.attack_type == "shot":
                     i = self.timers["attack_timer"].get_progress()
                     df_pheight = 3
-                    pheight = math.sin(i*math.pi) * df_pheight
+                    pheight = math.sin(i * math.pi) * df_pheight
                     pheight = 0
                     X, Y = self.pos
                     NX, NY = self.attack_to
-                    VX, VY = (NX-X), (NY-Y)
+                    VX, VY = (NX - X), (NY - Y)
                     self.projectile_angle = math.degrees(math.atan2(VY, VX))
                     AX, AY = i * VX + X, i * VY + Y
                     self.projectile_pos = AX, AY - pheight
                 elif self.attack_weapon.attack_type == "melee":
                     i = self.timers["attack_timer"].get_progress()
                     df_pheight = 5
-                    pheight = math.sin(i*math.pi) * df_pheight
+                    pheight = math.sin(i * math.pi) * df_pheight
                     X, Y = self.pos
                     NX, NY = self.attack_to
-                    VX, VY = (NX-X), (NY-Y)
+                    VX, VY = (NX - X), (NY - Y)
                     AX, AY = i * VX + X, i * VY + Y
                     self.projectile_angle = (math.atan2(VY, VX))
                     T = 32
-                    qx, qy = math.cos(self.projectile_angle) * T, math.sin(self.projectile_angle) * T# - pheight
+                    qx, qy = math.cos(self.projectile_angle) * T, math.sin(self.projectile_angle) * T  # - pheight
                     self.projectile_pos = qx, qy
             else:
                 self.state = "idle"
@@ -413,9 +409,6 @@ class Unit:
         return self.animations[self.anim_state]
 
 
-
-
-
 # Units
 
 class MC(Unit):
@@ -427,21 +420,26 @@ class MC(Unit):
         self.health = 100
         self.max_health = 100
 
+
 class Bat(Unit):
     def init_attributes(self):
         self.unit_name = "Bat"
+
 
 class Zombie(Unit):
     def init_attributes(self):
         self.unit_name = "Zombie"
 
+
 class Brute(Unit):
     def init_attributes(self):
         self.unit_name = "Brute"
 
+
 class Mage(Unit):
     def init_attributes(self):
         self.unit_name = "Mage"
+
 
 class Tiny(Unit):
     def init_attributes(self):

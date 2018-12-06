@@ -1,4 +1,3 @@
-
 from numpy.random import choice as weighed_choice
 from random import choice
 
@@ -8,6 +7,7 @@ from effects import *
 from units import MC, Brute, Zombie, Mage
 
 import abilities
+
 
 # weapon generation
 
@@ -19,7 +19,8 @@ class Mod:
         self.mclass = None
         self.value = None
 
-def make_mod(weapon, tier3_guarantee = False):
+
+def make_mod(weapon, tier3_guarantee=False):
     # this first dict just maps out the values of our GDD mod matrix
     mod_dict = {
         "crit": {
@@ -53,7 +54,7 @@ def make_mod(weapon, tier3_guarantee = False):
             "tier 3": 0.08
         }
     }
-    
+
     # this just specifies the likelyhood of a certain mod. i.e. the AP mod once implemented, should be less 
     # likely to occur, since it is very powerful
     mod_type_likelyhood = {
@@ -79,8 +80,8 @@ def make_mod(weapon, tier3_guarantee = False):
         "blind": blind_mod_class,
         "cripple": slowed_mod_class,
         "knock": knocked_mod_class,
-        "crit": None, # these have no class, since they are just a value to be added
-        "range": None # again; no class, just a value you add to a stat
+        "crit": None,  # these have no class, since they are just a value to be added
+        "range": None  # again; no class, just a value you add to a stat
     }
 
     # here is where i select the mod
@@ -88,7 +89,7 @@ def make_mod(weapon, tier3_guarantee = False):
     mdkeys = mod_dict.keys()
     pdist1_ = [[1, 0.5][mod_type_likelyhood[k] != "regular"] for k in mdkeys]
     s = sum(pdist1_)
-    pdist1 = [i/s for i in pdist1_]
+    pdist1 = [i / s for i in pdist1_]
 
     # here i select the tier of the mod, with a weighed distribution
     # it can be overriden to guarantee a tier 3 mod (useful in the case of creating a legendary weapon)
@@ -119,7 +120,6 @@ def create_weapon(rarity, quality, weapon):
         "common": 0
     }
     n_mods = n_mods_dict[rarity]
-
 
     quality_multipliers = {
         "good": 1.5,
@@ -176,10 +176,10 @@ def place_training_room_units(weapons, labels, animations):
     units.append(mc)
 
     # other units - also controlled by you, currently
-    units.append(Zombie(labels, pos = (21, 20)))
-    units.append(Brute(labels, pos = (10, 13)))
-    units.append(Brute(labels, pos = (11, 13)))
-    units.append(Mage(labels, pos = (20, 24)))
+    units.append(Zombie(labels, pos=(21, 20)))
+    units.append(Brute(labels, pos=(10, 13)))
+    units.append(Brute(labels, pos=(11, 13)))
+    units.append(Mage(labels, pos=(20, 24)))
 
     # assign animations
     for u in units:
@@ -192,11 +192,11 @@ def place_training_room_units(weapons, labels, animations):
 # gear generation
 
 
-
 # dungeon generation
 
 def load_training_room(dungeon):
-    return # dungeon.rooms.append(room)
+    return  # dungeon.rooms.append(room)
+
 
 def generate_dungeon():
     starting_room = None

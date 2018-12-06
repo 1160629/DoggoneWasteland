@@ -1,5 +1,6 @@
 from random import randint
 
+
 # weapons
 
 class Weapon:
@@ -23,7 +24,7 @@ class Weapon:
 
         self.projectile_speed = 10
 
-        self.last_attack_crit = False # for if we ever want to show whether an attack was a critical hit or not
+        self.last_attack_crit = False  # for if we ever want to show whether an attack was a critical hit or not
 
     def get_damage(self, stats, statuses):
         dex_based_damage_bonus = dex_based_crit_bonus = 0
@@ -54,9 +55,10 @@ class Weapon:
             self.last_attack_crit = False
         return dmg
 
+
 def get_new_weapon_instance(weapon_type, weapons):
     w = Weapon()
-    
+
     weapon = weapons[weapon_type]
     w.weapon_type = weapon_type
     w.attack_type = weapon["attack_type"]
@@ -75,7 +77,8 @@ def get_new_weapon_instance(weapon_type, weapons):
         w.blast_radius = weapon["blast_radius"]
 
     return w
-    
+
+
 def get_weapon_range(w):
     weapon = w
     base_range = weapon.range
@@ -113,4 +116,3 @@ class Equipment:
     def get_worn_gear(self):
         # returns currently equipped gear
         return [i for i in [self.head, self.torso, self.legs] if i != None]
-

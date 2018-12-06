@@ -19,10 +19,12 @@ class Game:
             self.update()
             self.draw()
 
+
 def start():
     g = Game()
     load(g)
     g.loop()
+
 
 if __name__ == "__main__":
     # execution entry point for Python
