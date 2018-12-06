@@ -1,0 +1,91 @@
+{
+    "walk": [
+        ["walk.wav", 0.05]
+    ],
+    "arrow shot": [
+        ["Arrow-shot.wav", 1.0]
+    ],
+    "bullet shot": [
+        ["Bullet.wav", 1.0]
+    ],
+    "bomb lobbed": [
+        ["Bomb Thrown.wav", 1.0]
+    ],
+    "bomb explode": [
+        ["Bomb Explode.wav", 1.0]
+    ],
+    "melee swing": [
+        ["Laser_Shoot9.wav", 1.0]
+    ],
+    "MC dying": [
+        ["Dying_.wav", 1.0]
+    ],
+    "monster dying": [
+        ["Bomb Thrown3.wav", 1.0]
+    ],
+    "boss room enter": [
+        ["Entering Boss Room.wav", 1.0]
+    ],
+    "level up": [
+        ["Syringe Sound.wav", 1.0]
+    ],
+    "monster hit": [
+        ["Hit_Hurt106.wav", 1.0]
+    ],
+    "MC hit": [
+        ["Hit_Hurt2.wav", 1.0]
+    ],
+    "get mutation": [
+        ["Bleeding_.wav", 1.0]
+    ],
+    "get skill": [
+        ["Powerup11.wav", 1.0]
+    ],
+    "rest": [
+        ["open_thing.wav", 1.0]
+    ],
+    "chest open": [
+        ["chest_open.wav", 1.0]
+    ],
+    "buy": [
+        ["Powerup8.wav", 1.0]
+    ],
+    "blahblah": [
+        ["blahblah.wav", 1.0]
+    ],
+    "door open": [
+        ["door_close.wav", 0.8]
+    ],
+    "door close": [
+        ["door_close.wav", 0.8]
+    ],
+    "buff": [
+        ["Heal1.wav", 0.1]
+    ],
+    "debuff": [
+        ["Debuff1.wav", 0.25]
+    ],
+    "heal": [
+        ["Buff5.wav", 0.03]
+    ],
+    "burning": [
+        ["Burning1.wav", 0.22]
+    ],
+    "poison": [
+        ["Poisoning2.wav", 0.1]
+    ],
+    "knock": [
+        ["Knock2.wav", 0.5]
+    ],
+    "slow": [
+        ["Slow2.wav", 0.35]
+    ],
+    "blind": [
+        ["Blind2.wav", 0.2]
+    ],
+    "fart": [
+        ["fart.wav", 0.2]
+    ]
+
+
+}

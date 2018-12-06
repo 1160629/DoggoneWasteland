@@ -1,0 +1,31 @@
+{ "height":6,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113],
+         "height":6,
+         "id":1,
+         "name":"Floor1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":6,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.2.1",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/..\/tilesets\/actual\/UltimateTileset.tsx"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":1.2,
+ "width":6
+}

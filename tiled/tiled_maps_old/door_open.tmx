@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="2" height="2" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="../../folder of things/16x16_Dungeon_Itchio_Walls_WastelandColors.tsx"/>
+ <layer id="2" name="Door" width="2" height="2">
+  <data encoding="csv">
+28,29,
+44,45
+</data>
+ </layer>
+</map>

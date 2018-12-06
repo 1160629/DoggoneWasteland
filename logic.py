@@ -1,5 +1,5 @@
 
-from pygame import Rect as pRect
+from pyglet_pygame import Rect as pRect
 from itertools import product
 
 
@@ -166,13 +166,51 @@ def corrigated_path(unit):
 
     return cpath, use_points
 
-def create_walkable_matrix(dung_walk, units, cu):
-    walk_mat = copy(dung_walk)
+def create_walkable_matrix(cr, units, cu, at_mouse, g_obj):
+
+    dung = g_obj.dungeon
+    rs = dung.adjacent_rooms() + [((0, 0), cr)]
+
+    rw, rh = g_obj.rw, g_obj.rh
+    aw, ah = rw * 3, rh * 3
+    walk_mat = [[False for y in range(ah)] for x in range(aw)]
+    for po, r in rs:
+        o = po[0] + 1, po[1] + 1
+        ox, oy = rw * o[0], rh * o[1]
+        for x, y in product(range(rw), range(rh)):
+            rx, ry = ox + x, oy + y
+            #print(r.grid_pos, rx, ry)
+            walk_mat[rx][ry] = r.walkable_map[x][y]
+
     for u in units:
         if u == cu:
             continue
         x, y = u.pos
-        walk_mat[x][y] = False
+        room = at_mouse["room"]
+        rw, rh = g_obj.rw, g_obj.rh
+        gx, gy = room.grid_pos
+        rx = x - gx * rw
+        ry = y - gy * rh
+        walk_mat[rx][ry] = False
+
+    dung = g_obj.dungeon
+    doors = dung.doors
+
+    for d in doors:
+        if not d.is_closed:
+            continue
+
+        g1x, g1y = cr.grid_pos
+        g2x, g2y = d.belongs_to.grid_pos
+
+        gx, gy = g2x - g1x, g2y - g1y
+        ox = gx * rw
+        oy = gy * rh
+        for rx, ry in d.get_collidable():
+            grx = rx + ox + rw
+            gry = ry + oy + rh
+            if 0 <= grx < len(walk_mat) and 0 <= gry < len(walk_mat[0]):
+                walk_mat[grx][gry] = False
     
     return walk_mat
 
@@ -193,7 +231,8 @@ def get_node_map(walk_mat):
         [1, -1],
         [-1, 1]
     ]
-    for x, y in product(range(len(node_map[0])), range(len(node_map[1]))):
+
+    for x, y in product(range(len(node_map)), range(len(node_map[0]))):
         if not walk_mat[x][y]:
             continue
         for nbor in nbors:
@@ -203,5 +242,5 @@ def get_node_map(walk_mat):
             if not walk_mat[nx][ny]:
                 continue
             node_map[x][y].neighbours.append(node_map[nx][ny])
-                
+
     return node_map

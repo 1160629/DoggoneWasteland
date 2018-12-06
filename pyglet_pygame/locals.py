@@ -1,0 +1,2 @@
+HWSURFACE = 0
+QUIT = 0

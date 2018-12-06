@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="6" height="6" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../tilesets/actual/UltimateTileset.tsx"/>
+ <layer id="1" name="Floor1" width="6" height="6">
+  <data encoding="csv">
+143,143,143,143,143,143,
+143,143,143,143,143,143,
+143,143,143,143,143,143,
+143,143,143,143,143,143,
+143,143,143,143,143,143,
+143,143,143,143,143,143
+</data>
+ </layer>
+ <layer id="2" name="Floor2 (Decorations)" width="6" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="Walls (Collidable)" width="6" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="4" name="Items1 (Collidable)" width="6" height="6">
+  <data encoding="csv">
+264,265,0,0,264,0,
+280,281,0,0,280,265,
+0,0,267,268,265,281,
+0,264,283,284,281,0,
+0,280,265,0,0,0,
+0,0,281,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="Items2 (Triggerable)" width="6" height="6" visible="0">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="6" name="Characters" width="6" height="6" visible="0">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0,
+0,0,0,0,0,0
+</data>
+ </layer>
+</map>

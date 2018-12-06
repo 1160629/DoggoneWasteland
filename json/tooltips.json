@@ -1,0 +1,97 @@
+{
+    "gear" : {
+        "bucket": "Head armor. They come with more armor than their counterparts, and a health percentage bonus.",
+        "metal armor": "Torso armor. They come with more armor than their counterparts, and a health percentage bonus.",
+        "metal greaves": "Leg armor. They come with more armor than their counterparts, and a health percentage bonus.",
+        "hard hat": "Head armor. They come with some armor, fire resistances, and an int bonus.",
+        "grandmas sweater": "Torso armor. They come with some armor, fire resistances, and an int bonus.",
+        "jeans": "Leg armor. They come with some armor, fire resistances, and an int bonus.",
+        "motorcycle helmet": "Head armor. They feature a dex bonus, general resistances - except fire - and some armor.",
+        "bullet proof vest": "Torso armor. They feature a dex bonus, general resistances - except fire - and some armor.",
+        "camo pants": "Leg armor. They feature a dex bonus, general resistances - except fire - and some armor."
+    },
+    "weapons" : {
+        "bat": "Two-handed. The bat has a base damage of 25-35, with a standard crit chance of 18%.",
+        "chainsaw": "Two-handed. The chainsaw has a base damage of 35-40, with a standard crit chance of 12%.",
+        "rock": "One-handed. The rock has a base damage of 12-18, with a standard crit chance of 15%.",
+        "hatchet": "One-handed. The hatchet has a base damage of 15-25, with a standard crit chance of 10%.",
+        "colt": "One-handed. The colt has a base damage of 10-15, with a standard crit chance of 5%, and a range of 8.",
+        "crossbow": "Two-handed. The crossbow has a base damage of 25-30, with a standard crit chance of 15%, and a range of 8.",
+        "compound bow": "Two-handed. The compound bow has a base damage of 20-25, with a standard crit chance of 10%, and a range of 11.",
+        "bolt-action rifle": "Two-handed. The bolt-action rifle has a base damage of 20-25, with a standard crit chance of 5%, and a range of 14.",
+        "detonator-on-a-stick": "One-handed. The detonator-on-a-stick has a base damage of 15-20, with a standard crit chance of 5%, a range of 8, and a blast radius of 5.",
+        "computer console": "Two-handed. The computer-console has a base damage of 25-30, with a standard crit chance of 5%, a range of 10, and a blast radius of 3."
+    },
+    "shields": {
+        "wheel rim": "Shields provide a solid armor bonus. Wheel rims also provide a movement speed bonus.",
+        "manhole cover": "Shields provide a solid armor bonus. The manhole cover gives a STR bonus.",
+        "garbage can lid": "Shields provide a solid armor bonus. Garbage can lids give a poison resistance bonus."
+    },
+    "abilities" : {
+        "kneecapper": "Shoots an enemy in the knee for 120% damage, slowing it down severely; applied 3 stacks of slowed. Costs 2 AP. 4 turn CD. Range equal to weapon range.",
+        "try to leave": "Teleport to any door. Costs 3 AP. 4 turn CD.",
+        "lead ammo": "Shoot an enemy for 80% of primary weapon damage, applying 1 stack of knocked. 2 AP. 3 turn CD. Range equal to weapon ranged.",
+        "steady": "Gives 3 stacks of steady. Costs 1 AP. 5 turn CD.",
+        "tornado": "Fires one shot (not critical hit) from primary weapon in all 8 directions for 80% damage. Maximum range of 5. Costs 3 AP. 3 turn CD.",
+        "first aid kit": "Heal for 25% of maximum HP. Costs 2 AP. 3 turn CD.",
+        "rip 'em a new one": "Fires off a critical shot/hit from primary weapon, travelling through enemies. Range equal to weapon range. Costs 3 AP. 4 turn CD.",
+        "dance off": "Apply 2 stacks of blind to all enemies in the room. Costs 3 AP. 5 turn CD.",
+        "bash": "Damages and knocks an enemy for 1 to 3 stacks, depending on the ‘level’ of the enemy. Costs 2 AP. 2 turn CD.",
+        "fart": "Apply 3 stacks of poisoned and irradiated within a range of 3 (applies to PC). Costs 1 AP. 2 turn CD.",
+        "throw sand": "Apply 3 stacks of blind to an enemy. Range of 3. Costs 2 AP. 2 turn CD.",
+        "go": "Gives 3 stacks of Go. Costs 1 AP. 5 turn CD.",
+        "dinner time": "Dual wield attack, critical hit with primary weapon, normal hit with secondary weapon. If the player only has one weapon only the critical hit will be performed with primary weapon. Costs 3 AP. 3 turn CD.",
+        "dash": "Move a distance 7 tiles in any direction instantaneously, applying 2 stacks of slowed to any colliding enemies. Costs 2 AP. 3 turn CD.",
+        "falcon punch": "PC strikes the ground, any NPC’s in a radius of five will take critical damage (from primary weapon). Costs 5 AP. 5 turn CD.",
+        "finisher": "Kill any target with less than 30% health. Costs 4 AP. 5 turn CD.",
+        "flash bang": "Will slow and blind enemies within range for 3 stacks (effectively NPC(s) will not have any AP for that round). Blast radius of 3. Range of ability is 10. Costs 2 AP. 4 turn CD.",
+        "molotov": "Deals damage equal to 80% of primary weapon and applies 4 stacks of burning to any enemies within range on impact, and ignites surrounding tiles. Blast radius of 4. Range of ability is 10. Costs 2 AP. 2 turn CD.",
+        "vaccine": "Remove all status effects from PC. Costs 2 AP. 5 turn CD.",
+        "ready": "Gives 3 stacks of Ready. Costs 1 AP. 5 turn CD.",
+        "land mine": "Place a land mine which detonates at first sign of movement within its blast radius. Blast radius of 4. Will damage the player if within blast-range. Damage equal to 200% of primary weapon. Costs 2 AP. 2 turn CD.",
+        "rocket ride": "Ride a rocket to any tile not within range of 10. Costs 3 AP. 4 turn CD. Upon impact the rocket will knock enemies in a range of 3 for 1 stack.",
+        "holy hand grenade": "Can be launched in a chosen direction with range of 8. Deals critical damage equal to primary weapon. Blast radius of 5. Applies one stack of knocked. Will damage PC if within range. Costs 4 AP. 5 turn CD.",
+        "gotta hand it to 'em": "Launch a barrage of rockets - one at each enemy. Deals 100% of primary weapon. Costs 4 AP. 4 turn CD."
+    },
+    "mutations": {
+        "anemic": "Start each combat with 5 stacks of bleeding, get 50% fire resistance.",
+        "toxic": "Start each combat with 3 stacks of poisoned, apply 2 stacks of poison on each basic or secondary attack.",
+        "nuclear": "Apply 2 stacks of irradiated at the beginning of each turn.",
+        "snake skin": "All stack based effects are half as effective, rounded up. Including ones applied to you, and ones you apply to others.",
+        "third arm": "Can’t wear chest armor, get an extra weapon slot.",
+        "green": "Your movement speed is 1, double your STR.",
+        "shifty": "Lose 10% crit chance, increase dodge chance by 20%.",
+        "maniac": "Take 40% more damage, increase AP by 2.",
+        "third eye": "Can’t wear helmets, double your crit.",
+        "addict": "Start each combat with a stack of slowed, +1 syringe slot.",
+        "nudist": "Can’t wear chest or leg armor, increase dodge chance by 30% resistances by 60%.",
+        "having a blast": "Decrease damage by 25%, double blast radius.",
+        "third time's the charm": "Healing is 50% as effective. Upon death, resurrect. Works twice.",
+        "brainiac": "50% less max health, double your INT."
+    },
+    "stats" : {
+        "strength": "STR buffs your melee based damage, health, every 2 pts gives 1 more movement speed.",
+        "intelligence": "INT buffs your device based damage, crit, every 3 pts gives you one more AP.",
+        "dexterity": "DEX buffs your range based damage, crit, every 2 pts gives you 5% more dodge."
+    },
+    "syringes": {
+        "hp syringe": "Heals you once for 50% health.",
+        "ap syringe": "Restores your AP for the turn.",
+        "speed": "Gives you a movement speed bonus of two, for three turns.",
+        "suppressor": "Removes any negative side effects of bio-mutations for three turns.",
+        "luck of the draw": "Gives you two random abilities - ignoring tiers, and unlocks - until the end of combat (replacing your last two abilities, if memory slots are full)."
+    },
+    "status effects": {
+        "knocked": "Immobile.",
+        "slowed": "M.S. reduced by 50%.",
+        "blind": "Range reduced by 75%.",
+        "ready": "Range bonus of 3.",
+        "steady": "Doubles crit chance.",
+        "go": "M.S. increased by 1.",
+        "poisoned": "Damage 5.",
+        "burning": "Damage 2.5% of health.",
+        "bleeding": "Damage 1% of health.",
+        "irradiated": "Damage 0.5% of health.",
+        "immune": "Immune to radiation."
+    }
+}

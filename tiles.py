@@ -3,6 +3,7 @@ class Tile:
     def __init__(self):
         self.image = None
         self.walkable = None
+        self.triggerable = None
 
 class Tileset:
     def __init__(self):
@@ -27,12 +28,37 @@ class Layout:
         self.w, self.h = None, None
         self.layers = None
 
+    def has_layer(self, name):
+        if name in self.layers.keys():
+            return True
+        return False
+
     def get_layer(self, name):
         return self.layers[name]
 
     def get_tile_index(self, name, x, y):
-        return self.get_layer(name)["data"][x][y]
+        data = self.get_layer(name)["data"][x][y]
+        if data == None:
+            return None
+        return data[:3]
 
+    def get_tile_orient(self, name, x, y):
+        data = self.get_layer(name)["data"][x][y]
+        if data == None:
+            return None
+        return data[3:]
+
+    def set_tile_index(self, name, x, y, to):
+        self.get_layer(name)["data"][x][y] = to
+
+    def set_tile_index_and_orient(self, name, x, y, to, ori):
+        if to == None or ori == None:
+            set_to = None
+            #print("This should not happen:", name, x, y, to, ori)
+        else:
+            set_to = to + ori
+            #print("ey")
+        self.get_layer(name)["data"][x][y] = set_to
 
     def change_layer_status(self, names, to):
         

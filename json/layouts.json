@@ -1,0 +1,19 @@
+{
+    "Sandra's Farmhouse Room 1": "json/layouts/Farmhouse_Tileset_Sandra_Room_1.json",
+    "Sandra's Farmhouse Room 2": "json/layouts/Farmhouse_Tileset_Sandra_Room_2.json",
+    "Sandra's Farmhouse Room 3": "json/layouts/Farmhouse_Tileset_Sandra_Room_3.json",
+    "Sandra's Farmhouse Room 4": "json/layouts/Farmhouse_Tileset_Sandra_Room_4.json",
+    "Sandra's Farmhouse Room 5": "json/layouts/Farmhouse_Tileset_Sandra_Room_5.json",
+    "Sandra's Farmhouse Room 6": "json/layouts/Farmhouse_Tileset_Sandra_Room_6.json",
+    "Sandra's Farmhouse Room 7": "json/layouts/Farmhouse_Tileset_Sandra_Room_7.json",
+    "Sandra's Farmhouse Room 8": "json/layouts/Farmhouse_Tileset_Sandra_Room_8.json",
+    "Sandra's Farmhouse Room 9": "json/layouts/Farmhouse_Tileset_Sandra_Room_9.json",
+    "Sandra's Farmhouse Room 10": "json/layouts/Farmhouse_Tileset_Sandra_Room_10.json",
+    "Sandra's Farmhouse Room 11": "json/layouts/Farmhouse_Tileset_Sandra_Room_11.json",
+
+    "Test Farmhouse Room 1": "json/layouts/Farmhouse_Tileset_Test_Room_1.json",
+    "Test Farmhouse Room 2": "json/layouts/Farmhouse_Tileset_Test_Room_2.json",
+    "Test Farmhouse Room 3": "json/layouts/Farmhouse_Tileset_Test_Room_3.json",
+
+    "Farmhouse Boss Room": "json/layouts/Farmhouse_Tileset_Boss_Room.json"
+}
