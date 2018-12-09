@@ -105,6 +105,18 @@ class BasicAttack(Ability):  # unused?
 
 # implemented:
 
+# special:
+
+class TeleportAnywhere(Ability):
+    def __init__(self):
+        Ability.__init__(self)
+        self.name = "Teleport Anywhere"
+        self.cooldown = Cooldown(0)
+        self.ap_cost = 0
+        self.ability_type = "reloc - instant"
+
+        self.any_sounds = False
+
 # sharpshooter
 
 class Steady(Ability):

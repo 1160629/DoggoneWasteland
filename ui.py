@@ -1,7 +1,7 @@
 from logic import Rect, in_range
 from control import ActionTimer, Animation
 import pygame
-from events import NEWGAMEEVENT
+from events import NEWGAMEEVENT, EXITMENUEVENT
 
 
 # User interface
@@ -14,7 +14,7 @@ class Camera:
         self.x, self.y = 0, 0
         self.w, self.h = w, h
 
-        self.update_step = 1
+        self.update_step = 2
 
         cw, ch = 180, 180
 
@@ -280,6 +280,11 @@ class UI:
         for i in [n for n in list(self.ui1.ui_elements.values()) if n != sel]:
             i.selected = False
 
+        if sel == None:
+            self.ui1.lock = False
+        elif sel in self.ui1.lock_elements:
+            self.ui1.lock = True
+
 
 class PauseButton:
 
@@ -304,6 +309,9 @@ class ContinueButton(PauseButton):
     def __init__(self):
         text = "Continue"
         PauseButton.__init__(self, text)
+
+    def on_mouse_click(self):
+        pygame.event.post(pygame.event.Event(EXITMENUEVENT))
 
 
 class ExitButton(PauseButton):
@@ -378,6 +386,13 @@ def get_tiles_at_and_walkable(g_obj, at_mouse):
     layout = room.layout
     tile_indexes = [layout.get_tile_index(k, rx, ry) for k in layout.layers.keys()]
 
+    for c in g_obj.dungeon.chests:
+        if c.pos == (nx, ny):
+            return [], False
+    for s in g_obj.dungeon.shopkeepers:
+        if s.pos == (nx, ny):
+            return [], False
+
     return tile_indexes, tile_walkable
 
 
@@ -391,6 +406,11 @@ def get_room_at_mouse(g_obj, mpos_mapped):
             return r
     return None
 
+def get_loot_at_mouse(g_obj, at_mouse):
+    for s in g_obj.lootmgr.loot_spawners:
+        for i in s.get_drawable():
+            if i.pos == at_mouse["mapped"]:
+                return i
 
 def get_mouse_hover(g_obj, mpos):
     at_mouse = {}
@@ -430,6 +450,10 @@ def get_mouse_hover(g_obj, mpos):
 
     at_mouse["tiles"] = tiles
     at_mouse["walkable"] = walkable
+
+    at_mouse["loot"] = get_loot_at_mouse(g_obj, at_mouse)
+
+    at_mouse["mouse ui item"] = None
 
     return at_mouse
 

@@ -69,6 +69,12 @@ class SkillTree:
     def get_first_layer(self):
         return self.brawler_start, self.sharpshooter_start, self.engineer_start
 
+    def get_node(self, gpos):
+        for n in self.all_nodes:
+            if gpos == n.get_gpos():
+                return n
+        return None
+
     def stat_node(self, stat_node):
         for n in self.all_nodes:
             if n == stat_node and n.statted == False:

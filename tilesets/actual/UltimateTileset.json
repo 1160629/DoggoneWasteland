@@ -2063,7 +2063,25 @@
                 {
                  "name":"Collidable",
                  "type":"bool",
-                 "value":true
+                 "value":false
+                }]
+        }, 
+        {
+         "id":264,
+         "properties":[
+                {
+                 "name":"Collidable",
+                 "type":"bool",
+                 "value":false
+                }]
+        }, 
+        {
+         "id":265,
+         "properties":[
+                {
+                 "name":"Collidable",
+                 "type":"bool",
+                 "value":false
                 }]
         }, 
         {
@@ -8804,6 +8822,104 @@
                  "value":true
                 }],
          "type":"Enemy"
+        }, 
+        {
+         "animation":[
+                {
+                 "duration":100,
+                 "tileid":384
+                }],
+         "id":1312,
+         "properties":[
+                {
+                 "name":"Animation",
+                 "type":"string",
+                 "value":"Idle"
+                }, 
+                {
+                 "name":"Object",
+                 "type":"string",
+                 "value":"Gramps"
+                }, 
+                {
+                 "name":"Triggerable",
+                 "type":"bool",
+                 "value":true
+                }],
+         "type":"Enemy"
+        }, 
+        {
+         "animation":[
+                {
+                 "duration":100,
+                 "tileid":384
+                }],
+         "id":1328,
+         "properties":[
+                {
+                 "name":"Animation",
+                 "type":"string",
+                 "value":"Walking"
+                }, 
+                {
+                 "name":"Object",
+                 "type":"string",
+                 "value":"Gramps"
+                }, 
+                {
+                 "name":"Triggerable",
+                 "type":"bool",
+                 "value":true
+                }],
+         "type":"Enemy"
+        }, 
+        {
+         "animation":[
+                {
+                 "duration":100,
+                 "tileid":384
+                }],
+         "id":1344,
+         "properties":[
+                {
+                 "name":"Animation",
+                 "type":"string",
+                 "value":"Attack"
+                }, 
+                {
+                 "name":"Object",
+                 "type":"string",
+                 "value":"Gramps"
+                }, 
+                {
+                 "name":"Triggerable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "animation":[
+                {
+                 "duration":100,
+                 "tileid":384
+                }],
+         "id":1360,
+         "properties":[
+                {
+                 "name":"Animation",
+                 "type":"string",
+                 "value":"Dies"
+                }, 
+                {
+                 "name":"Object",
+                 "type":"string",
+                 "value":"Gramps"
+                }, 
+                {
+                 "name":"Triggerable",
+                 "type":"bool",
+                 "value":true
+                }]
         }],
  "tilewidth":16,
  "type":"tileset",

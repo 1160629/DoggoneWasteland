@@ -2,9 +2,9 @@ import pygame
 import json
 import xmltodict
 from itertools import product
-from control import ActionTimer
+from control import ActionTimer, LootSpawner
 from logic import Rect, in_range
-
+from random import choice, randint, shuffle, choice, random
 
 # Dungeon class
 
@@ -50,8 +50,13 @@ class Room:
 
         self.needs_doors = []
 
-    def get_door_positions(self):
-        pass
+        self.needs_bed_logic = False
+        self.needs_shopkeeper = False
+        self.needs_chest = False
+
+    def get_n_connections(self):
+        n = 4 - sum(list(map(lambda x: x == None, (self.east, self.west, self.north, self.south))))
+        return n
 
     def add_layout_mod(self, lm, lmp):
         self.layout_mod = lm
@@ -61,15 +66,19 @@ class Room:
         self.layout_mod = None
         self.layout_mod_path = None
 
-    def setup(self, loader):
+    def pre_setup(self, loader):
         self.layout = loader(self.layout_path, self.tilesets)
 
+        self.walkable_map = create_room_walkable_map(self)
+
+    def post_setup(self):
+        self.walkable_map = create_room_walkable_map(self)
+
+    def setup(self, loader):
         if self.layout_mod != None:
             self.setup_layout_mod(loader)
 
         self.create_hallways(loader)
-
-        self.walkable_map = self.walkable_map = create_room_walkable_map(self)
 
     def change_layout(self, sindx, eindx, sindy, eindy, lay, boostx=0, boosty=0, fromx=0, fromy=0, tox=0, toy=0):
         layer_names = list(self.layout.layers)
@@ -197,7 +206,7 @@ def create_room_walkable_map(room):
 # as well as loot/loot spawners
 # figure out
 
-def check_door_mouseover(self, door, m):
+def should_be_open(self, door, m):
     dung = self.dungeon
     doors = dung.doors
 
@@ -208,14 +217,14 @@ def check_door_mouseover(self, door, m):
     roomx, roomy = d.room_pos
     tsw, tsh = d.get_ts_size()
     direction = door.direction
-    return check_door_mouseover_tbt(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh, m, direction)
+    return should_be_open_tbt(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh, m, direction)
 
 
-def check_door_mouseover_tbt(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh, m, direction):
+def should_be_open_tbt(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh, m, direction):
     if direction == "east":
         range_mod = 2
     else:
-        range_mod = 1
+        range_mod = 2
 
     tw, th = self.tw, self.th
 
@@ -260,7 +269,7 @@ def check_door_mouseover_tbt(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh,
         else:
             inrange.append(False)
 
-    if any(mover) and any(inrange):
+    if any(inrange):# and any(mover):
         return True
     else:
         return False
@@ -373,27 +382,26 @@ class Door:
             reals.append(real)
         return reals
 
-    def check_mouseover(self, g_obj, m):
-        return check_door_mouseover(g_obj, self, m)
+    def should_be_open(self, g_obj, m):
+        return should_be_open(g_obj, self, m)
         # return False
 
     def update(self, g_obj, mpos, mpress, ui, fighting):
         self.open_timer.update()
 
-        if not mpress[0]:
+        if fighting:
+            self.is_closed = True
             return
 
-        # if not fighting:
-        # return
+        #if not self.open_timer.ticked:
+        #    return
 
-        if not self.open_timer.ticked:
-            return
-
-        if ui.get_selected() != None:
-            return
+        #if not ui.get_selected() == None:
+        #    return
 
         am = ui.at_mouse
-
+        
+        """
         m = am["mapped"]
         if self.check_mouseover(g_obj, mpos):
             if self.is_closed == True:
@@ -404,7 +412,20 @@ class Door:
                 self.sound.play_sound_now("door close")
 
             self.open_timer.reset()
+        """
+        m = am["mapped"]
+        if self.should_be_open(g_obj, mpos):
+            if self.is_closed == True:
+                self.is_closed = False
+                self.sound.play_sound_now("door open")
 
+                #self.open_timer.reset()
+        else:
+            if self.is_closed == False:
+                self.is_closed = True
+                self.sound.play_sound_now("door close")
+
+                #self.open_timer.reset()
 
 class Dungeon:
     def __init__(self):
@@ -412,10 +433,37 @@ class Dungeon:
         self.hallways = []
 
         self.doors = []
+        self.chests = []
+        self.beds = []
+        self.shopkeepers = []
+        self.specials = []
 
         self.in_room = 0
 
+        self.stage = None
+        self.stage_name = None
+
     def update(self, mc_pos, g_obj, mpos, mpress, ui, fighting):
+        for d in self.doors:
+            d.update(g_obj, mpos, mpress, ui, fighting)
+
+        for c in self.chests:
+            c.update(g_obj.mc, mpos, mpress, ui, fighting)
+
+        for s in self.shopkeepers:
+            s.update(g_obj.mc, mpos, mpress, ui, fighting)
+
+        for b in self.beds:
+            b.update(g_obj, mpos, mpress, ui, fighting)
+
+        if fighting:
+            return
+
+        gr = self.get_room()
+        if not gr.has_been:
+            gr.has_been = True
+            g_obj.mc.get_xp(1)
+
         mcx, mcy = mc_pos
         px, py = mcx // g_obj.rw, mcy // g_obj.rh
         ind = 0
@@ -425,29 +473,6 @@ class Dungeon:
                 self.in_room = ind
                 break
             ind += 1
-
-        gr = self.get_room()
-        if not gr.has_been:
-            gr.has_been = True
-            g_obj.mc.get_xp(1)
-
-        for d in self.doors:
-            d.update(g_obj, mpos, mpress, ui, fighting)
-
-        inside = self.get_room()
-        rt = inside.room_type
-        if rt == "rest room":  # so if mouse pointer is pressed on bed, and you've not previously rested
-            pass  # then "rest" for 3 seconds (becoming immobile), animated sideways on the bed, healing fully
-        elif rt == "loot room":
-            pass  # if mouse pointer is pressed on chest not during combat, then change the chest animation to
-            # one that is open with loot, and create a loot spawner at chest location. once finished spawning
-            # make the chest animation empty
-        elif rt == "shop room":
-            pass  # here just draw a shopkeep character that is always idle, never does anything
-            # he is also invincible? (or really strong)
-            # to buy an item just pick it up like any other item from a chest, except these
-            # subract a certain amount from your bullets currency, if u dont have enough, u
-            # cant pick it up
 
     def get_room(self):
         return self.rooms[self.in_room]
@@ -481,27 +506,356 @@ class Dungeon:
 
         return adj
 
-    def setup_rooms(self, loader, sound):
+    def setup(self, loader):
         for r in self.rooms:
             r.setup(loader)
 
-        for r in self.rooms:
-            for i in r.needs_doors:
-                door = Door(r.layout_mods, r.tilesets, sound)
-                door.room_pos = r.grid_pos
-                door.belongs_to = r
-                door.setup(i, loader)
-                self.doors.append(door)
+            #print(r.room_type, r.grid_pos, r.needs_chest, r.needs_shopkeeper)
 
     def get_starting_room(self):
         for r in self.rooms:
             if r.room_type == "starting room":
                 return r
 
+    def modify(self, sheet, layout_mods, units):
+        lm_mid_farm = {
+            "shop room": ["shop1_farm", "shop2_farm", "shop3_farm", "shop4_farm", "shop5_farm", "shop6_farm"],
+            "loot room": ["loot1_farm", "loot2_farm", "loot3_farm", "loot4_farm", "loot5_farm", "loot6_farm", "loot7_farm"],
+            "rest room": ["rest2_farm", "rest3_farm", "rest4_farm", "rest5_farm", "rest6_farm"]
+        }
+
+        lm_mid_farm["empty room"] = ["empty_room1_farm"]
+
+        lm_mid_trans = {
+            0: lm_mid_farm,
+            1: lm_mid_farm,
+            2: lm_mid_farm,
+            3: lm_mid_farm
+        }
+
+        lm_mid = lm_mid_trans[self.stage]
+
+        empty = ["empty_room1_farm"]
+
+        mid_trans = {
+            "empty": "empty room",
+            "shop": "shop room",
+            "loot": "loot room",
+            "rest": "rest room"
+        }
+
+        reordered_rooms = self.sequential_ordering()
+
+        last_room = list(sorted(list(sheet.keys()), reverse = True))[0]
+
+        ind = 0
+        for r in sheet.keys():
+            ref = sheet[r]["room_center"]
+            spawn = list(map(lambda x: x.spawn_in_room, units))
+            has_enemies = r in spawn
+            room = reordered_rooms[ind]
+            if has_enemies and r != "room 1":
+                room.has_enemies = True
+                n = spawn.count(r)
+                boss_room = r == last_room
+                if boss_room:
+                    danger_rating = 3
+                else:
+                    if n >= 5:
+                        danger_rating = 3
+                    elif 2 < n <= 4:
+                        danger_rating = 2
+                    else:
+                        danger_rating = 1
+                room.danger_rating = danger_rating
+            else:
+                room.has_enemies = False
+                room.danger_rating = 0
+            if ref == "":
+                continue
+            trans = mid_trans[ref]
+            room.remove_layout_mod()
+            room.room_type = trans
+            room.layout_mod = lm_mid[trans]
+            rand_correct_lmod_name = choice(lm_mid[trans])
+            lmod_path = layout_mods[rand_correct_lmod_name]
+            room.layout_mod_path = lmod_path
+            ind += 1
+
+    def sequential_ordering(self):
+        return self.rooms
+
+    def get_sheet(self):
+        return {}
+
+    def pre_setup(self, loader):
+        for r in self.rooms:
+            r.pre_setup(loader)
+
+    def post_setup(self, loader, sound, rw, rh, tw, th, lootmgr, weapons):
+        for r in self.rooms:
+            r.post_setup()
+
+        rating_trans = {
+            0: {"common": 0.5, "rare": 0.3, "legendary": 0.2},
+            1: {"common": 0.7, "rare": 0.2, "legendary": 0.1},
+            2: {"common": 0.5, "rare": 0.3, "legendary": 0.2},
+            3: {"common": 0.2, "rare": 0.3, "legendary": 0.5}
+        }
+
+        for r in self.rooms:
+            if r.room_type == "loot room":
+                r.needs_chest = True
+            elif r.room_type == "shop room":
+                r.needs_shopkeeper = True
+            elif r.room_type == "rest room":
+                r.needs_bed_logic = True
+
+            for i in r.needs_doors:
+                door = Door(r.layout_mods, r.tilesets, sound)
+                door.room_pos = r.grid_pos
+                door.belongs_to = r
+                door.setup(i, loader)
+                self.doors.append(door)
+            
+            if r.needs_chest:
+                rating_chances = rating_trans[r.danger_rating]
+                rating_rand = random()
+                if rating_rand <= rating_chances["common"]:
+                    rating = "common"
+                elif rating_rand <= rating_chances["rare"]+rating_chances["common"]:
+                    rating = "rare"
+                else:
+                    rating = "legendary"
+                c = Chest(r, rw, rh, tw, th, sound, rating, lootmgr, weapons)
+                self.chests.append(c)
+
+            if r.needs_shopkeeper:
+                rating = "common"
+                discount = 0.9
+                s = Shop(r, rw, rh, tw, th, sound, rating, lootmgr, weapons, discount)
+                self.shopkeepers.append(s)
+
+            if r.needs_bed_logic:
+                b = Bed(r, rw, rh, sound)
+                self.beds.append(b)
+
 
 class Bed:
-    def __init__(self):
-        self.pos = []
+    def __init__(self, room, rw, rh, sound):
+        self.room = room
+        self.rw, self.rh = rw, rh
 
-    def update(self):
-        pass
+        self.pos = None, None
+        self.set_pos()
+
+        self.has_used = False
+        self.done_resting = False
+        self.sound = sound
+
+        self.rest_timer = ActionTimer("", 2)
+
+    def set_pos(self):
+        cox, coy = 13, 4
+        cw, ch = 6, 6
+
+        room = self.room
+        gx, gy = room.grid_pos
+        ox, oy = gx * self.rw, gy * self.rh
+        self.pos = ox + cox + cw//2 - 0.5, oy + coy + ch//2 - 0.5
+
+    def close_to_bed(self, g_obj, mpos):
+        return in_range(self.pos, g_obj.mc.pos, 2)
+
+    def update(self, g_obj, mpos, mpress, ui, fighting):
+        if fighting:
+            return
+
+        self.rest_timer.update()
+
+        # if not fighting:
+        #    return
+
+        #if not self.open_timer.ticked:
+        #    return
+
+        #if not ui.get_selected() == None:
+        #    return
+
+        if self.has_used and self.rest_timer.ticked and not self.done_resting:
+            self.done_resting = True
+            g_obj.mc.labels.add_label("Rested", g_obj.mc.pos[0], g_obj.mc.pos[1], delay = 0)
+            g_obj.mc.heal("percentage", 1, delay = 0.5)
+
+        am = ui.at_mouse
+        
+        """
+        m = am["mapped"]
+        if self.check_mouseover(g_obj, mpos):
+            if self.is_closed == True:
+                self.is_closed = False
+                self.sound.play_sound_now("door open")
+            elif self.is_closed == False:
+                self.is_closed = True
+                self.sound.play_sound_now("door close")
+
+            self.open_timer.reset()
+        """
+        m = am["mapped"]
+        if self.close_to_bed(g_obj, mpos) and not self.has_used:
+            g_obj.mc.current_bed = self
+            g_obj.mc.state = "resting"
+            self.sound.play_sound_now("rest")
+            self.has_used = True
+            self.rest_timer.reset()
+
+
+
+class Chest:
+    def __init__(self, room, rw, rh, tw, th, sound, rating, lootmgr, weapons):
+        self.room = room
+        self.sound = sound
+        self.weapons = weapons
+
+        self.rw, self.rh = rw, rh
+        self.tw, self.th = tw, th
+
+        self.rating = rating
+        #print(self.rating)
+        self.lootmgr = lootmgr
+        
+        self.loot_spawner = None
+
+        self.pos = None, None
+        self.place()
+
+        self.frames = {
+            "legendary": {"closed": 256, "spawning": 258, "spawned": 242},
+            "rare": {"closed": 245, "spawning": 277, "spawned": 261},
+            "common": {"closed": 244, "spawning": 276, "spawned": 260}
+        }
+        
+        self.frame = None
+
+        self.state = "closed"
+
+    def place(self):
+        cox, coy = 13, 4
+        cw, ch = 6, 6
+        center_positions = []
+        for x, y in product(range(cw), range(ch)):
+            centerp = cox + x, coy + y
+            center_positions.append(centerp)
+
+        shuffle(center_positions)
+
+        # place units
+        assigned_positions = []
+
+        room = self.room
+        #print(sroom.grid_pos)
+        gx, gy = room.grid_pos
+        ox, oy = gx * self.rw, gy * self.rh
+        for i in range(len(center_positions)):
+            randw, randh = center_positions.pop(0)
+            new_pos = ox + randw, oy + randh
+            walkable = room.walkable_map[randw][randh]
+            if walkable and (self.pos == (None, None) or in_range(new_pos, self.pos, 3)):
+                assigned_positions.append(new_pos)
+                self.pos = assigned_positions[0]
+
+        self.pos = assigned_positions.pop(0)
+        self.available_spots = assigned_positions
+
+    def update(self, mc, mpos, mpress, ui, fighting):
+        if fighting:
+            return
+        if self.state == "closed":
+            self.frame = self.frames[self.rating]["closed"]
+            rad = 2
+            if in_range(mc.pos, self.pos, rad):
+                self.loot_spawner = self.lootmgr.new_spawner(self.pos, self.available_spots, \
+                self.rating, self.sound, self.weapons)
+                self.state = "opening"
+                self.sound.play_sound_now("chest open")
+        elif self.state == "opening":
+            self.frame = self.frames[self.rating]["spawning"]
+            if self.loot_spawner.done_spawning:
+                self.state = "opened"
+        elif self.state == "opened":
+            self.frame = self.frames[self.rating]["spawned"]
+
+
+class Shop:
+    def __init__(self, room, rw, rh, tw, th, sound, rating, lootmgr, weapons, discount):
+        self.room = room
+        self.sound = sound
+        self.weapons = weapons
+        self.discount = discount
+
+        self.rw, self.rh = rw, rh
+        self.tw, self.th = tw, th
+
+        self.rating = rating
+        #print(self.rating)
+        self.lootmgr = lootmgr
+        
+        self.loot_spawner = None
+
+        self.pos = None, None
+        self.place()
+        
+        self.frame = 400
+
+        self.state = "closed"
+
+    def place(self):
+        cox, coy = 13, 4
+        cw, ch = 6, 6
+        center_positions = []
+        for x, y in product(range(cw), range(ch)):
+            centerp = cox + x, coy + y
+            center_positions.append(centerp)
+
+        shuffle(center_positions)
+
+        # place units
+        assigned_positions = []
+
+        room = self.room
+        #print(sroom.grid_pos)
+        gx, gy = room.grid_pos
+        ox, oy = gx * self.rw, gy * self.rh
+        for i in range(len(center_positions)):
+            randw, randh = center_positions.pop(0)
+            new_pos = ox + randw, oy + randh
+            walkable = room.walkable_map[randw][randh]
+            if walkable and (self.pos == (None, None) or in_range(new_pos, self.pos, 3)):
+                assigned_positions.append(new_pos)
+                self.pos = assigned_positions[0]
+
+        self.pos = assigned_positions.pop(0)
+        self.available_spots = assigned_positions
+
+    def update(self, mc, mpos, mpress, ui, fighting):
+        if fighting:
+            return
+        rad = 2
+        if self.state == "closed":
+
+            if in_range(mc.pos, self.pos, rad):
+                self.loot_spawner = self.lootmgr.new_spawner(self.pos, self.available_spots, \
+                self.rating, self.sound, self.weapons, use_cost = True, discount = self.discount)
+                self.state = "opening"
+                self.sound.play_sound_now("blahblah")
+        elif self.state == "opening":
+
+            if self.loot_spawner.done_spawning:
+                self.state = "opened"
+        elif self.state == "opened":
+            if not in_range(mc.pos, self.pos, rad):
+                if self.sound.is_sound_playing("blahblah"):
+                    self.sound.stop_sound_now("blahblah")
+            else:
+                if not self.sound.is_sound_playing("blahblah"):
+                    self.sound.play_sound_now("blahblah")

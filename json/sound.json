@@ -27,7 +27,7 @@
         ["Entering Boss Room.wav", 1.0]
     ],
     "level up": [
-        ["Syringe Sound.wav", 1.0]
+        ["Syringe Sound.wav", 0.2]
     ],
     "monster hit": [
         ["Hit_Hurt106.wav", 1.0]
@@ -45,13 +45,16 @@
         ["open_thing.wav", 1.0]
     ],
     "chest open": [
-        ["chest_open.wav", 1.0]
+        ["chest_open.wav", 0.4]
+    ],
+    "loot spawn": [
+        ["Pickup_Coin25.wav", 0.25]
     ],
     "buy": [
         ["Powerup8.wav", 1.0]
     ],
     "blahblah": [
-        ["blahblah.wav", 1.0]
+        ["blahblah.wav", 0.2]
     ],
     "door open": [
         ["door_close.wav", 0.8]

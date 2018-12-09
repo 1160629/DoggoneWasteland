@@ -8,6 +8,7 @@ from logic import get_distance, in_range, one_tile_range, corrigated_path
 
 from random import randint, choice
 import math
+from itertools import product
 
 
 # Unit class
@@ -71,7 +72,7 @@ def add_status(statuses, status, tick=False):
 
 
 class Unit:
-    def __init__(self, sound, labels, pos=None):
+    def __init__(self):
         self.xp = 0
         self.xp_to_lup = 1
 
@@ -81,8 +82,8 @@ class Unit:
 
         self.skilltree = build_skill_tree()
 
-        self.sound = sound
-        self.labels = labels
+        self.sound = None #sound
+        self.labels = None # labels
 
         self.knocked = False
         self.dashing = False
@@ -90,8 +91,6 @@ class Unit:
         self.current_room = None
 
         self.pos = 0, 0
-        if pos != None:
-            self.pos = pos[0], pos[1]
 
         self.animations = {}
         self.anim_pos = self.pos
@@ -127,6 +126,9 @@ class Unit:
         self.timers["move_timer"] = ActionTimer("move_timer", 0.15)
         self.timers["attack_timer"] = ActionTimer("move_timer", 0.75)
         self.timers["casting_timer"] = ActionTimer("casting_timer", 1)
+        self.death_timer_reset = False
+        self.death_timer = ActionTimer("death_timer", 1)
+        self.timers["death_timer"] = self.death_timer
 
         # size of unit
         self.area = 1
@@ -139,8 +141,7 @@ class Unit:
         self.ap = AP()
 
         self.damage_taken = 0
-        self.base_health = 235
-        self.max_health = 235
+        self.base_health = 100
 
         self.statuses = []
 
@@ -152,6 +153,13 @@ class Unit:
 
         # set this to true, to end the units turn
         self.end_turn = False
+
+        #
+        self.unit_class = None
+        #
+        self.spawn_in_room = None
+        #
+        self.current_bed = None
 
         # initialise stuff
         self.init_attributes()
@@ -224,6 +232,8 @@ class Unit:
                 rate = rates[self.level]
             self.xp_to_lup = rate
             self.level += 1
+            self.labels.add_label("Level Up!", self.pos[0], self.pos[1], delay = 0)
+            self.sound.play_sound_now("level up")
 
     def new_skill(self, node):
         if node.node_type == "stat":
@@ -333,7 +343,7 @@ class Unit:
         else:
             self.sound.play_sound_now("MC hit")
 
-    def heal(self, ht, hb):
+    def heal(self, ht, hb, delay = 0):
         if ht == "percentage":
             heal = self.get_health() * hb
             self.damage_taken -= heal
@@ -343,7 +353,7 @@ class Unit:
         if self.damage_taken < 0:
             self.damage_taken = 0
 
-        self.labels.add_label("" + str(int(heal)), self.pos[0], self.pos[1], color="green")
+        self.labels.add_label("" + str(int(heal)), self.pos[0], self.pos[1], color="green", delay = delay)
 
     def launch_bomb(self, at_mouse):
         self.state = "attacking"
@@ -614,6 +624,13 @@ class Unit:
             self.timers["casting_timer"].dt = 0.08
             self.timers["casting_timer"].reset()
 
+        elif sabi.name == "Teleport Anywhere":
+            self.dashing = True
+            self.dashing_to = at_mouse["mapped"]
+            self.timers["casting_timer"].dt = 0.1
+            self.timers["casting_timer"].reset()
+
+
     def update_general(self, mpos, mpress, at_mouse, ui):
         if self.state == "dying":
             self.state = "dead"
@@ -621,6 +638,12 @@ class Unit:
                 self.sound.play_sound_with_delay("monster dying", 0.1)
             else:
                 self.sound.play_sound_with_delay("MC dying", 0.1)
+            self.anim_state = "Dies"
+            if self.death_timer_reset == False:
+                self.death_timer_reset = True
+                self.death_timer.reset()
+            elif self.death_timer.ticked:
+                self.state = "dead"
 
         if self.state == "dead":
             self.end_turn = True
@@ -795,6 +818,11 @@ class Unit:
                         if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
                                 at_mouse["room"] == self.current_room and \
                                 at_mouse["mapped"] in self.current_room.get_door_positions():
+                            self.state = "casting"
+                            self.casting_ability = selected_ability
+                            self.start_casting(at_mouse)
+                    if selected_ability.name == "Teleport Anywhere":
+                        if at_mouse["unit"] == None and at_mouse["walkable"] == True:
                             self.state = "casting"
                             self.casting_ability = selected_ability
                             self.start_casting(at_mouse)
@@ -1023,6 +1051,7 @@ class Unit:
                         self.labels.add_label("Knocked", u.pos[0], u.pos[1])
 
                 elif self.casting_ability.name == "Vaccine":
+                    self.labels.add_label("Statuses cleared", self.pos[0], self.pos[1])
                     self.statuses = []
 
                 elif self.casting_ability.name == "Holy Hand Grenade":
@@ -1040,12 +1069,18 @@ class Unit:
                     add_status(self.statuses, self.casting_ability.applies, tick=True)
                     self.labels.add_label(self.casting_ability.name, self.pos[0], self.pos[1])
                 elif self.casting_ability.ability_type == "heal - self":
+                    #self.labels.add_label(self.casting_ability.name, self.pos[0], self.pos[1])
                     self.heal(self.casting_ability.heal_type, self.casting_ability.heal_by)
-                    # self.labels.add_label(self.casting_ability.name, self.pos[0], self.pos[1])
+                    
 
                 if self.casting_ability.any_sounds != False:
                     for snd_name in self.casting_ability.sound_names:
                         self.sound.play_sound_now(snd_name)
+
+                elif self.casting_ability.name == "Teleport Anywhere":
+                    self.dashing = False
+                    self.set_pos(self.dashing_to)
+
 
         elif self.state == "attacking":
             self.anim_state = "Attack"
@@ -1093,8 +1128,22 @@ class Unit:
         elif self.state == "knocked":
             pass
 
+        elif self.state == "resting":
+            self.anim_state = "Idle"
+            if self.current_bed != None and self.current_bed.done_resting:
+                self.state = "idle"
+
         elif self.state == "dying":
-            self.state = "dead"
+            self.anim_state = "Dies"
+            if not (self.unit_name in ("Jon Vegg", "Stella")):
+                self.sound.play_sound_with_delay("monster dying", 0.1)
+            else:
+                self.sound.play_sound_with_delay("MC dying", 0.1)
+            if self.death_timer_reset == False:
+                self.death_timer_reset = True
+                self.death_timer.reset()
+            elif self.death_timer.ticked:
+                self.state = "dead"
 
     def update(self, mpos, mpress, at_mouse, yourturn, ui, in_combat):
         if yourturn:
@@ -1146,12 +1195,9 @@ class MC(Unit):
     def init_attributes(self):
         self.unit_name = "Jon Vegg"
         self.anim_name = "Jon Vegg"
-        self.unit_class = "sharpshooter"
 
     def init_health_and_base_ap(self):
         self.health = 100
-        self.max_health = 100
-
 
 class Zombie(Unit):
     def init_attributes(self):
@@ -1181,3 +1227,9 @@ class Tiny(Unit):
     def init_attributes(self):
         self.unit_name = "Tiny"
         self.anim_name = "Small Green Troll"
+
+
+class Gramps(Unit):
+    def init_attributes(self):
+        self.unit_name = "Gramps"
+        self.anim_name = "Gramps"

@@ -41,7 +41,7 @@ def draw_units(g_obj):
         uimgs = [(pygame.transform.flip(img, xbool, 0), to) for img, to in images]
 
         # if the unit is dead, draw it sideways
-        if u.state == "dead" or u.knocked:
+        if u.state == "dead" or u.knocked or u.state == "resting":
             uimgs = [(pygame.transform.rotate(uimg, 90), to) for uimg, to in uimgs]
 
         # melee attack
@@ -181,7 +181,7 @@ def f_flat(f):
 
 def draw_projectiles(g_obj):
     cu = g_obj.cc.get_current_unit()
-    if not (cu.state == "attacking" or cu.state == "casting"):
+    if cu == None or not (cu.state == "attacking" or cu.state == "casting"):
         return
 
     proj_tset = "main_set"
@@ -270,10 +270,10 @@ def draw_combat_ui(g_obj):
     px, py = turns_w, turns_h
 
     draw_turns = 8
-    units = g_obj.cc.units_in_combat
+    units = g_obj.cc.use_list
     n = g_obj.cc.turn
     i = 0
-    while True:
+    while len(units) > 0:
         unit = units[n]
         n += 1
         if n >= len(units):
@@ -307,61 +307,63 @@ def draw_combat_ui(g_obj):
     cu = g_obj.cc.get_current_unit()
     if g_obj.ui.at_mouse["unit"] != None:
         cu = g_obj.ui.at_mouse["unit"]
-    ca = int(cu.ap.current_ap)
-    ta = cu.ap.get_ap()
-    # if ta % 1 > 0:
-    # ta = (round(ta + 0.5))
-    ta = int(ta)
 
-    ap_green = get_tile_img(g_obj, "main_set", f_flat(254))
-    ap_yellow = get_tile_img(g_obj, "main_set", f_flat(255))
+    if cu != None:
+        ca = int(cu.ap.current_ap)
+        ta = cu.ap.get_ap()
+        # if ta % 1 > 0:
+        # ta = (round(ta + 0.5))
+        ta = int(ta)
 
-    x_spot = 128 * 5 + 16 * g_obj.scale
+        ap_green = get_tile_img(g_obj, "main_set", f_flat(254))
+        ap_yellow = get_tile_img(g_obj, "main_set", f_flat(255))
 
-    uiinfo_w = 16
+        x_spot = 128 * 5 + 16 * g_obj.scale
 
-    apx = x_spot
+        uiinfo_w = 16
 
-    apy = 16 * g_obj.scale + 64
+        apx = x_spot
 
-    for i in range(0, uiinfo_w * ca, uiinfo_w):
-        g_obj.swin.blit(ap_yellow, (apx + i, apy))
-    for i in range(0, uiinfo_w * ta, uiinfo_w):
-        g_obj.swin.blit(ap_green, (apx + i, apy))
+        apy = 16 * g_obj.scale + 64
 
-    mhp = cu.get_health()
-    dmg = cu.damage_taken
-    hp = mhp - dmg
+        for i in range(0, uiinfo_w * ca, uiinfo_w):
+            g_obj.swin.blit(ap_yellow, (apx + i, apy))
+        for i in range(0, uiinfo_w * ta, uiinfo_w):
+            g_obj.swin.blit(ap_green, (apx + i, apy))
 
-    h_repr = 5
+        mhp = cu.get_health()
+        dmg = cu.damage_taken
+        hp = mhp - dmg
 
-    hpx = g_obj.w - x_spot - 16
+        h_repr = 5
 
-    hpy = 16 * g_obj.scale + 64
+        hpx = g_obj.w - x_spot - 16
 
-    hp_red = get_tile_img(g_obj, "main_set", f_flat(252))
-    hp_yellow = ap_yellow
+        hpy = 16 * g_obj.scale + 64
 
-    for i in range(0, uiinfo_w * h_repr, uiinfo_w):
-        g_obj.swin.blit(hp_yellow, (hpx - i, hpy))
-    for i in range(0, uiinfo_w * int((h_repr * hp) / mhp + 0.5), uiinfo_w):
-        g_obj.swin.blit(hp_red, (hpx - i, hpy))
+        hp_red = get_tile_img(g_obj, "main_set", f_flat(252))
+        hp_yellow = ap_yellow
 
-    statuses = cu.statuses
+        for i in range(0, uiinfo_w * h_repr, uiinfo_w):
+            g_obj.swin.blit(hp_yellow, (hpx - i, hpy))
+        for i in range(0, uiinfo_w * int((h_repr * hp) / mhp + 0.5), uiinfo_w):
+            g_obj.swin.blit(hp_red, (hpx - i, hpy))
 
-    # draw the dude under mouse position
+        statuses = cu.statuses
 
-    frame = cu.current_animation().get_frame()
-    images = []
-    for f in frame.tiles:
-        ind, to = f[:3], f[3:]
-        image = g_obj.tilesets.get_tile(*ind).image
-        images.append((image, to))
+        # draw the dude under mouse position
 
-    midx = (apx + hpx) // 2
-    for i, to in images:
-        tx, ty = to
-        g_obj.swin.blit(i, (midx + tx * tw, hpy + ty * th * -1))
+        frame = cu.current_animation().get_frame()
+        images = []
+        for f in frame.tiles:
+            ind, to = f[:3], f[3:]
+            image = g_obj.tilesets.get_tile(*ind).image
+            images.append((image, to))
+
+        midx = (apx + hpx) // 2
+        for i, to in images:
+            tx, ty = to
+            g_obj.swin.blit(i, (midx + tx * tw, hpy + ty * th * -1))
 
     gray = 100, 100, 100
     blue = 135, 206, 250
@@ -468,16 +470,27 @@ def draw_tooltips(self):
 
     white = 255, 255, 255
 
-    max_len = 30
+    max_len = 35
 
     y = 0
     for title, tt in tts:
-        texts = change_it_up(tt, max_len)
+        if "\n" not in tt:
+            texts = change_it_up(tt, max_len)
+        else:
+            texts_ = tt.split("\n")
+            texts = []
+            for n in texts_:
+                if len(n) > max_len:
+                    changed = change_it_up(n, max_len)
+                else:
+                    changed = [n]
+                texts += changed
         for text in [title] + [""] + texts:
             img = self.smallfont.render(text, 0, white)
             x = self.w - img.get_width()
             self.swin.blit(img, (x, y))
             y += img.get_height()
+
 
 
 def draw_skilltree(self):
@@ -496,6 +509,36 @@ def draw_skilltree(self):
 
 def draw_dungeon_interactables(self):
     dung = self.dungeon
+    chests = dung.chests
+    shopkeepers = dung.shopkeepers
+    spawners = self.lootmgr
+    ox, oy = self.cam.get()
+
+    tw, th = self.tw, self.th
+    for c in chests:
+        cx, cy = c.pos
+        rx, ry = cx * tw + ox, cy * th + oy
+        cframe = c.frame
+        chest_img = get_tile_img(self, "main_set", f_flat(cframe))
+        self.swin.blit(chest_img, (rx, ry))
+
+    for k in shopkeepers:
+        kx, ky = k.pos
+        rx, ry = kx * tw + ox, ky * th + oy
+        kframe = k.frame
+        keeper_img = get_tile_img(self, "main_set", f_flat(kframe))
+        self.swin.blit(keeper_img, (rx, ry))
+
+    for s in spawners.loot_spawners:
+        for i in s.get_drawable():
+            px, py = i.get_pos()
+            f = i.item.widget_frame
+            weapon_img = get_tile_img(self, "main_set", f_flat(f))
+            rx, ry = px * tw + ox, py * th + oy
+            self.swin.blit(weapon_img, (rx, ry))
+
+def draw_dungeon_doors(self):
+    dung = self.dungeon
     doors = dung.doors
 
     for d in doors:
@@ -505,6 +548,9 @@ def draw_dungeon_interactables(self):
         roomx, roomy = d.room_pos
         tsw, tsh = d.get_ts_size()
         draw_door(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh)
+
+
+
 
 
 def draw_door(self, lout, bx, by, roomx, roomy, ox, oy, tsw, tsh):

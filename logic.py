@@ -179,19 +179,23 @@ def create_walkable_matrix(cr, units, cu, at_mouse, g_obj):
         ox, oy = rw * o[0], rh * o[1]
         for x, y in product(range(rw), range(rh)):
             rx, ry = ox + x, oy + y
+            #print(rx, ry)
             #print(r.grid_pos, rx, ry)
-            walk_mat[rx][ry] = r.walkable_map[x][y]
+            walk = r.walkable_map[x][y]
+            walk_mat[rx][ry] = walk # here is the crash when trying to walk
 
     for u in units:
         if u == cu:
             continue
         x, y = u.pos
+        xd, yd = x//rw, y//rh
         room = at_mouse["room"]
         rw, rh = g_obj.rw, g_obj.rh
         gx, gy = room.grid_pos
         rx = x - gx * rw
         ry = y - gy * rh
-        walk_mat[rx][ry] = False
+        if (xd, yd) == (gx, gy):
+            walk_mat[rx][ry] = False
 
     dung = g_obj.dungeon
     doors = dung.doors

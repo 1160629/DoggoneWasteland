@@ -2,3 +2,4 @@ from pygame import USEREVENT
 
 # custom events
 NEWGAMEEVENT = USEREVENT + 1
+EXITMENUEVENT = USEREVENT + 2

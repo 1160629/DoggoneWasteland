@@ -1,0 +1,12 @@
+{
+    "Farmhouse": {
+        "Collar": {
+            "0": "Farmhouse_Collar_0.png",
+            "1": "Farmhouse_Collar_1.png"
+        },
+        "Gramps" : {
+            "0": "Farmhouse_Gramps_0.png",
+            "1": "Farmhouse_Gramps_1.png"
+        }
+    }
+}

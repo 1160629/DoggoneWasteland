@@ -7,19 +7,10 @@
         "projectile_speed": 30,
         "base_damage": [10, 15],
         "range": 8,
-        "crit": 0.05
+        "crit": 0.05,
+        "widget_frame": 288 
     },
-    "CompoundBow" : {
-        "weapon_class": "Sharpshooter",
-        "handedness": "two",
-        "attack_type": "shot",
-        "projectile_type": "arrow",
-        "projectile_speed": 20,
-        "base_damage": [20, 25],
-        "range": 11,
-        "crit": 0.1
-    },
-    "DetonatorOnAStick" : {
+    "Detonator-On-A-Stick" : {
         "weapon_class": "Engineer",
         "handedness": "one",
         "attack_type": "bomb",
@@ -28,14 +19,16 @@
         "base_damage": [15, 20],
         "range": 8,
         "crit": 0.05,
-        "blast_radius": 5
+        "blast_radius": 5,
+        "widget_frame": 289 
     },
-    "Bat" : {
+    "Hatchet" : {
         "weapon_class": "Brawler",
-        "handedness": "two",
+        "handedness": "one",
         "attack_type": "melee",
-        "base_damage": [25, 35],
+        "base_damage": [15, 25],
         "range": 1,
-        "crit": 0.18
+        "crit": 0.1,
+        "widget_frame": 291 
     }
 }

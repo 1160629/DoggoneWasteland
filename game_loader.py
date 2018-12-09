@@ -5,11 +5,13 @@ from itertools import product
 
 from ui import UI, Camera
 
-from generation import place_starting_units, generate_dungeon
+from generation import setup_units
+from dungeon_generation import generate_dungeon, place_specials
 
 from combat import CombatController
 
-from control import Animation, AnimationSetInitializer, RenderLogic, LabelMgr, SkillTreeMgr, Tooltips
+from control import Animation, AnimationSetInitializer, RenderLogic, \
+LabelMgr, SkillTreeMgr, Tooltips, LootMgr
 
 from tiles import *
 
@@ -368,16 +370,17 @@ def audio_loader(sound_path, music_path):
 
 # game load function
 
-def load(self):
+def load_a(self):
     use_pygame_replacement = False
     load_game_module(use_pygame_replacement)
-    from prerendering import prerender
-    from dungeon import Dungeon, Room
 
     pygame.mixer.pre_init(44100, -16, 1, 512)
     pygame.init()
 
     setup_display_and_drawables(self)
+
+def load_b(self):
+    from prerendering import prerender
 
     # tileset & game scaling
     self.tilesets = load_tilesets("json/tilesets.json", self.scale)
@@ -386,44 +389,72 @@ def load(self):
     self.layouts = load_layouts("json/layouts.json")
     self.layout_mods = load_layout_mods("json/layout_mods.json")
 
+    farmhouse_sheet = load_json("json/farmhouse_layout_sheet.json")
+
     self.animations = load_animations("json/animations.json")
 
     self.sound, self.music = audio_loader("json/sound.json", "json/music.json")
-    self.music.muted = True
+    self.music.muted = False
 
     self.menu = Menu(self)
 
     self.font = pygame.font.Font("fonts/joystix proportional.otf", 36)
     self.smallfont = pygame.font.Font("fonts/joystix proportional.otf", 24)
 
-    weapons = load_json("json/weapons.json")
-    gear = load_json("json/gear.json")
+    self.weapons = weapons = load_json("json/weapons.json")
+    self.gear = gear = load_json("json/gear.json")
+
+    self.lootmgr = LootMgr()
 
     self.tooltips = Tooltips()
     self.tooltips.load_tooltips(load_json, "json/tooltips.json")
 
-    self.stage = 0
-    rw, rh = self.rw, self.rh = 32, 13
-    self.dungeon = generate_dungeon(self.layouts, self.layout_mods, self.tilesets, rw, rh, stage=self.stage)
-    self.dungeon.setup_rooms(load_layout, self.sound)
+    self.labels = LabelMgr(self.w)
 
     self.ui = UI(self)
 
     self.cam = Camera(self.w, self.h)
 
-    self.labels = LabelMgr(self.w)
 
-    self.mc, self.units = place_starting_units(weapons, self.labels, self.animations, self.dungeon, rw, rh, self.sound)
+    self.stage = 0
+    rw, rh = self.rw, self.rh = 32, 13
+    if self.stage == 0:
+        need_sheet = True
+        constraints = {"max_walk_connections": 2, "total_rooms": 7, "start_max_walk": 1, "end_max_walk": 1}
+    else:
+        need_sheet = False
+        constraints = {}
+    self.dungeon = generate_dungeon(self.layouts, self.layout_mods, self.tilesets, \
+    rw, rh, stage=self.stage, constraints=constraints)
+    self.dungeon.pre_setup(load_layout)
+    if need_sheet:
+        sheet = farmhouse_sheet
+    else:
+        sheet = self.dungeon.get_sheet()
+    self.mc, self.units = setup_units(self.dungeon, self.rw, self.rh, sheet, weapons, \
+    self.labels, self.sound, self.animations)
+    if need_sheet:
+        self.dungeon.modify(sheet, self.layout_mods, self.units)
+    self.dungeon.setup(load_layout)
+    if self.stage == 0:
+        place_specials(self.dungeon)
+    self.dungeon.post_setup(load_layout, self.sound, self.rw, self.rh, \
+    self.tw, self.th, self.lootmgr, weapons)
 
     self.skilltree_mgr = SkillTreeMgr(self.mc.skilltree, self.tw, self.th, self.h, self)
     self.skilltree_mgr.setup()
 
     self.cc = CombatController()
-    self.cc.units_in_combat = self.units
 
     # other drawing stuff
     self.renderlogic = RenderLogic()
     prerender(self, self.renderlogic)
 
     self.clock = pygame.time.Clock()
-    self.fps = 144
+    self.fps = 60
+
+    #self.walkable_map = None
+
+def load(self):
+    load_a(self)
+    load_b(self)

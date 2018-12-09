@@ -1,6 +1,6 @@
 class AP:
     def __init__(self):
-        self.turn_ap = None  # the AP remaining per turn
+        self.turn_ap = 0  # the AP remaining per turn
 
         self.current_ap = 0  # the AP recovered per turn
 
@@ -62,41 +62,98 @@ def calculate_ap(base_ap, max_ap, intelligence, weapons, gear, mutations):
 
 class CombatController:
     def __init__(self):
-        self.state = "start combat"
+
+        self.state = "out of combat"
 
         self.units_in_combat = []
+        self.units_in_room = []
         self.turn = 0
 
         self.start_of_turn = False
 
-    def init_combat(self):
-        for nu in self.units_in_combat:
+    def set_units_in_room(self, g_obj):
+        room = g_obj.dungeon.get_room()
+        units = g_obj.units
+
+        gx, gy = room.grid_pos
+
+        rw, rh = g_obj.rw, g_obj.rh
+
+        units_in_room = []
+
+        for u in units:
+            ux, uy = u.pos
+            gux, guy = ux//rw, uy//rh
+
+            if (gux, guy) == (gx, gy):
+                units_in_room.append(u)
+
+        self.units_in_room = units_in_room
+
+    def set_living_count(self):
+        self.living_count = 0
+        for u in self.units_in_combat:
+            if not (u.state == "dead"):
+                self.living_count += 1
+
+
+    def init_units(self):
+        for nu in self.use_list:
             nu.ap.current_ap = calculate_ap(nu.ap.base_ap, nu.ap.max_ap, nu.stats.intelligence, \
                                             nu.equipment.get_wielded_weapons(), \
                                             nu.equipment.get_worn_gear(), nu.mutations.get())
             nu.ap.new_turn()
 
-    def get_current_unit(self):
-        return self.units_in_combat[self.turn]
+    def init_combat(self):
+        self.init_units()
+        self.turn = 0
 
-    def update(self):
+        self.set_living_count()
+
+        for u in self.units_in_room:
+            u.labels.add_label("Go!", u.pos[0], u.pos[1])
+
+    def get_current_unit(self):
+        if self.turn < len(self.use_list):
+            return self.use_list[self.turn]
+        return None
+
+    def update(self, g_obj):
+        if self.state == "out of combat":
+            self.set_units_in_room(g_obj)
+            if (len(self.units_in_room) > 1 and g_obj.mc in self.units_in_room):
+                self.state = "start combat"
+
+            self.use_list = self.units_in_room
+
+            self.init_units()
+
         if self.state == "start combat":
             self.state = "in combat"
+            self.units_in_combat = self.units_in_room
+            self.use_list = self.units_in_combat
             self.init_combat()
 
         if self.state == "in combat":
-            cu = self.get_current_unit()
+            self.set_living_count()
+            if self.living_count == 1:
+                self.state = "out of combat"
+            
+            self.use_list = self.units_in_combat
+        
 
-            if cu.end_turn == True:
-                self.turn += 1
-                if self.turn >= len(self.units_in_combat):
-                    self.turn = 0
+        cu = self.get_current_unit()
 
-                cu.finish_turn()
+        if cu != None and cu.end_turn == True:
+            self.turn += 1
+            if self.turn >= len(self.use_list):
+                self.turn = 0
 
-                nu = self.get_current_unit()
-                nu.end_turn = False
-                nu.ap.new_turn()
-                self.start_of_turn = True
-            else:
-                self.start_of_turn = False
+            cu.finish_turn()
+
+            nu = self.get_current_unit()
+            nu.end_turn = False
+            nu.ap.new_turn()
+            self.start_of_turn = True
+        else:
+            self.start_of_turn = False

@@ -1,0 +1,40 @@
+{
+    "room 1": {
+        "room_center": "empty",
+        "enemies": []
+    },
+    "room 2": {
+        "room_center": "empty",
+        "enemies": [
+            ["Zombie", "basic melee", "melee controller", {"health": 40}], 
+            ["Zombie", "basic melee", "melee controller", {"health": 40}]
+            ]
+    },
+    "room 3": {
+        "room_center": "loot",
+        "enemies": []
+    },
+    "room 4": {
+        "room_center": "loot",
+        "enemies": [
+            ["Zombie", "tank", "melee controller", {"health": 100}], 
+            ["RedDevil", "fighter", "melee controller", {"health": 40}],
+            ["Mage", "rocketeer", "ranged controller", {"health": 30}], 
+            ["Sneak", "gunslinger", "ranged controller", {"health": 30}]
+            ]
+    },
+    "room 5": {
+        "room_center": "shop",
+        "enemies": []
+    },
+    "room 6": {
+        "room_center": "rest",
+        "enemies": []
+    },
+    "room 7": {
+        "room_center": "",
+        "enemies": [
+            ["Gramps", "fighter", "melee controller", {"health": 150}]
+        ]
+    }
+}

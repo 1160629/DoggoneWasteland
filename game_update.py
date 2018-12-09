@@ -2,7 +2,7 @@ import pygame
 from ui import *
 from logic import *
 import events
-
+from game_loader import load_b
 
 def update(self):
     # get input
@@ -26,11 +26,11 @@ def update(self):
     # print(self.cam.get())
     self.renderlogic.update()
 
-    self.cc.update()
+    self.cc.update(self)
 
     self.labels.update()
 
-    fighting = self.cc.state == "in combat"
+    fighting = self.cc.state != "out of combat"
     lkl = self.mc.level
     result = self.skilltree_mgr.update(mpos, mpress, self.ui, fighting, lkl)
     if result != None:
@@ -38,22 +38,24 @@ def update(self):
 
     self.dungeon.update((px, py), self, mpos, mpress, self.ui, fighting)
 
-    self.tooltips.update(mpos, mpress, self.ui)
+    self.lootmgr.update(mpos, mpress, self.ui, fighting)
 
+    self.tooltips.update(mpos, mpress, self.ui)
+    
     units_turn = self.cc.get_current_unit()
-    if self.cc.start_of_turn == True:
+    if self.cc.start_of_turn == True and units_turn != None:
         units_turn.start_turn()
     else:
         pass
 
     for u in self.units:
         u.current_room = self.dungeon.get_room()
-        if u == units_turn:
+        if units_turn != None and u == units_turn:
             yourturn = True
         else:
             yourturn = False
         at_mouse = self.ui.at_mouse
-        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.units_in_combat)
+        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.use_list)
         if u.get_path:
             nx, ny = at_mouse["mapped"]
             room = self.dungeon.which_room(u, self)
@@ -70,31 +72,38 @@ def update(self):
             # print(rsx, rsy)
             start_node = node_map[rsx][rsy]
             ex, ey = rx + rw, ry + rh
-            end_node = node_map[ex][ey]
-            path = A_Star(start_node, end_node)
-            if path != None:
-                conv_path_rel = list(reversed(list(map(lambda n: n.pos, path))))
-                conv_path_rel.pop(0)
-                conv_path_abs = list()
-                for x, y in conv_path_rel:
-                    ax = x + gx * rw - rw
-                    ay = y + gy * rh - rh
-                    apos = ax, ay
-                    conv_path_abs.append(apos)
-                u.path = conv_path_abs
-            u.get_path = False
-            u.first_move = True
+            if 0 <= ex <= len(node_map) and 0 <= ey <= len(node_map[ex]):
+                end_node = node_map[ex][ey]
+                path = A_Star(start_node, end_node)
+                if path != None:
+                    conv_path_rel = list(reversed(list(map(lambda n: n.pos, path))))
+                    conv_path_rel.pop(0)
+                    conv_path_abs = list()
+                    for x, y in conv_path_rel:
+                        ax = x + gx * rw - rw
+                        ay = y + gy * rh - rh
+                        apos = ax, ay
+                        conv_path_abs.append(apos)
+                    u.path = conv_path_abs
+                u.get_path = False
+                u.first_move = True
+            else:
+                path = None
+                u.get_path = False
 
     # misc pygame logic - if user exits window, fps limiter
 
+    self.back_to_top = False
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             # save logic
             pygame.quit()
             self.quit = True
         if e.type == events.NEWGAMEEVENT:
-            # start new game
-            pass
+            load_b(self)
+            self.back_to_top = True
+        if e.type == events.EXITMENUEVENT:
+            self.ui.set_selected(None)
 
     self.clock.tick(self.fps)
 

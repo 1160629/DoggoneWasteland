@@ -2,6 +2,8 @@ from drawing import *
 
 
 def draw(self):
+    if self.back_to_top:
+        return
     # clear surface -- draw everything black
     self.swin.fill((0, 0, 0))
     # self.swin.blit(self.black_surf, (0,0))
@@ -15,6 +17,8 @@ def draw(self):
     # units drawn on top of floors, but beneath walls and other decorative layers
     draw_units(self)
 
+    draw_dungeon_interactables(self)
+
     draw_dungeon_toplayers(self)
 
     # draw walls, other collidables, and decorative layers
@@ -23,12 +27,12 @@ def draw(self):
     # draw_dungeon_layer(self, "Skullz")#, wmap = self.dungeon.get_room().walkable_map)
     # draw_dungeon_layer(self, "Torches")#, wmap = self.dungeon.get_room().walkable_map)
 
-    draw_dungeon_interactables(self)  # doors, chests, beds, loot/purchaseables
+    draw_dungeon_doors(self)  # doors, chests, beds, loot/purchaseables
 
-    # draw_dungeon_layer(self, "Floor1", wmap = self.walkable_map)
-    # draw_dungeon_layer(self, "Floor2 (Decoration)", wmap = self.walkable_map)
-    # draw_dungeon_layer(self, "Walls (Collidable)", wmap = self.walkable_map)
-    # draw_dungeon_layer(self, "Items1 (Collidable)", wmap = self.walkable_map)
+    #draw_dungeon_layer(self, "Floor1", wmap = self.walkable_map)
+    #draw_dungeon_layer(self, "Floor2 (Decoration)", wmap = self.walkable_map)
+    #draw_dungeon_layer(self, "Walls (Collidable)", wmap = self.walkable_map)
+    #draw_dungeon_layer(self, "Items1 (Collidable)", wmap = self.walkable_map)
 
     # draw projectiles over tiles & units
     draw_projectiles(self)

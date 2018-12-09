@@ -86,9 +86,23 @@ class SoundManager:
 
         self.sounds = {}
 
+        self.playing = {}
+
+    def is_sound_playing(self, sound_name):
+        if sound_name in self.playing:
+            return True
+        return False
+
+    def stop_sound_now(self, sound_name):
+        if sound_name in self.playing:
+            self.playing[sound_name][0].stop()
+            self.playing[sound_name][1].set_tick()
+
     def play_sound(self, sound_name):
         sound = choice(self.sounds[sound_name])
         sound.play()
+
+        self.playing[sound_name] = sound, ActionTimer("length", sound.get_length())
 
     def play_sound_now(self, sound_name):
         ele = sound_name, None
@@ -108,6 +122,17 @@ class SoundManager:
                 new_to_play.append((snd, timer))
 
         self.to_play = new_to_play
+
+        new_playing = {}
+        for snd_name, values in self.playing.items():
+            snd, timer = values
+            timer.update()
+            if timer.ticked:
+                pass
+            else:
+                new_playing[snd_name] = snd, timer
+
+        self.playing = new_playing
 
     def setup_sounds(self, snd_rel, ds):
         sounds = {}

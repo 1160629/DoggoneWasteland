@@ -22,6 +22,8 @@ class Weapon:
         self.quality_multiplier = None
         self.mods = []
 
+        self.rarity = None
+
         self.projectile_speed = 10
 
         self.last_attack_crit = False  # for if we ever want to show whether an attack was a critical hit or not
@@ -75,6 +77,9 @@ def get_new_weapon_instance(weapon_type, weapons):
 
     if "blast_radius" in weapon:
         w.blast_radius = weapon["blast_radius"]
+
+    if "widget_frame" in weapon:
+        w.widget_frame = weapon["widget_frame"]
 
     return w
 

@@ -714,6 +714,64 @@
             }
         }
     },
+    "Gramps": {
+        "Attack": {
+            "frame 1": {
+                "dt": 0.1,
+                "tiles": [
+                    [
+                        "main_set",
+                        0,
+                        24,
+                        0,
+                        0
+                    ]
+                ]
+            }
+        },
+        "Dies": {
+            "frame 1": {
+                "dt": 0.1,
+                "tiles": [
+                    [
+                        "main_set",
+                        0,
+                        24,
+                        0,
+                        0
+                    ]
+                ]
+            }
+        },
+        "Idle": {
+            "frame 1": {
+                "dt": 0.1,
+                "tiles": [
+                    [
+                        "main_set",
+                        0,
+                        24,
+                        0,
+                        0
+                    ]
+                ]
+            }
+        },
+        "Walking": {
+            "frame 1": {
+                "dt": 0.1,
+                "tiles": [
+                    [
+                        "main_set",
+                        0,
+                        24,
+                        0,
+                        0
+                    ]
+                ]
+            }
+        }
+    },
     "Green Blob": {
         "Attack": {
             "frame 1": {
