@@ -84,7 +84,7 @@
     "status effects": {
         "knocked": "Immobile.",
         "slowed": "M.S. reduced by 50%.",
-        "blind": "Range reduced by 75%.",
+        "blinded": "Range reduced by 75%.",
         "ready": "Range bonus of 3.",
         "steady": "Doubles crit chance.",
         "go": "M.S. increased by 1.",

@@ -71,8 +71,23 @@ class CombatController:
 
         self.start_of_turn = False
 
+        self.use_list = None
+
+        self.transition = True
+
+        self.new_room = True
+        self.old_room = None
+
     def set_units_in_room(self, g_obj):
         room = g_obj.dungeon.get_room()
+
+        if room == self.old_room:
+            self.new_room = False
+        else:
+            self.new_room = True
+
+        self.old_room = room
+
         units = g_obj.units
 
         gx, gy = room.grid_pos
@@ -92,7 +107,7 @@ class CombatController:
 
     def set_living_count(self):
         self.living_count = 0
-        for u in self.units_in_combat:
+        for u in self.use_list:
             if not (u.state == "dead"):
                 self.living_count += 1
 
@@ -119,41 +134,56 @@ class CombatController:
         return None
 
     def update(self, g_obj):
+        #print(self.state, self.turn, self.use_list)
         if self.state == "out of combat":
             self.set_units_in_room(g_obj)
-            if (len(self.units_in_room) > 1 and g_obj.mc in self.units_in_room):
+            self.use_list = self.units_in_room
+            self.set_living_count()
+
+            if self.new_room == True:
+                self.turn = 0
+                self.init_units()
+
+
+
+            if (len(self.units_in_room) > 1 and g_obj.mc in self.units_in_room) and self.living_count > 1:
                 self.state = "start combat"
+            
+        elif self.state == "start combat":
+            self.units_in_combat = self.units_in_room
+            self.use_list = self.units_in_combat
+
+            self.init_combat()
+
+            self.state = "in combat"
+
+        elif self.state == "in combat":
+            self.set_living_count()
+            self.use_list = self.units_in_combat
+
+            if self.living_count == 1:
+                self.state = "end combat"
+
+        elif self.state == "end combat":
+            self.turn = 0
 
             self.use_list = self.units_in_room
 
-            self.init_units()
-
-        if self.state == "start combat":
-            self.state = "in combat"
-            self.units_in_combat = self.units_in_room
-            self.use_list = self.units_in_combat
-            self.init_combat()
-
-        if self.state == "in combat":
-            self.set_living_count()
-            if self.living_count == 1:
-                self.state = "out of combat"
-            
-            self.use_list = self.units_in_combat
-        
+            self.state = "out of combat"
 
         cu = self.get_current_unit()
 
-        if cu != None and cu.end_turn == True:
-            self.turn += 1
-            if self.turn >= len(self.use_list):
-                self.turn = 0
+        if cu != None:
+            if cu.end_turn == True:
+                self.turn += 1
+                if self.turn >= len(self.use_list):
+                    self.turn = 0
 
-            cu.finish_turn()
+                cu.finish_turn()
 
-            nu = self.get_current_unit()
-            nu.end_turn = False
-            nu.ap.new_turn()
-            self.start_of_turn = True
-        else:
-            self.start_of_turn = False
+                nu = self.get_current_unit()
+                nu.end_turn = False
+                nu.ap.new_turn()
+                self.start_of_turn = True
+            else:
+                self.start_of_turn = False

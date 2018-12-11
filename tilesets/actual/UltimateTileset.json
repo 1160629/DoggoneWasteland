@@ -1006,7 +1006,7 @@
          "animation":[
                 {
                  "duration":100,
-                 "tileid":321
+                 "tileid":201
                 }],
          "id":168,
          "properties":[
@@ -1024,12 +1024,8 @@
         {
          "animation":[
                 {
-                 "duration":500,
-                 "tileid":321
-                }, 
-                {
-                 "duration":250,
-                 "tileid":306
+                 "duration":100,
+                 "tileid":201
                 }],
          "id":169,
          "properties":[
@@ -1048,7 +1044,7 @@
          "animation":[
                 {
                  "duration":100,
-                 "tileid":355
+                 "tileid":200
                 }],
          "id":170,
          "properties":[
@@ -1066,12 +1062,8 @@
         {
          "animation":[
                 {
-                 "duration":500,
-                 "tileid":355
-                }, 
-                {
-                 "duration":250,
-                 "tileid":339
+                 "duration":100,
+                 "tileid":200
                 }],
          "id":171,
          "properties":[

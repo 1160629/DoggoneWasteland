@@ -373,7 +373,7 @@ class Door:
 
         reals = []
         for x, y in product(range(tsw), range(tsh)):
-            if self.direction in ("north", "south") and \
+            if self.direction in ("south",) and \
                     (y == 0):
                 continue
             rx = -ox + px + x
@@ -390,7 +390,9 @@ class Door:
         self.open_timer.update()
 
         if fighting:
-            self.is_closed = True
+            if not self.is_closed and ((not self.should_be_open(g_obj, mpos)) or self.room_pos != g_obj.dungeon.get_room().grid_pos):
+                self.is_closed = True
+                self.sound.play_sound_now("door close")
             return
 
         #if not self.open_timer.ticked:
@@ -595,6 +597,8 @@ class Dungeon:
     def post_setup(self, loader, sound, rw, rh, tw, th, lootmgr, weapons):
         for r in self.rooms:
             r.post_setup()
+
+        self.rooms[0].has_been = True
 
         rating_trans = {
             0: {"common": 0.5, "rare": 0.3, "legendary": 0.2},

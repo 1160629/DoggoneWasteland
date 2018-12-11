@@ -5,9 +5,52 @@ from dungeon import Dungeon, Room
 
 from logic import get_distance
 
+from itertools import product
 
-def place_specials(dungeon):
-    pass
+from equipment import *
+from equipment_generation import *
+
+def place_anything(dungeon, room, rw, rh, anything):
+
+    cox, coy = 1, 1
+    cw, ch = rw-2, rh-2
+    center_positions = []
+    for x, y in product(range(cw), range(ch)):
+        centerp = x+cox, y+coy
+        center_positions.append(centerp)
+
+    # other units - also controlled by you, currently
+
+    # place units
+    assigned_positions = []
+    for u in anything:
+        #print(sroom.grid_pos)
+        gx, gy = room.grid_pos
+        ox, oy = gx * rw, gy * rh
+        while True:
+            randw, randh = randint(1, rw - 2), randint(2, rh - 2)
+            new_pos = ox + randw, oy + randh
+            walkable = room.walkable_map[randw][randh]
+            if walkable and new_pos not in assigned_positions and (randw, randh) in center_positions:
+                break
+        assigned_positions.append(new_pos)
+
+    return assigned_positions
+
+
+def place_specials(dungeon, lootmgr, weapons, sound, rw, rh):
+    # place first weapon
+
+    weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
+
+    r = dungeon.rooms[0]
+    avail = place_anything(dungeon, r, rw, rh, [weapon])
+    pos = avail[0]
+    rating = "common"
+    snd = sound
+
+    lootmgr.new_spawner(pos, avail, rating, snd, weapons, use_cost=False, discount=0, assign_loot=True, loot=[(weapon, "weapon")])
+
 
 # dungeon generation
 

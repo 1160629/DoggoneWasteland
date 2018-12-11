@@ -215,7 +215,7 @@ def draw_projectiles(g_obj):
         elif cu.attack_type == "shot":
             if cu.projectile_type == "arrow":
                 img = get_tile_img(g_obj, proj_tset, arrow_frame)
-            elif cu.projectile_type == "bullet":
+            elif cu.projectile_type == "bullet" or cu.projectile_type == "shot":
                 img = get_tile_img(g_obj, proj_tset, bullet_frame)
 
             img = pygame.transform.rotate(img, 90 - cu.projectile_angle)
@@ -274,29 +274,35 @@ def draw_combat_ui(g_obj):
     n = g_obj.cc.turn
     i = 0
     while len(units) > 0:
-        unit = units[n]
-        n += 1
-        if n >= len(units):
-            n = 0
-        if unit.state == "dead":
-            continue
+        not_all_dead = False
+        for unit in units[n:]+units[:n]:
+            if unit.state == "dead":
+                continue
 
-        i += 1
+            not_all_dead = True
 
-        f = unit.animations["Idle"].get_frame()
+            i += 1
 
-        frame = unit.animations["Idle"].get_frame()
-        images = []
-        for f in frame.tiles:
-            ind, to = f[:3], f[3:]
-            image = g_obj.tilesets.get_tile(*ind).image
-            images.append((image, to))
+            f = unit.animations["Idle"].get_frame()
 
-        px += 16 * g_obj.scale
+            frame = unit.animations["Idle"].get_frame()
+            images = []
+            for f in frame.tiles:
+                ind, to = f[:3], f[3:]
+                image = g_obj.tilesets.get_tile(*ind).image
+                images.append((image, to))
 
-        for img, to in images:
-            tx, ty = to
-            g_obj.swin.blit(img, (px + tx * tw, py + ty * th * -1))
+            px += 16 * g_obj.scale
+
+            for img, to in images:
+                tx, ty = to
+                g_obj.swin.blit(img, (px + tx * tw, py + ty * th * -1))
+
+            if i == draw_turns:
+                break
+        
+        if not_all_dead == False:
+            break
 
         if i == draw_turns:
             break
@@ -369,79 +375,143 @@ def draw_combat_ui(g_obj):
     blue = 135, 206, 250
 
     # draw interactive ui
-    ui_ = g_obj.ui.ui1
-    for k in ui_.ui_elements.keys():
-        ele = ui_.ui_elements[k]
+    if cu == g_obj.mc:
+        ui_ = g_obj.ui.ui1
+        for k in ui_.ui_elements.keys():
+            ele = ui_.ui_elements[k]
 
-        pos = ele.box.topleft
+            pos = ele.box.topleft
 
-        frame = ele.get_frame()
-        images = []
-        for f in frame.tiles:
-            ind, to = f[:3], f[3:]
-            image = g_obj.tilesets.get_tile(*ind).image
-            images.append((image, to))
+            if k == "left hand" and cu != None and cu.equipment.hand_two != None:
+                if ui_.selected_element == k:
+                    invert_color = True
+                else:
+                    invert_color = False
+                weapon = cu.equipment.hand_two
+                f = weapon.widget_frame
+                img = get_tile_img(g_obj, "main_set", f_flat(f))
+                if invert_color:
+                    arr = pygame.surfarray.array3d(img)
+                    arr[::, ::, 1] = 0
+                    arr[::, ::, 2] = 0
+                    pxred = pygame.surfarray.make_surface(arr)
+                    pxred.set_colorkey((0, 0, 0))
+                    img = pxred
+                images = [(img, (0, 0))]
+            elif k == "right hand" and cu != None and cu.equipment.hand_one != None:
+                if ui_.selected_element == k:
+                    invert_color = True
+                else:
+                    invert_color = False
+                weapon = cu.equipment.hand_one
+                f = weapon.widget_frame
+                img = get_tile_img(g_obj, "main_set", f_flat(f))
+                if invert_color:
+                    arr = pygame.surfarray.array3d(img)
+                    arr[::, ::, 1] = 0
+                    arr[::, ::, 2] = 0
+                    pxred = pygame.surfarray.make_surface(arr)
+                    pxred.set_colorkey((0, 0, 0))
+                    img = pxred
+                images = [(img, (0, 0))]
+            elif "ability" in k and cu != None and cu.memory.is_filled(k):
+                if ui_.selected_element == k:
+                    invert_color = True
+                else:
+                    invert_color = False
 
-        for i, to in images:
-            tx, ty = to
-            # draw_x = int(g_obj.cam.cw/2) + 64
-            # draw_y = - int(g_obj.cam.ch/2) - 128 - 32 + 8*g_obj.scale
-            draw_x = 16
-            draw_y = -16 - th
-            ele.draw_x = draw_x
-            ele.draw_y = draw_y
+                abi = cu.memory.get_learned(k)
+                aclass = abi.abi_class
 
-            px, py = (pos[0] + draw_x + tx * tw, pos[1] + draw_y + ty * th * -1)
-            g_obj.swin.blit(i, (px, py))
+                if aclass == "Brawler":
+                    f = 190
+                elif aclass == "Sharpshooter":
+                    f = 191
+                elif aclass == "Engineer":
+                    f = 189
+                elif aclass == "God":
+                    f = 447
 
-            if "ability" in ele.name:
-                abi = get_selected_ability(ele.name, g_obj.mc.memory)
-                if abi != None and abi.cooldown.cooldown != 0:
-                    rect = Rect(px, py, tw, th)
-                    f = abi.cooldown.cooldown / abi.cooldown.usage_cd
-                    sa = radians(360 - 360 * (f))
-                    ea = radians(360)
-                    radius = int(tw / 2 - 1)
-                    pygame.draw.arc(g_obj.swin, blue, rect, sa, ea, radius)
+                img = get_tile_img(g_obj, "main_set", f_flat(f))
 
-    # draw xp, level
+                if invert_color:
+                    arr = pygame.surfarray.array3d(img)
+                    arr[::, ::, 1] = 0
+                    arr[::, ::, 2] = 0
+                    pxred = pygame.surfarray.make_surface(arr)
+                    pxred.set_colorkey((0, 0, 0))
+                    img = pxred
 
-    mc = g_obj.mc
-    xp = mc.xp
-    xpup = mc.xp_to_lup
+                images = [(img, (0, 0))]
 
-    w, h = 50, 20
+            else:
+                frame = ele.get_frame()
+                images = []
+                for f in frame.tiles:
+                    ind, to = f[:3], f[3:]
+                    image = g_obj.tilesets.get_tile(*ind).image
+                    images.append((image, to))
 
-    b = 10
+            for i, to in images:
+                tx, ty = to
+                # draw_x = int(g_obj.cam.cw/2) + 64
+                # draw_y = - int(g_obj.cam.ch/2) - 128 - 32 + 8*g_obj.scale
+                draw_x = 16
+                draw_y = -16 - th
+                ele.draw_x = draw_x
+                ele.draw_y = draw_y
 
-    bx = g_obj.w - w * 5 - 50 - b * 5
-    by = g_obj.h - 50
+                px, py = (pos[0] + draw_x + tx * tw, pos[1] + draw_y + ty * th * -1)
+                g_obj.swin.blit(i, (px, py))
 
-    x, y = bx, by
+                if "ability" in ele.name:
+                    abi = get_selected_ability(ele.name, g_obj.mc.memory)
+                    if abi != None and abi.cooldown.cooldown != 0:
+                        rect = Rect(px, py, tw, th)
+                        f = abi.cooldown.cooldown / abi.cooldown.usage_cd
+                        sa = radians(360 - 360 * (f))
+                        ea = radians(360)
+                        radius = int(tw / 2 - 1)
+                        pygame.draw.arc(g_obj.swin, blue, rect, sa, ea, radius)
 
-    for i in range(xpup):
-        r = Rect(x, y, w, h)
-        x += w + b
-        pygame.draw.rect(g_obj.swin, gray, r)
+        # draw xp, level
 
-    x, y = bx, by
+        mc = g_obj.mc
+        xp = mc.xp
+        xpup = mc.xp_to_lup
 
-    for i in range(xp):
-        r = Rect(x, y, w, h)
-        x += w + b
-        pygame.draw.rect(g_obj.swin, blue, r)
+        w, h = 50, 20
 
-    # draw bullets
-    white = 255, 255, 255
-    text = "x {0}".format(mc.currency)
-    img = g_obj.font.render(text, 0, white)
+        b = 10
 
-    bullet = get_tile_img(g_obj, "main_set", f_flat(299))
+        bx = g_obj.w - w * 5 - 50 - b * 5
+        by = g_obj.h - 50
 
-    bpos = bx - 225, by - 15
-    tpos = bx - 175, by - 15
-    g_obj.swin.blit(bullet, bpos)
-    g_obj.swin.blit(img, tpos)
+        x, y = bx, by
+
+        for i in range(xpup):
+            r = Rect(x, y, w, h)
+            x += w + b
+            pygame.draw.rect(g_obj.swin, gray, r)
+
+        x, y = bx, by
+
+        for i in range(xp):
+            r = Rect(x, y, w, h)
+            x += w + b
+            pygame.draw.rect(g_obj.swin, blue, r)
+
+        # draw bullets
+        white = 255, 255, 255
+        text = "x {0}".format(mc.currency)
+        img = g_obj.font.render(text, 0, white)
+
+        bullet = get_tile_img(g_obj, "main_set", f_flat(299))
+
+        bpos = bx - 225, by - 15
+        tpos = bx - 175, by - 15
+        g_obj.swin.blit(bullet, bpos)
+        g_obj.swin.blit(img, tpos)
 
 
 def change_it_up(tt, ml):

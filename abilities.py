@@ -76,13 +76,57 @@ class Memory:
             o = c()
             self.ability_mapping[o.name.lower()] = c
 
+    def get_next_slot(self):
+        if len(self.abilities) == 0: 
+            return "ability 1"
+        n = 1
+        for i in range(self.max_abi):
+            txt = "ability " + str(n)
+            if not self.is_filled(txt):
+                return txt
+            n += 1 
+
+    def attach_latest_to_slot(self, slot):
+        self.abilities[-1].connected_ui_slot = slot
+
+    def is_full(self):
+        if len(self.abilities) >= self.max_abi:
+            return True
+        return False
+
+    def is_filled(self, n):
+        for i in self.abilities:
+            if i.connected_ui_slot == n:
+                return True
+        return False
+
+    def get_learned(self, n):
+        for i in self.abilities:
+            if i.connected_ui_slot == n:
+                return i
+        return None
+
+    def unlearn(self, abi):
+        new_abilities = []
+        for a in self.abilities:
+            if a == abi:
+                continue
+            new_abilities.append(a)
+        
+        self.abilities = new_abilities
+
     def learn(self, abi, by_name=False):
         if by_name:
             lo = abi.lower()
             if lo not in self.ability_mapping:
-                return
+                return False
             abi = self.ability_mapping[lo]()
         self.abilities.append(abi)
+        return True
+
+    def learn_all(self, abi_list, by_name=False):
+        for abi in abi_list:
+            self.learn(abi, by_name=by_name)
 
     def get_abilities(self):
         return self.abilities
@@ -110,10 +154,24 @@ class BasicAttack(Ability):  # unused?
 class TeleportAnywhere(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "God"
+
         self.name = "Teleport Anywhere"
         self.cooldown = Cooldown(0)
         self.ap_cost = 0
         self.ability_type = "reloc - instant"
+
+        self.any_sounds = False
+
+class DestroyAnything(Ability):
+    def __init__(self):
+        Ability.__init__(self)
+        self.abi_class = "God"
+
+        self.name = "Destroy Anything"
+        self.cooldown = Cooldown(0)
+        self.ap_cost = 0
+        self.ability_type = "attack - ranged"
 
         self.any_sounds = False
 
@@ -122,6 +180,8 @@ class TeleportAnywhere(Ability):
 class Steady(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "Steady"
         self.cooldown = Cooldown(5)
         self.ap_cost = 1
@@ -135,6 +195,8 @@ class Steady(Ability):
 class FirstAidKit(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "First Aid Kit"
         self.cooldown = Cooldown(3)
         self.ap_cost = 2
@@ -150,6 +212,8 @@ class FirstAidKit(Ability):
 class Kneecapper(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "Kneecapper"
         self.cooldown = Cooldown(4)
         self.ap_cost = 2
@@ -163,6 +227,8 @@ class Kneecapper(Ability):
 class LeadAmmo(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "Lead Ammo"
         self.cooldown = Cooldown(3)
         self.ap_cost = 2
@@ -176,6 +242,8 @@ class LeadAmmo(Ability):
 class DanceOff(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "Dance Off"
         self.cooldown = Cooldown(5)
         self.ap_cost = 3
@@ -189,6 +257,8 @@ class DanceOff(Ability):
 class TryToLeave(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Sharpshooter"
+
         self.name = "Try To Leave"
         self.cooldown = Cooldown(4)
         self.ap_cost = 3
@@ -202,6 +272,8 @@ class TryToLeave(Ability):
 class Ready(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Ready"
         self.cooldown = Cooldown(5)
         self.ap_cost = 1
@@ -215,6 +287,8 @@ class Ready(Ability):
 class FlashBang(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Flash Bang"
         self.cooldown = Cooldown(4)
         self.ap_cost = 3
@@ -232,6 +306,8 @@ class FlashBang(Ability):
 class Molotov(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Molotov"
         self.cooldown = Cooldown(2)
         self.ap_cost = 2
@@ -248,6 +324,8 @@ class Molotov(Ability):
 class Vaccine(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Vaccine"
         self.cooldown = Cooldown(5)
         self.ap_cost = 2
@@ -263,6 +341,8 @@ class Vaccine(Ability):
 class RocketRide(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Rocket Ride"
         self.cooldown = Cooldown(4)
         self.ap_cost = 3
@@ -280,6 +360,8 @@ class RocketRide(Ability):
 class HolyHandGrenade(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "Holy Hand Grenade"
         self.cooldown = Cooldown(5)
         self.ap_cost = 4
@@ -296,6 +378,8 @@ class HolyHandGrenade(Ability):
 class GottaHandItToEm(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Engineer"
+
         self.name = "GottaHandItToEm"
         self.cooldown = Cooldown(2)
         self.ap_cost = 2
@@ -314,6 +398,8 @@ class GottaHandItToEm(Ability):
 class Go(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Go"
         self.cooldown = Cooldown(5)
         self.ap_cost = 1
@@ -327,6 +413,8 @@ class Go(Ability):
 class Bash(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Bash"
         self.cooldown = Cooldown(2)
         self.ap_cost = 2
@@ -340,6 +428,8 @@ class Bash(Ability):
 class Fart(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Fart"
         self.cooldown = Cooldown(2)
         self.ap_cost = 1
@@ -356,6 +446,8 @@ class Fart(Ability):
 class ThrowSand(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Throw Sand"
         self.cooldown = Cooldown(2)
         self.ap_cost = 2
@@ -371,6 +463,8 @@ class ThrowSand(Ability):
 class DinnerTime(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Dinner Time"
         self.cooldown = Cooldown(3)
         self.ap_cost = 3
@@ -382,6 +476,8 @@ class DinnerTime(Ability):
 class Dash(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Dash"
         self.cooldown = Cooldown(3)
         self.ap_cost = 3
@@ -395,6 +491,8 @@ class Dash(Ability):
 class FalconPunch(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Falcon Punch"
         self.cooldown = Cooldown(5)
         self.ap_cost = 5
@@ -408,6 +506,8 @@ class FalconPunch(Ability):
 class Finisher(Ability):
     def __init__(self):
         Ability.__init__(self)
+        self.abi_class = "Brawler"
+
         self.name = "Finisher"
         self.cooldown = Cooldown(4)
         self.ap_cost = 5

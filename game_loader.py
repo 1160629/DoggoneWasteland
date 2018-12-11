@@ -394,7 +394,7 @@ def load_b(self):
     self.animations = load_animations("json/animations.json")
 
     self.sound, self.music = audio_loader("json/sound.json", "json/music.json")
-    self.music.muted = False
+    self.music.muted = True
 
     self.menu = Menu(self)
 
@@ -432,14 +432,15 @@ def load_b(self):
     else:
         sheet = self.dungeon.get_sheet()
     self.mc, self.units = setup_units(self.dungeon, self.rw, self.rh, sheet, weapons, \
-    self.labels, self.sound, self.animations)
+    self.labels, self.sound, self.lootmgr, self.animations)
     if need_sheet:
         self.dungeon.modify(sheet, self.layout_mods, self.units)
     self.dungeon.setup(load_layout)
     if self.stage == 0:
-        place_specials(self.dungeon)
+        place_specials(self.dungeon, self.lootmgr, weapons, self.sound, rw, rh)
     self.dungeon.post_setup(load_layout, self.sound, self.rw, self.rh, \
     self.tw, self.th, self.lootmgr, weapons)
+
 
     self.skilltree_mgr = SkillTreeMgr(self.mc.skilltree, self.tw, self.th, self.h, self)
     self.skilltree_mgr.setup()

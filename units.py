@@ -84,6 +84,7 @@ class Unit:
 
         self.sound = None #sound
         self.labels = None # labels
+        self.lootmgr = None
 
         self.knocked = False
         self.dashing = False
@@ -127,7 +128,7 @@ class Unit:
         self.timers["attack_timer"] = ActionTimer("move_timer", 0.75)
         self.timers["casting_timer"] = ActionTimer("casting_timer", 1)
         self.death_timer_reset = False
-        self.death_timer = ActionTimer("death_timer", 1)
+        self.death_timer = ActionTimer("death_timer", 2.5)
         self.timers["death_timer"] = self.death_timer
 
         # size of unit
@@ -191,6 +192,29 @@ class Unit:
     def init_anything_else(self):
         pass
 
+    def get_x_weapon(self, x):
+        for w in (self.equipment.hand_one, self.equipment.hand_two):
+            if w != None and w.weapon_class == x:
+                return w
+
+    def get_melee_weapon(self):
+        return self.get_x_weapon("Brawler")
+
+    def get_shooter_weapon(self):
+        return self.get_x_weapon("Sharpshooter")
+
+    def get_banger_weapon(self):
+        return self.get_x_weapon("Engineer")
+
+    def have_melee_weapon(self):
+        return self.get_melee_weapon() != None
+
+    def have_shooter_weapon(self):
+        return self.get_shooter_weapon() != None
+
+    def have_banger_weapon(self):
+        return self.get_banger_weapon() != None
+
     def get_xp(self, amount):
         rates = [
             1,
@@ -225,6 +249,7 @@ class Unit:
 
         self.xp += amount
         while self.xp >= self.xp_to_lup:
+            #print("Stuck")
             self.xp = self.xp - self.xp_to_lup
             if self.level >= len(rates):
                 rate = 4
@@ -241,7 +266,8 @@ class Unit:
         elif node.node_type == "mutation":
             self.mutations.mutate(node.node_is)
         elif node.node_type == "ability":
-            self.memory.learn(node.node_is, by_name=True)
+            pass
+            #self.memory.learn(node.node_is, by_name=True)
 
     def set_pos(self, pos):
         self.pos = pos
@@ -334,7 +360,7 @@ class Unit:
                     lab_delay += 0.5
             damagee.damage_taken += dmg
             self.labels.add_label("{0}".format(int(dmg)), damagee.pos[0], damagee.pos[1], delay=lab_delay, color="red")
-            if damagee.get_health() - damagee.damage_taken <= 0:
+            if damagee.get_health() - damagee.damage_taken <= 0 and damagee.state != "dead":
                 damagee.state = "dying"
                 self.currency += choice(damagee.get_currency_range())
 
@@ -471,7 +497,7 @@ class Unit:
             self.timers["casting_timer"].reset()
 
         elif sabi.name == "Kneecapper":
-            # self.attacking = [at_mouse["unit"]]
+            self.attacking = [at_mouse["unit"]]
 
             projectile_speed_per_unit = self.attack_weapon.projectile_speed
             self.attack_to = at_mouse["mapped"]
@@ -497,7 +523,7 @@ class Unit:
             self.casting_projectile = True
 
         elif sabi.name == "Lead Ammo":
-            # self.attacking = [at_mouse["unit"]]
+            self.attacking = [at_mouse["unit"]]
 
             projectile_speed_per_unit = self.attack_weapon.projectile_speed
             self.attack_to = at_mouse["mapped"]
@@ -629,6 +655,37 @@ class Unit:
             self.dashing_to = at_mouse["mapped"]
             self.timers["casting_timer"].dt = 0.1
             self.timers["casting_timer"].reset()
+            
+        elif sabi.name == "Destroy Anything":
+            self.attacking = [at_mouse["unit"]]
+
+            self.old_proj = self.attack_weapon.projectile_type
+            self.attack_weapon.projectile_type = "arrow"
+            self.old_speed = self.attack_weapon.projectile_speed
+            self.attack_weapon.projectile_speed = 50
+
+            projectile_speed_per_unit = self.attack_weapon.projectile_speed
+            self.attack_to = at_mouse["mapped"]
+
+            projectile_distance = get_distance(self.pos, self.attack_to) / projectile_speed_per_unit
+            self.timers["attack_timer"].dt = projectile_distance
+            self.timers["attack_timer"].reset()
+            # self.ap.use_point()
+            # self.ap.use_point()
+
+            if self.attack_weapon.projectile_type == "bullet":
+                self.sound.play_sound_now("bullet shot")
+            elif self.attack_weapon.projectile_type == "arrow":
+                self.sound.play_sound_now("arrow shot")
+
+            self.state = "casting"
+            self.timers["casting_timer"].dt = self.timers["attack_timer"].dt
+            self.timers["casting_timer"].reset()
+
+            self.attack_type = self.attack_weapon.attack_type
+            self.projectile_type = self.attack_weapon.attack_type
+
+            self.casting_projectile = True
 
 
     def update_general(self, mpos, mpress, at_mouse, ui):
@@ -656,7 +713,146 @@ class Unit:
         for a in self.animations.values():
             a.update()
 
-    def update_turn(self, mpos, mpress, at_mouse, ui, in_combat):
+    def pick_up(self, lootmgr):
+        pick_me_up = None
+        for ls in lootmgr.loot_spawners:
+            for l in ls.spawned:
+                if l.pick_up == True:
+                    pick_me_up = l
+                    break
+
+        if pick_me_up == None:
+            return
+
+        if not in_range(pick_me_up.pos, self.pos, 2):
+            pick_me_up.dont_grab()
+            self.labels.add_label("Too far away!", pick_me_up.pos[0], pick_me_up.pos[1])
+            return
+        
+
+        available_slot = False
+        for i in (self.equipment.hand_one, self.equipment.hand_two):
+            if i == None:
+                available_slot = True
+                break
+
+        if available_slot == False:
+            pick_me_up.dont_grab()
+            self.labels.add_label("No room!", pick_me_up.pos[0], pick_me_up.pos[1])
+            return
+        
+        if pick_me_up.cost > self.currency:
+            pick_me_up.dont_grab()
+            self.labels.add_label("Can't afford!", pick_me_up.pos[0], pick_me_up.pos[1])
+            return
+        else:
+            if pick_me_up.cost == 0:
+                self.labels.add_label("Got!", pick_me_up.pos[0], pick_me_up.pos[1])
+                self.sound.play_sound_now("buy")
+            else:
+                self.currency -= pick_me_up.cost
+                self.labels.add_label("Bought!", pick_me_up.pos[0], pick_me_up.pos[1])
+                self.sound.play_sound_now("buy")
+
+            pick_me_up.grab()
+
+        if self.equipment.hand_one == None:
+            self.equipment.hand_one = pick_me_up.item
+        elif self.equipment.hand_two == None:
+            self.equipment.hand_two = pick_me_up.item
+
+    def drop(self, at_mouse, mpress):
+        if at_mouse["mouse ui item"] == None:
+            return
+        if mpress[2] != 1:
+            return
+        #print(at_mouse["mouse ui item"].name)
+        
+        if at_mouse["mouse ui item"].name == "left hand" and self.equipment.hand_two != None:
+            item = self.equipment.hand_two
+            self.equipment.hand_two = None
+        elif at_mouse["mouse ui item"].name == "right hand" and self.equipment.hand_one != None:
+            item = self.equipment.hand_one
+            self.equipment.hand_one = None
+        else:
+            return
+
+        avail = []
+        for px, py in product(range(-2, 3, 1), range(-2, 3, 1)):
+            if (0, 0) == (px, py):
+                continue
+            x, y = px + self.pos[0], py + self.pos[1]
+            avail.append((x, y))
+
+        self.lootmgr.new_spawner(self.pos, avail, "common", self.sound, None, \
+        use_cost = False, discount = 0, assign_loot = True, loot = [(item, "weapon")])
+
+    def learn_ability(self):
+        equip_node = None
+        for i in self.skilltree.all_nodes:
+            if i.equip_me == True:
+                equip_node = i
+                break
+
+        if equip_node == None:
+            return
+
+        equip_node.equip_me = False
+
+        if equip_node.node_type != "ability":
+            return
+
+        if equip_node.equipped:
+            return
+
+        if self.memory.is_full():
+            self.labels.add_label("No memory slots!", self.pos[0], self.pos[1])
+            return
+        
+        name = equip_node.node_is
+        
+        next_slot = self.memory.get_next_slot()
+        result = self.memory.learn(name, by_name = True)
+        if result:
+            equip_node.equipped = True
+            self.memory.attach_latest_to_slot(next_slot)
+            self.labels.add_label("Learned!", self.pos[0], self.pos[1])
+        else:
+            self.labels.add_label("Unimplemented!", self.pos[0], self.pos[1])
+
+
+    def unlearn_ability(self, at_mouse, mpress):
+        if mpress[2] == 0:
+            return
+
+        if at_mouse["mouse ui item"] == None:
+            return
+
+        if not ("ability" in at_mouse["mouse ui item"].name):
+            return
+
+        abi_n = at_mouse["mouse ui item"].name
+        
+        abi = get_selected_ability(abi_n, self.memory)
+        
+        if abi == None:
+            return
+
+        self.memory.unlearn(abi)
+
+        for i in self.skilltree.all_nodes:
+            if i.node_is == abi.name.lower():
+                i.equipped = False
+                break
+
+        self.labels.add_label("Forget!", self.pos[0], self.pos[1])
+
+    def update_turn(self, mpos, mpress, at_mouse, ui, in_combat, lootmgr):
+        self.pick_up(lootmgr)
+        self.drop(at_mouse, mpress)
+        self.learn_ability()
+        self.unlearn_ability(at_mouse, mpress)
+
         if ui.get_selected() == "right hand":
             self.attack_weapon = self.equipment.hand_one
         elif ui.get_selected() == "left hand":
@@ -675,7 +871,7 @@ class Unit:
                     self.destination = at_mouse["mapped"]
 
             # basic attack
-            if self.attack_weapon != None and self.ap.get_ap() >= 2 and basic_attack:
+            if self.attack_weapon != None and self.ap.get_ap() >= 2 and basic_attack and at_mouse["unit"] != self:
                 if mpress[0] == 1:
                     if self.attack_weapon.attack_type == "bomb" and (at_mouse["walkable"] == True or \
                                                                      at_mouse["unit"] != None):
@@ -693,139 +889,249 @@ class Unit:
             ui_selected = ui.get_selected()
             if mpress[0] == 1 and ui_selected != None and "ability" in ui_selected:
                 selected_ability = get_selected_ability(ui_selected, self.memory)
-                self.attack_weapon = self.equipment.hand_one
-                if selected_ability != None and self.ap.get_ap() >= selected_ability.ap_cost and \
-                        selected_ability.get_cooldown() == 0:
-                    if selected_ability.name == "Steady":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Ready":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Go":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "First Aid Kit":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Bash":
-                        if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Finisher":
-                        if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Dinner Time":
-                        if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Falcon Punch":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Throw Sand":
-                        if in_range(at_mouse["mapped"], self.pos, self.get_range(other= \
-                                                                                         selected_ability.ability_range,
-                                                                                 using_weapon=False)) and \
-                                at_mouse["room"] == self.current_room:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Fart":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Dash":
-                        if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
-                                at_mouse["room"] == self.current_room and \
-                                in_range(at_mouse["mapped"], self.pos, \
-                                         self.get_range(other=selected_ability.ability_range, using_weapon=False)):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Kneecapper":
-                        if at_mouse["unit"] != None and at_mouse["room"] == self.current_room and \
-                                in_range(at_mouse["mapped"], self.pos, self.get_range()):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Lead Ammo":
-                        if at_mouse["unit"] != None and at_mouse["room"] == self.current_room and \
-                                in_range(at_mouse["mapped"], self.pos, self.get_range()):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Dance Off":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Flash Bang":
-                        if \
-                                at_mouse["room"] == self.current_room and \
-                                        in_range(at_mouse["mapped"], self.pos, \
-                                                 self.get_range(other=selected_ability.ability_range,
-                                                                using_weapon=False)):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Molotov":
-                        if \
-                                at_mouse["room"] == self.current_room and \
-                                        in_range(at_mouse["mapped"], self.pos, \
-                                                 self.get_range(other=selected_ability.ability_range,
-                                                                using_weapon=False)):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Rocket Ride":
-                        if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
-                                at_mouse["room"] == self.current_room and \
-                                in_range(at_mouse["mapped"], self.pos, \
-                                         self.get_range(other=selected_ability.ability_range, using_weapon=False)):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Vaccine":
-                        if at_mouse["unit"] == self:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Holy Hand Grenade":
-                        if \
-                                at_mouse["room"] == self.current_room and \
-                                        in_range(at_mouse["mapped"], self.pos, \
-                                                 self.get_range(other=selected_ability.ability_range,
-                                                                using_weapon=False)):
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Try To Leave":
-                        if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
-                                at_mouse["room"] == self.current_room and \
-                                at_mouse["mapped"] in self.current_room.get_door_positions():
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
-                    if selected_ability.name == "Teleport Anywhere":
-                        if at_mouse["unit"] == None and at_mouse["walkable"] == True:
-                            self.state = "casting"
-                            self.casting_ability = selected_ability
-                            self.start_casting(at_mouse)
+                if selected_ability != None:
+                    if self.ap.get_ap() >= selected_ability.ap_cost:
+                        if selected_ability.get_cooldown() == 0:
+                            if selected_ability.name == "Steady":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Ready":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Go":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "First Aid Kit":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Bash" and self.have_melee_weapon():
+                                have_weapon = True
+                                if self.have_melee_weapon():
+                                    self.attack_weapon = self.get_melee_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("No brawler weapon equipped!", at_mouse["unit"].pos[0], at_mouse["unit"].pos[1])
+                            elif selected_ability.name == "Finisher" and self.have_melee_weapon():
+                                have_weapon = True
+                                if self.have_melee_weapon():
+                                    self.attack_weapon = self.get_melee_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("No brawler weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Dinner Time" and self.have_melee_weapon():
+                                have_weapon = True
+                                if self.have_melee_weapon():
+                                    self.attack_weapon = self.get_melee_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if at_mouse["unit"] != self and in_range(at_mouse["mapped"], self.pos, one_tile_range):
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("No brawler weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Falcon Punch" and self.have_melee_weapon():
+                                have_weapon = True
+                                if self.have_melee_weapon():
+                                    self.attack_weapon = self.get_melee_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if at_mouse["unit"] == self:
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("No brawler weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Throw Sand":
+                                if in_range(at_mouse["mapped"], self.pos, self.get_range(other= \
+                                                                                                selected_ability.ability_range,
+                                                                                        using_weapon=False)):
+                                    if at_mouse["room"] == self.current_room:
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                            elif selected_ability.name == "Fart":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Dash":
+                                if in_range(at_mouse["mapped"], self.pos, \
+                                                self.get_range(other=selected_ability.ability_range, using_weapon=False)):
+                                    if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
+                                            at_mouse["room"] == self.current_room:
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                            elif selected_ability.name == "Kneecapper" and self.have_shooter_weapon():
+                                have_weapon = True
+                                if self.have_shooter_weapon():
+                                    self.attack_weapon = self.get_shooter_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if in_range(at_mouse["mapped"], self.pos, self.get_range()):
+                                        if at_mouse["unit"] != None and at_mouse["room"] == self.current_room:
+                                            self.state = "casting"
+                                            self.casting_ability = selected_ability
+                                            self.start_casting(at_mouse)
+                                    else:
+                                        self.labels.add_label("Not in range!", at_mouse["unit"].pos[0], at_mouse["unit"].pos[1])
+                                else:
+                                    self.labels.add_label("No sharpshooter weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Lead Ammo" and self.have_shooter_weapon():
+                                have_weapon = True
+                                if self.have_shooter_weapon():
+                                    self.attack_weapon = self.get_shooter_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if in_range(at_mouse["mapped"], self.pos, self.get_range()):
+                                        if at_mouse["unit"] != None and at_mouse["room"] == self.current_room:
+                                            self.state = "casting"
+                                            self.casting_ability = selected_ability
+                                            self.start_casting(at_mouse)
+                                    else:
+                                        self.labels.add_label("Not in range!", at_mouse["unit"].pos[0], at_mouse["unit"].pos[1])
+                                else:
+                                    self.labels.add_label("No sharpshooter weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Dance Off":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Flash Bang" and self.have_banger_weapon():
+                                have_weapon = True
+                                if self.have_banger_weapon():
+                                    self.attack_weapon = self.get_banger_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if in_range(at_mouse["mapped"], self.pos, \
+                                                        self.get_range(other=selected_ability.ability_range,
+                                                                        using_weapon=False)):
+                                        if \
+                                            at_mouse["room"] == self.current_room:
+                                            self.state = "casting"
+                                            self.casting_ability = selected_ability
+                                            self.start_casting(at_mouse)
+                                    else:
+                                        self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                                else:
+                                    self.labels.add_label("No engineer weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Molotov" and self.have_banger_weapon():
+                                have_weapon = True
+                                if self.have_banger_weapon():
+                                    self.attack_weapon = self.get_banger_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if in_range(at_mouse["mapped"], self.pos, \
+                                                        self.get_range(other=selected_ability.ability_range,
+                                                                        using_weapon=False)):
+                                        if at_mouse["room"] == self.current_room:
+                                            self.state = "casting"
+                                            self.casting_ability = selected_ability
+                                            self.start_casting(at_mouse)
+                                    else:
+                                        self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                                else:
+                                    self.labels.add_label("No engineer weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Rocket Ride":
+                                if in_range(at_mouse["mapped"], self.pos, \
+                                                self.get_range(other=selected_ability.ability_range, using_weapon=False)):
+                                    if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
+                                            at_mouse["room"] == self.current_room:
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                            elif selected_ability.name == "Vaccine":
+                                if at_mouse["unit"] == self:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Holy Hand Grenade":
+                                have_weapon = True
+                                if self.have_banger_weapon():
+                                    self.attack_weapon = self.get_banger_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                        if at_mouse["room"] == self.current_room:
+                                            if in_range(at_mouse["mapped"], self.pos, \
+                                                                self.get_range(other=selected_ability.ability_range,
+                                                                                using_weapon=False)):
+                                                self.state = "casting"
+                                                self.casting_ability = selected_ability
+                                                self.start_casting(at_mouse)
+                                            else:
+                                                self.labels.add_label("Not in range!", at_mouse["mapped"][0], at_mouse["mapped"][1])
+                                else:
+                                    self.labels.add_label("No engineer weapon equipped!", self.pos[0], self.pos[1])
+                            elif selected_ability.name == "Try To Leave":
+                                if at_mouse["unit"] == None and at_mouse["walkable"] == True and \
+                                        at_mouse["room"] == self.current_room and \
+                                        at_mouse["mapped"] in self.current_room.get_door_positions():
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Teleport Anywhere":
+                                if at_mouse["unit"] == None and at_mouse["walkable"] == True:
+                                    self.state = "casting"
+                                    self.casting_ability = selected_ability
+                                    self.start_casting(at_mouse)
+                            elif selected_ability.name == "Destroy Anything":
+                                have_weapon = True
+                                if self.have_melee_weapon():
+                                    self.attack_weapon = self.get_melee_weapon()
+                                elif self.have_shooter_weapon():
+                                    self.attack_weapon = self.get_shooter_weapon()
+                                elif self.have_banger_weapon():
+                                    self.attack_weapon = self.get_banger_weapon()
+                                else:
+                                    have_weapon = False
+                                if have_weapon:
+                                    if at_mouse["unit"] != None and at_mouse["unit"] != self:
+                                        self.state = "casting"
+                                        self.casting_ability = selected_ability
+                                        self.start_casting(at_mouse)
+                                else:
+                                    self.labels.add_label("No weapon!", self.pos[0], self.pos[1])
+                            else:
+                                pass
+                        else:
+                            self.labels.add_label("On cooldown!", self.pos[0], self.pos[1]) # cd
+                    else:
+                        self.labels.add_label("Not enough AP!", self.pos[0], self.pos[1]) # no ap
+
 
         if self.state == "dead":
             self.end_turn = True
@@ -947,7 +1253,7 @@ class Unit:
                 self.projectile_pos = qx, qy
 
             elif self.casting_ability.ability_type == "attack - ranged - debuff" or \
-                    self.casting_ability.ability_type == "attack- ranged":
+                    self.casting_ability.ability_type == "attack - ranged":
                 i = self.timers["casting_timer"].get_progress()
                 df_pheight = 3
                 pheight = math.sin(i * math.pi) * df_pheight
@@ -1081,6 +1387,11 @@ class Unit:
                     self.dashing = False
                     self.set_pos(self.dashing_to)
 
+                elif self.casting_ability.name == "Destroy Anything":
+                    self.damage(self.attacking[0], self.get_damage(dmg_per_bonus=1000000))
+                    self.casting_projectile = False
+                    self.attack_weapon.projectile_type = self.old_proj
+                    self.attack_weapon.projectile_speed = self.old_speed
 
         elif self.state == "attacking":
             self.anim_state = "Attack"
@@ -1145,9 +1456,10 @@ class Unit:
             elif self.death_timer.ticked:
                 self.state = "dead"
 
-    def update(self, mpos, mpress, at_mouse, yourturn, ui, in_combat):
+        
+    def update(self, mpos, mpress, at_mouse, yourturn, ui, in_combat, lootmgr):
         if yourturn:
-            self.update_turn(mpos, mpress, at_mouse, ui, in_combat)
+            self.update_turn(mpos, mpress, at_mouse, ui, in_combat, lootmgr)
         self.update_general(mpos, mpress, at_mouse, ui)
 
     def start_turn(self):

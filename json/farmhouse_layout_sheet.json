@@ -1,5 +1,6 @@
 {
     "room 1": {
+        "room_layout": "",
         "room_center": "empty",
         "enemies": []
     },

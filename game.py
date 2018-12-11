@@ -37,6 +37,9 @@ if __name__ == "__main__":
 # FIX!!
 # East-doors of starting room sometimes broken? wtf
 # Dungeon generation edge-cases w/ constraint of 2 connections (i.e. it spawns itself stuck in a corner)
+# dropping needs to consider whether tiles are walkable or not - ignore for now.
+# death animations / death timer not quite working? - not super important.
+# no door close sound when going into combat.
 
 # background for ui - do this last, when everything else about ui is set in stone
 
@@ -53,21 +56,19 @@ if __name__ == "__main__":
 # time rating: 1.5 hours
 # farmhouse:
 # specials stuff
-
-# time rating: 2 hours
-# enemy spawning:
-# make archetype stuff
+# spawn a melee weapon in 1st room (done)
+# start with 3 stat points (done)
+# collar + bubbles
+# grandpa in 1st room too (goes away when you leave first room) + bubbles
+# bed in 1st room? constant 1st room layout? yeah, probably
+# start in a state of resting
+# wake up - bubbles?
+# no more - enough!
 
 # time rating: 5 hours
 # AI. 
 # make a very simple A.I.
 # with two archetype controllers for "melee, ranged"
-
-# time rating: 2.5 hours
-# equipping stuff:
-# loot on the ground
-# and abilities from skill tree
-# reordering abilities and weapons
 
 # ignore for now
 # time rating: 2.5 hours

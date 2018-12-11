@@ -9,6 +9,11 @@ class Stats:
         print("dex:", self.dexterity)
         print("int:", self.intelligence)
 
+    def set_stats(self, d):
+        for k in d.keys():
+            for n in range(d[k]):
+                self.increase_stat(k)
+
     def increase_stat(self, name):
         if name == "int":
             self.intelligence += 1
@@ -37,6 +42,9 @@ class Node:
         self.rect = None
 
         self.statted = False
+
+        self.equip_me = False
+        self.equipped = False
 
     def add_dest(self, new_node):
         self.points_to.append(new_node)

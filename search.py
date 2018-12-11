@@ -61,4 +61,4 @@ def search_folder(search_for, folder):
 
 
 if __name__ == "__main__":
-    search_folder("max_health", ".")
+    search_folder("while ", ".")

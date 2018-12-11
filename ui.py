@@ -128,8 +128,11 @@ class UIInteractive:
         self.lock_elements = []
         self.lock = False
 
+        self.mouseover_elements = []
+
     def update(self, mpos, mpress, at_mouse):
         mouseover = []
+        mouseover_elements = []
 
         can = not self.lock
         for k in self.ui_elements.keys():
@@ -137,6 +140,8 @@ class UIInteractive:
             le = k == self.selected_element
             mover, select = e.update(mpos, mpress, at_mouse, can, le)
             mouseover.append(mover)
+            if mover:
+                mouseover_elements.append(e)
             if self.lock:
                 if k == self.selected_element:
                     if not e.selected:
@@ -160,6 +165,8 @@ class UIInteractive:
                 break
         else:
             self.selected_element = None
+
+        self.mouseover_elements = mouseover_elements
 
         if any(mouseover):
             return True
@@ -412,6 +419,12 @@ def get_loot_at_mouse(g_obj, at_mouse):
             if i.pos == at_mouse["mapped"]:
                 return i
 
+def get_mouse_ui_item(g_obj, at_mouse):
+    if len(g_obj.ui.ui1.mouseover_elements) > 0:
+        return g_obj.ui.ui1.mouseover_elements[0]
+    else:
+        return None
+
 def get_mouse_hover(g_obj, mpos):
     at_mouse = {}
 
@@ -453,7 +466,7 @@ def get_mouse_hover(g_obj, mpos):
 
     at_mouse["loot"] = get_loot_at_mouse(g_obj, at_mouse)
 
-    at_mouse["mouse ui item"] = None
+    at_mouse["mouse ui item"] = get_mouse_ui_item(g_obj, at_mouse)
 
     return at_mouse
 

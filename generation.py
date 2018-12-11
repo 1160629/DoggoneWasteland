@@ -1,6 +1,9 @@
 from numpy.random import choice as weighed_choice
 from random import choice, shuffle, randint, random
 
+from equipment_generation import *
+from equipment import *
+
 from units import *
 
 # unit generation
@@ -23,25 +26,42 @@ def make_enemy(enemy, enemy_archetype, enemy_controller, specifics, weapons):
     # and give them weapons, shields, gear 
     # according to archetype
     if enemy_archetype == "rocketeer":
-        pass
+        weapon = create_weapon("common", "good", get_new_weapon_instance("Detonator-On-A-Stick", weapons))
+        stats = {"int": 4, "dex": 1, "str": 0}
+        to_learn = "ready", "vaccine", "flashbang"
     elif enemy_archetype == "gunslinger":
-        pass
+        weapon = create_weapon("common", "regular", get_new_weapon_instance("Colt", weapons))
+        stats = {"int": 1, "dex": 3, "str": 1}
+        to_learn = "steady", "lead ammo", "kneecapper"
     elif enemy_archetype == "fighter":
-        pass
+        weapon = create_weapon("common", "regular", get_new_weapon_instance("Hatchet", weapons))
+        stats = {"int": 0, "dex": 2, "str": 3}
+        to_learn = "dash", "bash"
     elif enemy_archetype == "tank":
-        pass
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
+        stats = {"int": 0, "dex": 0, "str": 5}
+        to_learn = "vaccine", "first aid kit", "throw sand", "go"
     elif enemy_archetype == "basic melee":
-        pass
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
+        stats = {"int": 0, "dex": 0, "str": 0}
+        to_learn = tuple()
     elif enemy_archetype == "basic range":
-        pass
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Colt", weapons))
+        stats = {"int": 0, "dex": 0, "str": 0}
+        to_learn = tuple()
+
+    e.hand_one = weapon
+    e.stats.set_stats(stats)
+    e.memory.learn_all(to_learn, by_name = True)
 
     return e
 
-def assign_unit_stuff(units, labels, sound, animations):
+def assign_unit_stuff(units, labels, sound, lootmgr, animations):
     # assign pertinent objects
     for u in units:
         u.labels = labels
         u.sound = sound
+        u.lootmgr = lootmgr
 
     # assign animations
     for u in units:
@@ -108,21 +128,24 @@ def place_units(dungeon, rw, rh, units):
         u.set_pos(new_pos)
 
 
-def setup_units(dungeon, rw, rh, setup_sheet, weapons, labels, sound, animations):
+def setup_units(dungeon, rw, rh, setup_sheet, weapons, labels, sound, lootmgr, animations):
     if setup_sheet == None:
         setup_sheet = dungeon.get_setup_sheet()
 
     mc = setup_mc()
 
-    from abilities import TeleportAnywhere
-    abi = TeleportAnywhere()
-    abi.connected_ui_slot = "ability 5"
-    mc.memory.learn(abi)
+    from abilities import TeleportAnywhere, DestroyAnything
+    abi1 = TeleportAnywhere()
+    abi1.connected_ui_slot = "ability 5"
+    mc.memory.learn(abi1)
+    abi2 = DestroyAnything()
+    abi2.connected_ui_slot = "ability 4"
+    mc.memory.learn(abi2)
 
     enemies = setup_enemies(weapons, setup_sheet)
 
     units = [mc] + enemies
-    assign_unit_stuff(units, labels, sound, animations)
+    assign_unit_stuff(units, labels, sound, lootmgr, animations)
 
     place_units(dungeon, rw, rh, units)
 

@@ -260,9 +260,11 @@ class SkillTreeMgr:
 
         self.mover_node = None
 
-        self.stat_points = 0
+        self.stat_points = 3
 
         self.last_known_level = 0
+
+        self.equip_timer = ActionTimer("", 0.5)
 
     def setup(self):
         maxh = self.tree.h * self.th
@@ -273,6 +275,7 @@ class SkillTreeMgr:
             n.rect = r
 
     def update(self, mpos, mpress, ui, fighting, lkl):
+        self.equip_timer.update()
         ui.at_mouse["skill tree node"] = None
 
         if fighting:
@@ -301,6 +304,11 @@ class SkillTreeMgr:
         self.mover_node = mover_node
         ui.at_mouse["skill tree node"] = mover_node
 
+        if mover_node.statted and mpress[0] and self.equip_timer.ticked and not mover_node.equipped:
+            mover_node.equip_me = True
+            self.equip_timer.reset()
+            return
+
         if mpress[0] != 1:
             return
 
@@ -309,6 +317,7 @@ class SkillTreeMgr:
 
         result = self.tree.stat_node(self.mover_node)
         if result:
+            self.equip_timer.reset()
             self.g_obj.renderlogic.prerendered.skilltree = prerender_skilltree(self.g_obj)
             self.stat_points -= 1
             return self.mover_node
@@ -327,10 +336,24 @@ class Loot:
 
         self.type = None
 
+        self.pick_up = False
+
+        self.grabbed = False
+
+        self.pick_up_timer = ActionTimer("", 0.5)
+
+    def grab(self):
+        self.grabbed = True
+
+    def dont_grab(self):
+        self.pick_up = False
+        self.pick_up_timer.reset()
+
     def get_pos(self):
         return self.pos
 
-    def update(self, state, i = None):
+    def update(self, state, at_mouse = None, i = None, clicked = None):
+        self.pick_up_timer.update()
         if state == "spawning":
             df_pheight = 3
             pheight = math.sin(i * math.pi) * df_pheight
@@ -343,6 +366,11 @@ class Loot:
         elif state == "spawned":
             self.pos = self.target_pos
 
+            if at_mouse["loot"] == self and clicked and not self.grabbed and self.pick_up_timer.ticked:
+                self.pick_up = True
+            else:
+                self.pick_up = False
+
 def my_weighed_choice(d):
     rand = random()
 
@@ -354,15 +382,17 @@ def my_weighed_choice(d):
 
 class LootSpawner:
     # weapons, shields, gear, syringes
-    def __init__(self, pos, available_spots, loot_rating, sound, weapons, use_cost = False, discount = 0):
+    def __init__(self, pos, available_spots, loot_rating, sound, weapons, use_cost = False, discount = 0, assign_loot = False):
         self.sound = sound
 
-        self.weapons = weapons
-        self.weapon_names = list(self.weapons.keys())
+        if not assign_loot:
+            self.weapons = weapons
+            self.weapon_names = list(self.weapons.keys())
 
         self.spawn_timer = ActionTimer("", 0.25)
         self.pos = pos
         self.available_spots = available_spots
+        shuffle(self.available_spots)
 
         self.unspawned = []
 
@@ -371,7 +401,8 @@ class LootSpawner:
         self.use_cost = use_cost
         self.discount = discount
 
-        self.make_some_loot(loot_rating)
+        if not assign_loot:
+            self.make_some_loot(loot_rating)
 
         self.done_spawning = False
 
@@ -491,6 +522,15 @@ class LootSpawner:
 
         self.unspawned = [i for i in loot]
 
+    def assign_loot(self, item, t):
+        loot = Loot()
+        loot.item = item
+        loot.type = t
+        loot.cost = 0
+        loot.spawner_pos = self.pos
+        loot.target_pos = self.get_available_spot()
+        self.unspawned.append(loot)
+
     def get_positions_of_spawned(self):
         return [i.pos for i in self.spawned]
 
@@ -528,18 +568,26 @@ class LootSpawner:
             else:
                 self.i = self.spawn_timer.get_progress()
 
+        new_spawned = []
         for n in self.spawned:
-            n.update("spawned")
+            if n.grabbed:
+                continue
+            n.update("spawned", at_mouse = ui.at_mouse, clicked = mpress[0])
+            new_spawned.append(n)
+        self.spawned = new_spawned
         
         if self.current_one != None:
-            self.current_one.update("spawning", self.i)
+            self.current_one.update("spawning", i = self.i)
 
 class LootMgr:
     def __init__(self):
         self.loot_spawners = []
 
-    def new_spawner(self, pos, avail, rating, snd, weapons, use_cost = False, discount = 0):
-        ls = LootSpawner(pos, avail, rating, snd, weapons, use_cost = use_cost, discount = discount)
+    def new_spawner(self, pos, avail, rating, snd, weapons, use_cost = False, discount = 0, assign_loot = False, loot = None):
+        ls = LootSpawner(pos, avail, rating, snd, weapons, use_cost = use_cost, discount = discount, assign_loot = assign_loot)
+        if assign_loot:
+            for l, t in loot:
+                ls.assign_loot(l, t)
         self.loot_spawners.append(ls)
         return ls
 
@@ -547,6 +595,31 @@ class LootMgr:
         for ls in self.loot_spawners:
             ls.update(mpos, mpress, ui, fighting)
 
+def get_skill_tree_node(g_obj, m):
+    #print(m.name)
+    abi = g_obj.mc.memory.get_learned(m.name)
+    if abi == None:
+        return None
+    for n in g_obj.mc.skilltree.all_nodes:
+        if n.node_is == abi.name.lower():
+            return n
+    return None
+
+def get_loot_thing(g_obj, m):
+    loot = Loot()
+    if m.name == "right hand":
+        item = g_obj.mc.equipment.hand_one
+    elif m.name == "left hand":
+        item = g_obj.mc.equipment.hand_two
+
+    if item == None:
+        return None
+
+    loot.item = item
+    loot.cost = 0
+    loot.type = "weapon"
+
+    return loot
 
 class Tooltips:
     def __init__(self):
@@ -555,7 +628,7 @@ class Tooltips:
     def load_tooltips(self, loader, path):
         self.tooltips = loader(path)
 
-    def update(self, mpos, mpress, ui):
+    def update(self, g_obj, mpos, mpress, ui):
         mat = ui.at_mouse
         u = mat["unit"]
         s = mat["skill tree node"]
@@ -572,6 +645,12 @@ class Tooltips:
                 title = "{0}: {1}".format(section, what)
                 tt = self.tooltips["status effects"][ttname]
                 self.active_tooltips.append((title, tt))
+
+        if m != None:
+            if "ability" in m.name:
+                s = get_skill_tree_node(g_obj, m)
+            elif "hand" in m.name:
+                e = get_loot_thing(g_obj, m)
 
         if s != None:
             trans = {
@@ -628,6 +707,15 @@ class Tooltips:
 
                 main = "Rarity: {1}\n Quality: {0} ({4}{5}% damage)\n Damage: {2} to {3} ({0} quality)\n Range: {6}\n Crit: {7}%\n\n"
                 actual_main = main_cost + main.format(qual, rarity, dmg_range[0]*mul, dmg_range[1]*mul, sign, per, fire_range, crit_chance)
+
+                trans_mods = {
+                    "Blinded": "Blind",
+                    "Burning": "Burn",
+                    "Poisoned": "Poison",
+                    "Bleeding": "Bleed",
+                    "Slowed": "Slow",
+                    "Knocked": "Knock"
+                }
 
                 per_mods = [
                     "Blind",
@@ -688,3 +776,5 @@ class Tooltips:
                 tt = actual_main + mods_text + tt_comments
 
             self.active_tooltips.append((title, tt))
+
+        

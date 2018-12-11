@@ -40,7 +40,7 @@ def update(self):
 
     self.lootmgr.update(mpos, mpress, self.ui, fighting)
 
-    self.tooltips.update(mpos, mpress, self.ui)
+    self.tooltips.update(self, mpos, mpress, self.ui)
     
     units_turn = self.cc.get_current_unit()
     if self.cc.start_of_turn == True and units_turn != None:
@@ -55,7 +55,7 @@ def update(self):
         else:
             yourturn = False
         at_mouse = self.ui.at_mouse
-        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.use_list)
+        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.use_list, self.lootmgr)
         if u.get_path:
             nx, ny = at_mouse["mapped"]
             room = self.dungeon.which_room(u, self)
