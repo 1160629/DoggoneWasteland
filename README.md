@@ -18,7 +18,7 @@ Run 'python pygame.py'
 ## Sources used
 [Jukedeck](www.jukedeck.com)  
 [Bfxr](www.bfxr.net)  
-(Freesound](freesound.org)  
+[Freesound](freesound.org)  
 [A* Algorithm](en.wikipedia.org/wiki/A*_search_algorithm)  
 [Pygame](www.pygame.org/docs)  
 [noiseforfun](https://www.noiseforfun.com)  
