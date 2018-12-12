@@ -27,7 +27,7 @@ Run 'python pygame.py'
 [Pixel Speech Bubble](https://pixelspeechbubble.com/)  
 
 
-## Programs used:
+## Programs used
 [Gimp](https://www.gimp.org/)  
 [Tiled](https://www.mapeditor.org/)  
 [Audacity](https://www.audacityteam.org/)  
