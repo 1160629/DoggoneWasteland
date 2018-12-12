@@ -11,7 +11,7 @@ from dungeon_generation import generate_dungeon, place_specials
 from combat import CombatController
 
 from control import Animation, AnimationSetInitializer, RenderLogic, \
-LabelMgr, SkillTreeMgr, Tooltips, LootMgr
+LabelMgr, SkillTreeMgr, Tooltips, LootMgr, SpecialsManager, EffectsManager
 
 from tiles import *
 
@@ -394,7 +394,7 @@ def load_b(self):
     self.animations = load_animations("json/animations.json")
 
     self.sound, self.music = audio_loader("json/sound.json", "json/music.json")
-    self.music.muted = True
+    self.music.muted = False
 
     self.menu = Menu(self)
 
@@ -412,34 +412,46 @@ def load_b(self):
     self.labels = LabelMgr(self.w)
 
     self.ui = UI(self)
+    self.ui_bg = pygame.image.load("ui_background/uibg2.png").convert_alpha()
+
+    self.bubbles_json = load_json("json/speech.json")
 
     self.cam = Camera(self.w, self.h)
 
+    self.effmgr = EffectsManager()
 
     self.stage = 0
     rw, rh = self.rw, self.rh = 32, 13
     if self.stage == 0:
         need_sheet = True
-        constraints = {"max_walk_connections": 2, "total_rooms": 7, "start_max_walk": 1, "end_max_walk": 1}
+        constraints = {
+            "max_walk_connections": 2, "total_rooms": 7, \
+            "start_max_walk": 1, "end_max_walk": 1, \
+            "starting_directions": ("west",)
+            }
+        allow_screwups = False
     else:
         need_sheet = False
         constraints = {}
+        allow_screwups = True
     self.dungeon = generate_dungeon(self.layouts, self.layout_mods, self.tilesets, \
-    rw, rh, stage=self.stage, constraints=constraints)
+    rw, rh, stage=self.stage, constraints=constraints, allow_screwups=allow_screwups)
+    self.dungeon.specialsmgr = SpecialsManager()
     self.dungeon.pre_setup(load_layout)
     if need_sheet:
         sheet = farmhouse_sheet
     else:
         sheet = self.dungeon.get_sheet()
     self.mc, self.units = setup_units(self.dungeon, self.rw, self.rh, sheet, weapons, \
-    self.labels, self.sound, self.lootmgr, self.animations)
+    self.labels, self.sound, self.lootmgr, self.animations, self.effmgr)
     if need_sheet:
         self.dungeon.modify(sheet, self.layout_mods, self.units)
     self.dungeon.setup(load_layout)
     if self.stage == 0:
-        place_specials(self.dungeon, self.lootmgr, weapons, self.sound, rw, rh)
+        place_specials(self.dungeon, self.lootmgr, weapons, self.sound, self.bubbles_json, rw, rh)
     self.dungeon.post_setup(load_layout, self.sound, self.rw, self.rh, \
     self.tw, self.th, self.lootmgr, weapons)
+    self.dungeon.resetup(load_layout)
 
 
     self.skilltree_mgr = SkillTreeMgr(self.mc.skilltree, self.tw, self.th, self.h, self)

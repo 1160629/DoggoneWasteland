@@ -37,12 +37,19 @@ def draw(self):
     # draw projectiles over tiles & units
     draw_projectiles(self)
 
+    # draw explosions, etc.
+    draw_effects(self)
+
     # lighting
     # lighting_pass(self)
 
     # draw labels over projectiles
 
     draw_labels(self)
+
+    # draw very important interactables 
+    draw_dungeon_interactables_ontop(self)
+    
 
     # draw ui over everything thus far
     draw_combat_ui(self)

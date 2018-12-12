@@ -29,6 +29,8 @@ class Ability:
 
         self.any_sound = False
 
+        self.ability_range = 0
+
     def use(self):
         self.cooldown.use()
 
@@ -191,6 +193,8 @@ class Steady(Ability):
         self.any_sounds = True
         self.sound_names = ["buff"]
 
+        self.category = "buff"
+
 
 class FirstAidKit(Ability):
     def __init__(self):
@@ -208,6 +212,8 @@ class FirstAidKit(Ability):
         self.any_sounds = True
         self.sound_names = ["heal"]
 
+        self.category = "heal"
+
 
 class Kneecapper(Ability):
     def __init__(self):
@@ -222,6 +228,8 @@ class Kneecapper(Ability):
 
         self.any_sounds = True
         self.sound_names = ["slow"]
+
+        self.category = "ranged"
 
 
 class LeadAmmo(Ability):
@@ -238,6 +246,8 @@ class LeadAmmo(Ability):
         self.any_sounds = True
         self.sound_names = ["knock"]
 
+        self.category = "ranged"
+
 
 class DanceOff(Ability):
     def __init__(self):
@@ -253,6 +263,8 @@ class DanceOff(Ability):
         self.any_sounds = True
         self.sound_names = ["blind"]
 
+        self.category = "ranged"
+
 
 class TryToLeave(Ability):
     def __init__(self):
@@ -265,6 +277,8 @@ class TryToLeave(Ability):
         self.ability_type = "reloc - instant"
 
         self.any_sounds = False
+
+        self.category = "ranged"
 
 
 # engineer
@@ -282,6 +296,8 @@ class Ready(Ability):
 
         self.any_sounds = True
         self.sound_names = ["buff"]
+
+        self.category = "buff"
 
 
 class FlashBang(Ability):
@@ -302,6 +318,8 @@ class FlashBang(Ability):
         self.any_sounds = True
         self.sound_names = ["slow", "blind"]
 
+        self.category = "ranged"
+
 
 class Molotov(Ability):
     def __init__(self):
@@ -320,6 +338,8 @@ class Molotov(Ability):
         self.any_sounds = True
         self.sound_names = ["burning"]
 
+        self.category = "ranged"
+
 
 class Vaccine(Ability):
     def __init__(self):
@@ -336,6 +356,8 @@ class Vaccine(Ability):
 
         self.any_sounds = True
         self.sound_names = ["heal"]
+
+        self.category = "heal"
 
 
 class RocketRide(Ability):
@@ -356,6 +378,8 @@ class RocketRide(Ability):
         self.any_sounds = True
         self.sound_names = ["knock"]
 
+        self.category = "ranged"
+
 
 class HolyHandGrenade(Ability):
     def __init__(self):
@@ -373,6 +397,8 @@ class HolyHandGrenade(Ability):
 
         self.any_sounds = True
         self.sound_names = ["knock"]
+
+        self.category = "ranged"
 
 
 class GottaHandItToEm(Ability):
@@ -409,6 +435,8 @@ class Go(Ability):
         self.any_sounds = True
         self.sound_names = ["buff"]
 
+        self.category = "buff"
+
 
 class Bash(Ability):
     def __init__(self):
@@ -423,6 +451,8 @@ class Bash(Ability):
 
         self.any_sounds = True
         self.sound_names = ["knock"]
+
+        self.category = "melee"
 
 
 class Fart(Ability):
@@ -442,6 +472,8 @@ class Fart(Ability):
         self.any_sounds = True
         self.sound_names = ["poison"]
 
+        self.category = "ranged"
+
 
 class ThrowSand(Ability):
     def __init__(self):
@@ -459,6 +491,8 @@ class ThrowSand(Ability):
         self.any_sounds = True
         self.sound_names = ["blind"]
 
+        self.category = "ranged"
+
 
 class DinnerTime(Ability):
     def __init__(self):
@@ -471,6 +505,8 @@ class DinnerTime(Ability):
         self.ability_type = "attack - melee"
 
         self.any_sounds = False
+
+        self.category = "melee"
 
 
 class Dash(Ability):
@@ -487,6 +523,8 @@ class Dash(Ability):
 
         self.any_sounds = False
 
+        self.category = "ranged"
+
 
 class FalconPunch(Ability):
     def __init__(self):
@@ -502,6 +540,8 @@ class FalconPunch(Ability):
 
         self.any_sounds = False
 
+        self.category = "melee"
+
 
 class Finisher(Ability):
     def __init__(self):
@@ -514,3 +554,5 @@ class Finisher(Ability):
         self.ability_type = "attack - melee"
 
         self.any_sounds = False
+
+        self.category = "melee"

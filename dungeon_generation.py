@@ -1,7 +1,7 @@
 from numpy.random import choice as weighed_choice
 from random import choice, shuffle, randint, random
 
-from dungeon import Dungeon, Room
+from dungeon import Dungeon, Room, Collar, Gramps
 
 from logic import get_distance
 
@@ -10,10 +10,12 @@ from itertools import product
 from equipment import *
 from equipment_generation import *
 
-def place_anything(dungeon, room, rw, rh, anything):
+def place_anything(dungeon, room, rw, rh, anything, centerzoom = None):
+    if centerzoom == None:
+        centerzoom = 0, 0
 
-    cox, coy = 1, 1
-    cw, ch = rw-2, rh-2
+    cox, coy = 1+centerzoom[0], 1+centerzoom[1]
+    cw, ch = rw-2-centerzoom[0]*2, rh-2-centerzoom[1]*2
     center_positions = []
     for x, y in product(range(cw), range(ch)):
         centerp = x+cox, y+coy
@@ -38,8 +40,10 @@ def place_anything(dungeon, room, rw, rh, anything):
     return assigned_positions
 
 
-def place_specials(dungeon, lootmgr, weapons, sound, rw, rh):
+def place_specials(dungeon, lootmgr, weapons, sound, bub_json, rw, rh):
     # place first weapon
+
+    specialsmgr = dungeon.specialsmgr
 
     weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
 
@@ -51,6 +55,17 @@ def place_specials(dungeon, lootmgr, weapons, sound, rw, rh):
 
     lootmgr.new_spawner(pos, avail, rating, snd, weapons, use_cost=False, discount=0, assign_loot=True, loot=[(weapon, "weapon")])
 
+    avail = place_anything(dungeon, r, rw, rh, [None], centerzoom = (9, 3))
+    pos = avail[0]
+    collar = Collar(pos, bub_json)
+
+    specialsmgr.add(collar)
+
+    avail = place_anything(dungeon, r, rw, rh, [None], centerzoom = None)
+    pos = avail[0]
+    gramps = Gramps(pos, bub_json)
+
+    specialsmgr.add(gramps)
 
 # dungeon generation
 
@@ -102,8 +117,17 @@ def get_directions(cr, dl, con):
 
     return ds
 
+def generate_dungeon(layouts_, layout_mods, tilesets, rw, rh, stage = None, constraints = None, allow_screwups = True):
+    if allow_screwups:
+        return generate_dungeon_(layouts_, layout_mods, tilesets, rw, rh, stage = stage, constraints = constraints)[0]
+    else:
+        while True:
+            d, screwed = generate_dungeon_(layouts_, layout_mods, tilesets, rw, rh, stage = stage, constraints = constraints)
+            if screwed == False:
+                return d
 
-def generate_dungeon(layouts_, layout_mods, tilesets, rw, rh, stage = None, constraints = None):
+
+def generate_dungeon_(layouts_, layout_mods, tilesets, rw, rh, stage = None, constraints = None):
     if stage == None:
         stage = 0
 
@@ -291,21 +315,30 @@ def generate_dungeon(layouts_, layout_mods, tilesets, rw, rh, stage = None, cons
 
         # now branch out and find new potential rooms
         ds = get_directions(cr, dung_list, con)
-        shuffle(ds)
-        nds = len(ds)
-        if nds == 0:
-            go_n = 0
-        elif nds == 1:
-            go_n = 1
+        if "starting_directions" in constraints and len(ar) == 1:
+            dorients = constraints["starting_directions"]
+            new_ds = []
+            for d_ in ds:
+                if d_[1] in dorients:
+                    new_ds.append(d_)
+            ds = new_ds
+            go_n = len(ds)
         else:
-            go_n = randint(1, nds)
-        already_connected = cr.get_n_connections()
-        if len(ar) == 1:
-            go_n = min(go_n, constraints["start_max_walk"]-already_connected)
-        elif len(ar) == gen_rooms:
-            go_n = min(go_n, constraints["end_max_walk"]-already_connected)
-        else:
-            go_n = min(go_n, constraints["max_walk_connections"]-already_connected)
+            shuffle(ds)
+            nds = len(ds)
+            if nds == 0:
+                go_n = 0
+            elif nds == 1:
+                go_n = 1
+            else:
+                go_n = randint(1, nds)
+            already_connected = cr.get_n_connections()
+            if len(ar) == 1:
+                go_n = min(go_n, constraints["start_max_walk"]-already_connected)
+            elif len(ar) == gen_rooms:
+                go_n = min(go_n, constraints["end_max_walk"]-already_connected)
+            else:
+                go_n = min(go_n, constraints["max_walk_connections"]-already_connected)
         for i in range(go_n):
 
             ads = ds.pop(0)
@@ -441,6 +474,26 @@ def generate_dungeon(layouts_, layout_mods, tilesets, rw, rh, stage = None, cons
         if n_conns == 1:
             end_rooms.append(r)
 
+    legal_rooms = []
+    ind = 0
+    for r in ar:
+        l = r.north, r.south, r.west, r.east
+        n_conns = 4 - sum(1 for i in l if i == None)
+        if ind == 0:
+            if n_conns <= constraints["start_max_walk"]:
+                legal_rooms.append(r)
+        elif ind == gen_rooms - 1:
+            if n_conns <= constraints["end_max_walk"]:
+                legal_rooms.append(r)
+        elif n_conns <= constraints["max_walk_connections"]:
+            legal_rooms.append(r)
+        ind += 1
+
+    if len(legal_rooms) != gen_rooms:
+        screwed_up = True
+    else:
+        screwed_up = False
+
     gdist = 0
     froom = dung.rooms[0]
 
@@ -475,4 +528,4 @@ def generate_dungeon(layouts_, layout_mods, tilesets, rw, rh, stage = None, cons
 
     dung.rw, dung.rh = rw, rh
 
-    return dung
+    return dung, screwed_up

@@ -6,6 +6,8 @@ from equipment import *
 
 from units import *
 
+from ai import Controller
+
 # unit generation
 
 def make_enemy(enemy, enemy_archetype, enemy_controller, specifics, weapons):
@@ -21,25 +23,28 @@ def make_enemy(enemy, enemy_archetype, enemy_controller, specifics, weapons):
     else:
         e.has_controller = True
         e.controller_name = enemy_controller
+        e.controller = Controller()
+        e.controller.controller_type = enemy_controller
+        e.controller.unit = e
 
     # use skill tree to assign skills, stats, mutations
     # and give them weapons, shields, gear 
     # according to archetype
     if enemy_archetype == "rocketeer":
-        weapon = create_weapon("common", "good", get_new_weapon_instance("Detonator-On-A-Stick", weapons))
-        stats = {"int": 4, "dex": 1, "str": 0}
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Detonator-On-A-Stick", weapons))
+        stats = {"int": 2, "dex": 1, "str": 0}
         to_learn = "ready", "vaccine", "flashbang"
     elif enemy_archetype == "gunslinger":
-        weapon = create_weapon("common", "regular", get_new_weapon_instance("Colt", weapons))
-        stats = {"int": 1, "dex": 3, "str": 1}
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Colt", weapons))
+        stats = {"int": 1, "dex": 2, "str": 1}
         to_learn = "steady", "lead ammo", "kneecapper"
     elif enemy_archetype == "fighter":
-        weapon = create_weapon("common", "regular", get_new_weapon_instance("Hatchet", weapons))
-        stats = {"int": 0, "dex": 2, "str": 3}
+        weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
+        stats = {"int": 0, "dex": 1, "str": 2}
         to_learn = "dash", "bash"
     elif enemy_archetype == "tank":
         weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
-        stats = {"int": 0, "dex": 0, "str": 5}
+        stats = {"int": 0, "dex": 0, "str": 2}
         to_learn = "vaccine", "first aid kit", "throw sand", "go"
     elif enemy_archetype == "basic melee":
         weapon = create_weapon("common", "crappy", get_new_weapon_instance("Hatchet", weapons))
@@ -50,25 +55,26 @@ def make_enemy(enemy, enemy_archetype, enemy_controller, specifics, weapons):
         stats = {"int": 0, "dex": 0, "str": 0}
         to_learn = tuple()
 
-    e.hand_one = weapon
+    e.equipment.hand_one = weapon
     e.stats.set_stats(stats)
     e.memory.learn_all(to_learn, by_name = True)
 
     return e
 
-def assign_unit_stuff(units, labels, sound, lootmgr, animations):
+def assign_unit_stuff(units, labels, sound, lootmgr, effmgr, animations):
     # assign pertinent objects
     for u in units:
         u.labels = labels
         u.sound = sound
         u.lootmgr = lootmgr
+        u.effmgr = effmgr
 
     # assign animations
     for u in units:
         name = u.anim_name
         u.animations = animations.new_animation_set_instance(name)
 
-def setup_mc():
+def setup_mc(setup_sheet):
     mc = MC()
     mc.spawn_in_room = "room 1"
 
@@ -128,25 +134,26 @@ def place_units(dungeon, rw, rh, units):
         u.set_pos(new_pos)
 
 
-def setup_units(dungeon, rw, rh, setup_sheet, weapons, labels, sound, lootmgr, animations):
+def setup_units(dungeon, rw, rh, setup_sheet, weapons, labels, sound, lootmgr, animations, effmgr):
     if setup_sheet == None:
         setup_sheet = dungeon.get_setup_sheet()
 
-    mc = setup_mc()
+    mc = setup_mc(setup_sheet)
 
-    from abilities import TeleportAnywhere, DestroyAnything
-    abi1 = TeleportAnywhere()
-    abi1.connected_ui_slot = "ability 5"
-    mc.memory.learn(abi1)
-    abi2 = DestroyAnything()
-    abi2.connected_ui_slot = "ability 4"
-    mc.memory.learn(abi2)
 
     enemies = setup_enemies(weapons, setup_sheet)
 
     units = [mc] + enemies
-    assign_unit_stuff(units, labels, sound, lootmgr, animations)
+    assign_unit_stuff(units, labels, sound, lootmgr, effmgr, animations)
 
     place_units(dungeon, rw, rh, units)
+
+    if "mc_spawn" in setup_sheet["room 1"]:
+        rx, ry = setup_sheet["room 1"]["mc_spawn"]
+        gx, gy = dungeon.get_room().grid_pos
+        x, y = rx + gx * rw, ry + gy * rh
+        pos = x, y
+        mc.set_pos(pos)
+
 
     return mc, units

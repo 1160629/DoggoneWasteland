@@ -27,7 +27,7 @@ class Camera:
 
         self.never_centered = True
 
-    def update(self, mpos, mpress, centerpos, ui):
+    def update(self, mpos, mpress, centerpos, roomcenterpos, ui):
         if ui.at_mouse["ui mouseover"] == True or \
                 ui.ui1.lock:
             return
@@ -36,6 +36,8 @@ class Camera:
             self.never_centered = False
             self.x, self.y = centerpos
             return
+        elif mpress[1] == 1:
+            self.x, self.y = roomcenterpos
         elif mpress[0] == 0:
             return
         mx, my = mpos

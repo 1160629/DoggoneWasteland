@@ -74,6 +74,16 @@ class Room:
     def post_setup(self):
         self.walkable_map = create_room_walkable_map(self)
 
+    def resetup(self, loader):
+        self.layout = loader(self.layout_path, self.tilesets)
+
+        if self.layout_mod != None:
+            self.setup_layout_mod(loader)
+
+        self.create_hallways(loader)
+
+        self.walkable_map = create_room_walkable_map(self)
+
     def setup(self, loader):
         if self.layout_mod != None:
             self.setup_layout_mod(loader)
@@ -438,14 +448,17 @@ class Dungeon:
         self.chests = []
         self.beds = []
         self.shopkeepers = []
-        self.specials = []
 
         self.in_room = 0
 
         self.stage = None
         self.stage_name = None
 
+        self.specialsmgr = None
+
     def update(self, mc_pos, g_obj, mpos, mpress, ui, fighting):
+        self.specialsmgr.update(g_obj, mpos, mpress, ui)
+
         for d in self.doors:
             d.update(g_obj, mpos, mpress, ui, fighting)
 
@@ -475,6 +488,9 @@ class Dungeon:
                 self.in_room = ind
                 break
             ind += 1
+
+        if self.in_room != 0:
+            self.specialsmgr.remove("gramps")
 
     def get_room(self):
         return self.rooms[self.in_room]
@@ -573,13 +589,22 @@ class Dungeon:
             else:
                 room.has_enemies = False
                 room.danger_rating = 0
+
+            if "room_layout" in sheet[r]:
+                room.layout_name = "Starting Room"
+                room.layout_path = "json/layouts/{0}".format(sheet[r]["room_layout"])
+                
+
             if ref == "":
                 continue
             trans = mid_trans[ref]
             room.remove_layout_mod()
             room.room_type = trans
             room.layout_mod = lm_mid[trans]
-            rand_correct_lmod_name = choice(lm_mid[trans])
+            if "specific_center" in sheet[r]:
+                rand_correct_lmod_name = sheet[r]["specific_center"]
+            else:
+                rand_correct_lmod_name = choice(lm_mid[trans])
             lmod_path = layout_mods[rand_correct_lmod_name]
             room.layout_mod_path = lmod_path
             ind += 1
@@ -643,6 +668,10 @@ class Dungeon:
             if r.needs_bed_logic:
                 b = Bed(r, rw, rh, sound)
                 self.beds.append(b)
+
+    def resetup(self, loader):
+        for r in self.rooms:
+            r.resetup(loader)
 
 
 class Bed:
@@ -863,3 +892,94 @@ class Shop:
             else:
                 if not self.sound.is_sound_playing("blahblah"):
                     self.sound.play_sound_now("blahblah")
+
+
+
+class Collar:
+    def __init__(self, spawn_pos, bub_json):
+        self.pos = spawn_pos
+        self.frames = {"0": 292, "1": 293}
+
+        self.bubbles_paths = bub_json["Farmhouse"]["Collar"]
+        self.load_bubble_images()
+        self.bubble_frame = 0
+
+        self.bubble_timer = ActionTimer("", 1.5)
+        
+        self.should_draw_bub = False
+
+        self.type = "collar"
+
+    def load_bubble_images(self):
+        self.bubbles_imgs = {}
+        for k, e in self.bubbles_paths.items():
+            i = pygame.image.load("speech/bubbles/{0}".format(e))
+            self.bubbles_imgs[k] = i
+
+    def get_frame(self):
+        return self.frames["0"]
+
+    def get_bubble_frame(self):
+        return self.bubbles_imgs[str(self.bubble_frame)]
+
+    def update(self, g_obj, mpos, mpress, ui):
+        self.bubble_timer.update()
+
+        if in_range(self.pos, g_obj.mc.pos, 2):
+            if self.should_draw_bub == False:
+                self.bubble_timer.reset()
+                self.bubble_frame = 0
+                self.should_draw_bub = True
+        else:
+            self.should_draw_bub = False
+
+        if self.bubble_timer.ticked:
+            self.bubble_timer.reset()
+            self.bubble_frame += 1
+            if self.bubble_frame >= len(self.bubbles_imgs.keys()):
+                self.bubble_frame = 0
+            
+class Gramps:
+    def __init__(self, spawn_pos, bub_json):
+        self.pos = spawn_pos
+        self.frames = {"0": 384}
+
+        self.bubbles_paths = bub_json["Farmhouse"]["Gramps"]
+        self.load_bubble_images()
+        self.bubble_frame = 0
+
+        self.bubble_timer = ActionTimer("", 1.5)
+        
+        self.should_draw_bub = False
+
+        self.type = "gramps"
+
+    def load_bubble_images(self):
+        self.bubbles_imgs = {}
+        for k, e in self.bubbles_paths.items():
+            i = pygame.image.load("speech/bubbles/{0}".format(e))
+            self.bubbles_imgs[k] = i
+
+    def get_frame(self):
+        return self.frames["0"]
+
+    def get_bubble_frame(self):
+        return self.bubbles_imgs[str(self.bubble_frame)]
+
+    def update(self, g_obj, mpos, mpress, ui):
+        self.bubble_timer.update()
+
+        if in_range(self.pos, g_obj.mc.pos, 2):
+            if self.should_draw_bub == False:
+                self.bubble_timer.reset()
+                self.bubble_frame = 0
+                self.should_draw_bub = True
+        else:
+            self.should_draw_bub = False
+
+        if self.bubble_timer.ticked:
+            self.bubble_timer.reset()
+            self.bubble_frame += 1
+            if self.bubble_frame >= len(self.bubbles_imgs.keys()):
+                self.bubble_frame = 0
+            

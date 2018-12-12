@@ -778,3 +778,92 @@ class Tooltips:
             self.active_tooltips.append((title, tt))
 
         
+
+class SpecialsManager:
+    def __init__(self):
+        self.l = []
+
+    def remove(self, thing_name):
+        new_l = []
+        for i in self.l:
+            if i.type == thing_name:
+                continue
+            new_l.append(i)
+        
+        self.l = new_l
+
+    def add(self, thing):
+        self.l.append(thing)
+
+    def get(self):
+        return self.l
+
+    def update(self, g_obj, mpos, mpress, ui):
+        for i in self.l:
+            i.update(g_obj, mpos, mpress, ui)
+
+def merge_colors(c0, c1, i):
+    j = 1-i
+    colors = []
+    for a, b in zip(c0, c1):
+        c = int(j * a + b * i)
+        if not (0 <= c <= 255):
+            c = c % 255
+        colors.append(c)
+
+    return colors
+
+class BombExplosionEffect:
+    def __init__(self, pos, rad):
+        self.pos = pos
+        self.rad = rad
+        self.cur_rad = 0
+
+        self.timer = ActionTimer("", 0.15)
+
+        self.kill = False
+
+        self.type = "explosion"
+
+        self.i = 0
+        self.c0 = 255, 160, 122
+        self.c1 = 220, 20, 60
+
+    def get_color(self):
+        return merge_colors(self.c0, self.c1, self.i)
+
+    def get_rad(self):
+        return self.cur_rad
+
+    def update(self, g_obj, mpos, mpress, ui):
+        self.timer.update()
+        if self.timer.ticked:
+            self.kill = True
+            return
+
+        self.i = self.timer.get_progress()
+        self.cur_rad = self.rad * self.i
+        if self.cur_rad <= 0:
+            self.cur_rad = 1
+
+class EffectsManager:
+    def __init__(self):
+        self.effects = []
+
+    def add_effect(self, eff):
+        self.effects.append(eff)
+
+    def get(self):
+        return self.effects
+
+    def update(self, g_obj, mpos, mpress, ui):
+        new_effects = []
+        for e in self.effects:
+            e.update(g_obj, mpos, mpress, ui)
+
+            if e.kill:
+                continue
+            else:
+                new_effects.append(e)
+
+        self.effects = new_effects

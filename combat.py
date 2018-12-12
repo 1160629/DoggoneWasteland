@@ -4,7 +4,7 @@ class AP:
 
         self.current_ap = 0  # the AP recovered per turn
 
-        self.base_ap = 5  # base AP of any unit
+        self.base_ap = 4  # base AP of any unit
         self.max_ap = 10  # AP cap of all units
 
         self.fractional_point = 0

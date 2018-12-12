@@ -85,6 +85,8 @@ def get_new_weapon_instance(weapon_type, weapons):
 
 
 def get_weapon_range(w):
+    if w == None:
+        return 0
     weapon = w
     base_range = weapon.range
 

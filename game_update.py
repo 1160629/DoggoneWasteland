@@ -22,7 +22,12 @@ def update(self):
 
     px, py = self.mc.pos
     centerpos = -(px * self.tw - int(self.w / 2)), -(py * self.th - int(self.h / 2))
-    self.cam.update(mpos, mpress, centerpos, self.ui)
+    rw, rh = self.rw, self.rh
+    gx, gy = self.dungeon.get_room().grid_pos
+    tw, th = self.tw, self.th
+
+    roomcenterpos = -(rw * gx * tw - self.w//2 + (rw * tw) // 2), -(rh * gy * th - self.h // 2 + (rh * th) // 2)
+    self.cam.update(mpos, mpress, centerpos, roomcenterpos, self.ui)
     # print(self.cam.get())
     self.renderlogic.update()
 
@@ -42,6 +47,8 @@ def update(self):
 
     self.tooltips.update(self, mpos, mpress, self.ui)
     
+    self.effmgr.update(self, mpos, mpress, self.ui)
+
     units_turn = self.cc.get_current_unit()
     if self.cc.start_of_turn == True and units_turn != None:
         units_turn.start_turn()
@@ -55,15 +62,28 @@ def update(self):
         else:
             yourturn = False
         at_mouse = self.ui.at_mouse
-        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.use_list, self.lootmgr)
+        if u.has_controller:
+            u.controller.update(self, self.mc, mpos, mpress, self.ui, fighting)
+            con_act = u.controller.con_act
+            #at_mouse = {"units": [[],[],[],[],[],[],[],[]], "unit": None, "mapped": (0, 0), \
+            #"mouse ui item": None, "loot": None, "walkable": None, "tiles": None, "room": None, \
+            #"ui mouseover": None}
+            at_mouse["ui mouseover"] = None
+        else:
+            con_act = {"do": "nothing"}
+        u.update(mpos, mpress, at_mouse, yourturn, self.ui, self.cc.use_list, self.lootmgr, con_act)
         if u.get_path:
-            nx, ny = at_mouse["mapped"]
+            if u.has_controller:
+                nx, ny = u.controller.l_move_con_act["dest"]
+            else:
+                nx, ny = at_mouse["mapped"]
             room = self.dungeon.which_room(u, self)
             rw, rh = self.rw, self.rh
             gx, gy = room.grid_pos
             rx = nx - gx * rw
             ry = ny - gy * rh
-            walkable_map = create_walkable_matrix(room, self.units, u, at_mouse, self)
+            print(rx, ry)
+            walkable_map = create_walkable_matrix(room, self.units, u, self)
             self.walkable_map = walkable_map
             node_map = get_node_map(walkable_map)
             sx, sy = u.pos

@@ -166,7 +166,7 @@ def corrigated_path(unit):
 
     return cpath, use_points
 
-def create_walkable_matrix(cr, units, cu, at_mouse, g_obj):
+def create_walkable_matrix(cr, units, cu, g_obj, am = None):
 
     dung = g_obj.dungeon
     rs = dung.adjacent_rooms() + [((0, 0), cr)]
@@ -189,7 +189,7 @@ def create_walkable_matrix(cr, units, cu, at_mouse, g_obj):
             continue
         x, y = u.pos
         xd, yd = x//rw, y//rh
-        room = at_mouse["room"]
+        room = cr
         rw, rh = g_obj.rw, g_obj.rh
         gx, gy = room.grid_pos
         rx = x - gx * rw

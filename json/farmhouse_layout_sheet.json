@@ -1,7 +1,9 @@
 {
     "room 1": {
-        "room_layout": "",
-        "room_center": "empty",
+        "room_layout": "Farmhouse_Tileset_Starting_Room.json",
+        "room_center": "rest",
+        "specific_center": "rest2_farm",
+        "mc_spawn": [14, 6],
         "enemies": []
     },
     "room 2": {
@@ -18,8 +20,7 @@
     "room 4": {
         "room_center": "loot",
         "enemies": [
-            ["Zombie", "tank", "melee controller", {"health": 100}], 
-            ["RedDevil", "fighter", "melee controller", {"health": 40}],
+            ["RedDevil", "tank", "melee controller", {"health": 100}],
             ["Mage", "rocketeer", "ranged controller", {"health": 30}], 
             ["Sneak", "gunslinger", "ranged controller", {"health": 30}]
             ]
@@ -35,7 +36,7 @@
     "room 7": {
         "room_center": "",
         "enemies": [
-            ["Gramps", "fighter", "melee controller", {"health": 150}]
+            ["Gramps", "fighter", "melee controller", {"health": 100}]
         ]
     }
 }

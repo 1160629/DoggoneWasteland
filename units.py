@@ -3,7 +3,7 @@ from abilities import Memory
 from stats import Stats, build_skill_tree
 from mutations import Mutations
 from combat import AP
-from control import ActionTimer, Animation, Label
+from control import ActionTimer, Animation, Label, BombExplosionEffect
 from logic import get_distance, in_range, one_tile_range, corrigated_path
 
 from random import randint, choice
@@ -131,6 +131,8 @@ class Unit:
         self.death_timer = ActionTimer("death_timer", 2.5)
         self.timers["death_timer"] = self.death_timer
 
+        self.timers["use_timer"] = ActionTimer("use_timer", 0.5)
+
         # size of unit
         self.area = 1
 
@@ -152,6 +154,10 @@ class Unit:
         # idle, moving, attacking, dying, dead
         self.state = "idle"
 
+        # for ai
+        self.has_controller = False
+        self.controller = None
+
         # set this to true, to end the units turn
         self.end_turn = False
 
@@ -161,6 +167,10 @@ class Unit:
         self.spawn_in_room = None
         #
         self.current_bed = None
+        #
+        self.effmgr = None
+        #
+        self.attack_radius = 0
 
         # initialise stuff
         self.init_attributes()
@@ -382,6 +392,7 @@ class Unit:
         self.labels.add_label("" + str(int(heal)), self.pos[0], self.pos[1], color="green", delay = delay)
 
     def launch_bomb(self, at_mouse):
+        self.attack_radius = self.attack_weapon.blast_radius
         self.state = "attacking"
         self.attacking = at_mouse["units"][self.attack_weapon.blast_radius - 2]
         projectile_speed_per_unit = self.attack_weapon.projectile_speed
@@ -577,6 +588,8 @@ class Unit:
 
             self.casting_projectile = True
 
+            self.attack_radius = abirange
+
         elif sabi.name == "Molotov":
             # self.state = "attacking"
             # self.attacking = at_mouse["units"][self.attack_weapon.blast_radius-2]
@@ -601,6 +614,8 @@ class Unit:
             self.attack_type = "bomb"
 
             self.casting_projectile = True
+
+            self.attack_radius = abirange
 
         elif sabi.name == "Rocket Ride":
             self.dashing = True
@@ -643,6 +658,8 @@ class Unit:
             self.attack_type = "bomb"
 
             self.casting_projectile = True
+
+            self.attack_radius = abirange
 
         elif sabi.name == "Try To Leave":
             self.dashing = True
@@ -847,7 +864,7 @@ class Unit:
 
         self.labels.add_label("Forget!", self.pos[0], self.pos[1])
 
-    def update_turn(self, mpos, mpress, at_mouse, ui, in_combat, lootmgr):
+    def update_turn(self, mpos, mpress, at_mouse, ui, in_combat, lootmgr, con_act):
         self.pick_up(lootmgr)
         self.drop(at_mouse, mpress)
         self.learn_ability()
@@ -865,31 +882,46 @@ class Unit:
 
         if self.state == "idle" and not at_mouse["ui mouseover"]:
             # walking
-            if at_mouse["walkable"] and self.path == None and ui.get_selected() == "move":
-                if mpress[0] == 1:
+            if (at_mouse["walkable"] and self.path == None and ui.get_selected() == "move") or (self.has_controller and \
+                con_act["do"] == "walk"):
+                if mpress[0] == 1 or con_act["do"] == "walk":
                     self.get_path = True
-                    self.destination = at_mouse["mapped"]
+                    if self.has_controller:
+                        self.destination = con_act["dest"]
+                    else:
+                        self.destination = at_mouse["mapped"]
 
             # basic attack
-            if self.attack_weapon != None and self.ap.get_ap() >= 2 and basic_attack and at_mouse["unit"] != self:
-                if mpress[0] == 1:
-                    if self.attack_weapon.attack_type == "bomb" and (at_mouse["walkable"] == True or \
-                                                                     at_mouse["unit"] != None):
-                        if in_range(at_mouse["mapped"], self.pos, self.get_range()):
-                            self.launch_bomb(at_mouse)
-                    elif self.attack_weapon.attack_type == "shot" and at_mouse["unit"] != None and \
-                            at_mouse["unit"].state not in ("dead", "dying"):
-                        if in_range(at_mouse["mapped"], self.pos, self.get_range()):
-                            self.fire_shot(at_mouse)
-                    elif self.attack_weapon.attack_type == "melee" and at_mouse["unit"] != None and \
-                            at_mouse["unit"].state not in ("dead", "dying"):
-                        if in_range(at_mouse["mapped"], self.pos, one_tile_range):
-                            self.swing(at_mouse)
+            if (self.attack_weapon != None and self.ap.get_ap() >= 2 and basic_attack and at_mouse["unit"] != self) or \
+            (self.has_controller and con_act["do"] == "smack"):
+                if (mpress[0] == 1) or (self.has_controller and con_act["do"] == "smack"):
+                    if self.has_controller:
+                        self.attack_weapon = con_act["weapon"]
+                        if self.attack_weapon.attack_type == "bomb" and in_range(con_act["dest"], self.pos, self.get_range()):
+                            self.launch_bomb(con_act["at_mouse"])
+                        elif self.attack_weapon.attack_type == "shot" and in_range(con_act["dest"], self.pos, self.get_range()):
+                            self.fire_shot(con_act["at_mouse"])
+                        elif self.attack_weapon.attack_type == "melee":
+                            self.swing(con_act["at_mouse"])
+                    else:
+                        if self.attack_weapon.attack_type == "bomb" and (at_mouse["walkable"] == True or \
+                                                                        at_mouse["unit"] != None):
+                            if in_range(at_mouse["mapped"], self.pos, self.get_range()):
+                                self.launch_bomb(at_mouse)
+                        elif self.attack_weapon.attack_type == "shot" and at_mouse["unit"] != None and \
+                                at_mouse["unit"].state not in ("dead", "dying"):
+                            if in_range(at_mouse["mapped"], self.pos, self.get_range()):
+                                self.fire_shot(at_mouse)
+                        elif self.attack_weapon.attack_type == "melee" and at_mouse["unit"] != None and \
+                                at_mouse["unit"].state not in ("dead", "dying"):
+                            if in_range(at_mouse["mapped"], self.pos, one_tile_range):
+                                self.swing(at_mouse)
 
             ui_selected = ui.get_selected()
             if mpress[0] == 1 and ui_selected != None and "ability" in ui_selected:
                 selected_ability = get_selected_ability(ui_selected, self.memory)
-                if selected_ability != None:
+                if selected_ability != None and self.timers["use_timer"]:
+                    self.timers["use_timer"].reset()
                     if self.ap.get_ap() >= selected_ability.ap_cost:
                         if selected_ability.get_cooldown() == 0:
                             if selected_ability.name == "Steady":
@@ -1138,6 +1170,8 @@ class Unit:
             return
 
         elif self.state == "idle":
+            if self.end_turn:
+                return
 
             if self.check_statuses("knocked"):
                 self.knocked = True
@@ -1335,6 +1369,8 @@ class Unit:
                         u.labels.add_label("Slowed", u.pos[0], u.pos[1])
                         u.labels.add_label("Blinded", u.pos[0], u.pos[1], delay=0.5)
 
+                    expeff = BombExplosionEffect(self.attack_to, self.attack_radius)
+                    self.effmgr.add_effect(expeff)
                     self.sound.play_sound_now("bomb explode")
                     self.casting_projectile = False
 
@@ -1345,6 +1381,8 @@ class Unit:
                         add_status(u.statuses, self.casting_ability.applies)
                         u.labels.add_label("Burning", u.pos[0], u.pos[1], delay=0.5)
 
+                    expeff = BombExplosionEffect(self.attack_to, self.attack_radius)
+                    self.effmgr.add_effect(expeff)
                     self.sound.play_sound_now("bomb explode")
                     self.casting_projectile = False
 
@@ -1368,6 +1406,8 @@ class Unit:
                         add_status(u.statuses, self.casting_ability.applies)
                         u.labels.add_label("Knocked", u.pos[0], u.pos[1], delay=0.5)
 
+                    expeff = BombExplosionEffect(self.attack_to, self.attack_radius)
+                    self.effmgr.add_effect(expeff)
                     self.sound.play_sound_now("bomb explode")
                     self.casting_projectile = False
 
@@ -1434,6 +1474,8 @@ class Unit:
                     self.damage(u, self.get_damage(), weapon_used=self.attack_weapon)
 
                 if self.attack_weapon.attack_type == "bomb":
+                    expeff = BombExplosionEffect(self.attack_to, self.attack_radius)
+                    self.effmgr.add_effect(expeff)
                     self.sound.play_sound_now("bomb explode")
 
         elif self.state == "knocked":
@@ -1457,9 +1499,9 @@ class Unit:
                 self.state = "dead"
 
         
-    def update(self, mpos, mpress, at_mouse, yourturn, ui, in_combat, lootmgr):
+    def update(self, mpos, mpress, at_mouse, yourturn, ui, in_combat, lootmgr, con_act):
         if yourturn:
-            self.update_turn(mpos, mpress, at_mouse, ui, in_combat, lootmgr)
+            self.update_turn(mpos, mpress, at_mouse, ui, in_combat, lootmgr, con_act)
         self.update_general(mpos, mpress, at_mouse, ui)
 
     def start_turn(self):
@@ -1510,6 +1552,7 @@ class MC(Unit):
 
     def init_health_and_base_ap(self):
         self.health = 100
+        self.ap.base_ap = 7
 
 class Zombie(Unit):
     def init_attributes(self):
