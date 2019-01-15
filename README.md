@@ -10,7 +10,7 @@ use `pip install <packagename>` to install the packages
 
 ## How to run
 
-Run 'python pygame.py'
+Run 'python game.py'
 
 ## Trailer video
 [Trailer](https://www.youtube.com/watch?v=ViqnHxvOL1Y)
